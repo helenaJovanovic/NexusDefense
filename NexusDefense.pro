@@ -29,3 +29,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resources/res.qrc \
     resources/res.qrc
+
+DISTFILES += \
+    resources/mapPrototype.txt

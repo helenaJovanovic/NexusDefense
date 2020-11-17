@@ -2,4 +2,7 @@
     <qresource prefix="/images">
         <file>images/tileBackground.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>mapPrototype.txt</file>
+    </qresource>
 </RCC>

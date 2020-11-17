@@ -9,7 +9,7 @@ class Mapper
 {
 public:
     //Required: Path to map .txt file, resX, resY of screen
-    Mapper(QString& path, int resolutionX, int resolutionY);
+    Mapper(QString& path);
 
     //Returns true if file is opened succesfully
     bool readFile();
@@ -18,14 +18,20 @@ public:
     //with ", " being a seperator
     void loadArrayString(QString& line, QVector<QPair<int, int>> &obj);
 
-    //Size of one tile in pixels
-    int getPixelSizeTileX();
-    int getPixelSizeTileY();
+    //Size of one tile in pixels, with respect to current size of of area
+    //where the map is being drawn (the resolution of the area where map
+    //is drawn)
+    QPair<int, int> getSizeOfTilePixels(int resX, int resY);
 
     //Amount of tiles in the grid in x and y coord
-    QPair<int, int> getTilesXY();
+    QPair<int, int> getTilesNum();
 
-    //These return upper left starting positions of game objects, in pixels
+    //Function that takes height, width of where the map is being drawn
+    //and position of an object.
+    //It returns the location in pixels of where the tile should be drawn.
+    QPair<int, int> gridPosToPixels(int resX, int resY, QPair<int, int> gridPos);
+
+    //Returns position in grid
     //---------------------------------------------------------------------
     QPair<int, int> getNexusXY();
     QPair<int, int> getUnitSpawnPointXY();
@@ -33,14 +39,6 @@ public:
     QVector<QPair<int, int>>& getTowerTilesXY();
 
 private:
-    //---------------
-    //Screen resolution
-    int resolutionX;
-    int resolutionY;
-    //----------------
-
-    int pixelWidthTile;
-    int pixelHeightTile;
 
     int tilesX;
     int tilesY;

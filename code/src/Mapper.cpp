@@ -2,12 +2,13 @@
 #include <iostream>
 #include <QDebug>
 
-Mapper::Mapper(QString& path, int resolutionX, int resolutionY)
-    : resolutionX(resolutionX), resolutionY(resolutionY), path(path)
+Mapper::Mapper(QString& path)
+    : path(path)
 {
 }
 
-/*Returns true if sucessfull and false if not
+/*
+ * Returns true if sucessfull and false if not
  * Open a text file and load variables line by line
 */
 bool Mapper::readFile(){
@@ -38,9 +39,6 @@ bool Mapper::readFile(){
         }
     }
 
-    //Now we can calculate pixel size of one tile
-    pixelWidthTile = resolutionX/tilesX;
-    pixelHeightTile = resolutionY/tilesY;
 
     //Read arrays defined like poslist : [x1, y1], [x2, y2]
     QString line = in.readLine();
@@ -83,34 +81,31 @@ void Mapper::loadArrayString(QString& line, QVector<QPair<int, int>> &obj){
             }
 
             QStringList nums = tmp.split(", ");
-            obj.push_back({(nums[0].toInt()-1)*pixelWidthTile, (nums[1].toInt()-1)*pixelWidthTile});
+            obj.push_back({nums[0].toInt(), nums[1].toInt()});
         }
 
 }
 
-//Returns width of one tile in pixels
-int Mapper::getPixelSizeTileX(){
-    return pixelWidthTile;
-}
-
-//Returns hieght of one tile in pixels
-int Mapper::getPixelSizeTileY(){
-    return pixelHeightTile;
+//Size of one tile in pixels, with respect to current size of of area
+//where the map is being drawn (the resolution of the area where map
+//is drawn)
+QPair<int, int> Mapper::getSizeOfTilePixels(int resX, int resY){
+    return {resX/tilesX, resY/tilesY};
 }
 
 //Returns the number of tiles in the grid on the x and y
-QPair<int, int> Mapper::getTilesXY(){
+QPair<int, int> Mapper::getTilesNum(){
     return {tilesX, tilesY};
 }
 
-//These return upper left starting positions of game objects, in pixels
+//Returns position in grid
 //---------------------------------------------------------------------
 QPair<int, int> Mapper::getNexusXY(){
-    return {(nexusX-1)*pixelWidthTile, (nexusY-1)*pixelHeightTile};
+    return {nexusX, nexusY};
 }
 
 QPair<int, int> Mapper::getUnitSpawnPointXY(){
-    return {(unitSpawnPointX-1)*pixelWidthTile, (unitSpawnPointY-1)*pixelHeightTile};
+    return {unitSpawnPointX, unitSpawnPointY};
 }
 
 QVector<QPair<int, int>>& Mapper::getRoadTilesXY(){
@@ -119,4 +114,11 @@ QVector<QPair<int, int>>& Mapper::getRoadTilesXY(){
 
 QVector<QPair<int, int>>& Mapper::getTowerTilesXY(){
     return towerPositions;
+}
+
+//Function that takes height, width of where the map is being drawn
+//and position of an object.
+//It returns the location in pixels of where the tile should be drawn.
+QPair<int, int> Mapper::gridPosToPixels(int resX, int resY, QPair<int, int> gridPos){
+    return{(gridPos.first-1)*(resX/tilesX), (gridPos.second-1)*(resY/tilesY)};
 }
