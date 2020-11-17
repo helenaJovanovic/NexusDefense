@@ -10,12 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     code/src/Game.cpp \
+    code/src/Map.cpp \
     code/src/MapTile.cpp \
     code/src/Mapper.cpp \
     code/src/main.cpp
 
 HEADERS += \
     code/include/Game.hpp \
+    code/include/Map.hpp \
     code/include/MapTile.hpp \
     code/include/Mapper.hpp
 

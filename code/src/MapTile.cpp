@@ -3,11 +3,19 @@
 #include <code/include/Game.hpp>
 #include <code/include/MapTile.hpp>
 
-MapTile::MapTile(){}
+
+MapTile::MapTile(QString type)
+    : type(type)
+{}
 
 void MapTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     painter->drawPixmap(0, 0, QPixmap(":/images/images/tileBackground.png"));
-    painter->drawText(0, 30, "tile");
+    QString typeString = type;
+    if(isNexus)
+        typeString = QString("NEX");
+    if(isUnitSpawn)
+        typeString = QString("SP");
+    painter->drawText(8, 15, typeString);
 }
 
 QRectF MapTile::boundingRect() const {

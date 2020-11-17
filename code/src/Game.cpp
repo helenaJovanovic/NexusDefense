@@ -1,6 +1,7 @@
 #include <code/include/Game.hpp>
-#include <code/include/MapTile.hpp>
+#include <code/include/Mapper.hpp>
 #include <QDebug>
+#include <QDir>
 
 Game *Game::instance = 0;
 
@@ -21,8 +22,11 @@ void Game::launchGame() {
     beginGame();
 }
 
+// Simple screen initialization. All relevant pointers are set.
 void Game::initScreen() {
     scene = new QGraphicsScene();
+
+    // This line makes the scene coordinate system -1600 -> 1600 on both axes
     scene->setSceneRect(-sceneWidth/2, -sceneWidth/2, sceneWidth, sceneWidth);
 
     view = new QGraphicsView(scene);
@@ -32,29 +36,26 @@ void Game::initScreen() {
 
     view->setMaximumSize(width, height);
     view->setMinimumSize(width, height);
-    //view->centerOn(0, 0);
+
+    // Centering the scene to (0, 0), in this case, puts it in dead middle of the scene
+    view->centerOn(0, 0);
 
     view->show();
-    qDebug() << "Screen initialized.";
+    //qDebug() << "Screen initialized.";
 }
 
+// chosenMap is hard-coded atm, changeable later with level selection code
 void Game::initMap() {
-    for (int i = 0; i < mapXLength; ++i) {
-        for(int j = 0; j < mapYLength; ++j) {
-            MapTile *tile = new MapTile();
-            tile->setPos(-width/4 + i*tileWidth, -height/4 + j*tileWidth);
-            scene->addItem(tile);
-            mapTilesVector[i][j] = tile;
-        }
-    }
+    QString chosenMap = ":/mapPrototype.txt";
+    currentMap = new Map(new Mapper(chosenMap));
 }
 
+
+//
 void Game::beginGame() {
-    // Simple tests to see if map tiles are saved.
+    // Simple tests for now
 
     qDebug() << "Game begins.";
-    mapTilesVector[1][1]->setVisible(false);
-    qDebug() << "Tile (1, 1) made invisible.";
 }
 
 

@@ -1,14 +1,11 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include "Map.hpp"
 #include "MapTile.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-
-#define MAXX 10
-#define MAXY 10
-#define TILEWIDTH 32
 
 class Game {
 public:
@@ -24,9 +21,10 @@ public:
     QGraphicsScene *scene;
     QGraphicsView *view;
 
-    MapTile *mapTilesVector[MAXX][MAXY];
+    // Pointer to currently visible map
+    Map *currentMap = nullptr;
 
-    // Width and height of the view
+    // Width and height of the view (shouldn't be bigger than the scene's equivalents)
     int width = 1024;
     int height = 768;
 
@@ -34,12 +32,16 @@ public:
     int sceneWidth = 3200;
     int sceneHeight = 3200;
 
-    // The maximum X and Y length of the game map, in tiles
-    int mapXLength = MAXX;
-    int mapYLength = MAXY;
-    int tileWidth = TILEWIDTH;
+    int tileWidth = 32;
 
+    // TODO: make a proper static function for instance deletion
+    ~Game() {
 
+        // Don't need to worry about scene and view, they are QObjects
+        // and as such are automatically deleted when game closes
+        // Release only the memory which we have to take care of
+        //delete currentMap;  this is a QObject aswell atm
+    }
 private:
     Game();
     Game(const Game&) = delete;
