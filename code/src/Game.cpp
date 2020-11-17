@@ -23,7 +23,7 @@ void Game::launchGame() {
 
 void Game::initScreen() {
     scene = new QGraphicsScene();
-    scene->setSceneRect(-width/2, -height/2, width, height);
+    scene->setSceneRect(-sceneWidth/2, -sceneWidth/2, sceneWidth, sceneWidth);
 
     view = new QGraphicsView(scene);
     view->setRenderHint(QPainter::Antialiasing);

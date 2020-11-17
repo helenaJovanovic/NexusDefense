@@ -30,6 +30,10 @@ public:
     int width = 1024;
     int height = 768;
 
+    // The maximum size of the scene
+    int sceneWidth = 3200;
+    int sceneHeight = 3200;
+
     // The maximum X and Y length of the game map, in tiles
     int mapXLength = MAXX;
     int mapYLength = MAXY;
