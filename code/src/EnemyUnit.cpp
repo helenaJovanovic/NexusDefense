@@ -1,15 +1,44 @@
 #include <code/include/EnemyUnit.hpp>
-#include <code/include/Game.hpp>
-#include <code/include/MapTile.hpp>
 
-#include <QPainter>
-
-EnemyUnit::EnemyUnit(){
+EnemyUnit::EnemyUnit(QPointF spawnPoint){
+    this->setPos(spawnPoint);
 
     Game::game().scene->addItem(this);
 
     this->isAlive = true;
 
+    qDebug() << "Enemy unit created" << "\n";
+
+}
+
+EnemyUnit::~EnemyUnit(){
+    qDebug() << "Enemy unit died" << "\n";
+}
+
+//Getters
+float EnemyUnit::getMaxHealth() const{
+    return this->maxHealth;
+}
+
+float EnemyUnit::getCurrentHealth() const{
+    return this->currentHealth;
+}
+
+float EnemyUnit::getMovementSpeed() const{
+    return this->movementSpeed;
+}
+
+//Methods for unit functionality
+void EnemyUnit::takeDamage(float damageAmount) {
+    this->currentHealth -= damageAmount;
+
+    if(this->currentHealth <= 0){
+        this->isAlive = false;
+
+        //TODO: Death animation
+
+        delete(this);
+    }
 }
 
 void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
