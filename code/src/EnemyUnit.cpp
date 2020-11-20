@@ -1,18 +1,17 @@
 #include <code/include/EnemyUnit.hpp>
 
 EnemyUnit::EnemyUnit(QPointF spawnPoint){
-    this->setPos(spawnPoint);
-
-    Game::game().scene->addItem(this);
+    this->pos() = spawnPoint;
 
     this->isAlive = true;
 
-    qDebug() << "Enemy unit created" << "\n";
+    Game::game().scene->addItem(this);
 
+    qDebug() << "Unit created" << "\n";
 }
 
 EnemyUnit::~EnemyUnit(){
-    qDebug() << "Enemy unit died" << "\n";
+
 }
 
 //Getters
@@ -37,7 +36,11 @@ void EnemyUnit::takeDamage(float damageAmount) {
 
         //TODO: Death animation
 
+        Game::game().scene->removeItem(this);
+
         delete(this);
+
+        qDebug() << "Unit death" << "\n";
     }
 }
 

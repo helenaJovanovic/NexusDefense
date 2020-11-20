@@ -6,9 +6,11 @@
 #include <QGraphicsRectItem>
 #include <QDebug>
 
-class EnemyUnit : public QGraphicsRectItem {
+class EnemyUnit : public QObject, public QGraphicsRectItem{
+    Q_OBJECT
 public:
-    EnemyUnit(QPointF spawnPos);
+    //Creates an EnemyUnit object and places it on the scene @ spawnPoint
+    EnemyUnit(QPointF spawnPoint);
 
     ~EnemyUnit();
 
@@ -20,10 +22,10 @@ public:
     float getCurrentHealth() const;
     float getMovementSpeed() const;
 
-    //Methods for unit functionality
+    //Reduces the unit's healh by damageAmount and destroys it if currentHealth <= 0
     void takeDamage(float damageAmount);
 
-    //Methods for drawing the unit on the scene (from parent class QGraphicsItem)
+    //Methods for drawing the unit on the scene (from parent class QGraphicsRectItem)
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
 
