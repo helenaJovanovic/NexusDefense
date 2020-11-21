@@ -1,9 +1,9 @@
 #include <code/include/EnemyUnit.hpp>
 
-EnemyUnit::EnemyUnit(QPointF spawnPoint){
+EnemyUnit::EnemyUnit(QPointF spawnPoint)
+    : isAlive(true)
+{
     this->pos() = spawnPoint;
-
-    this->isAlive = true;
 
     Game::game().scene->addItem(this);
 
