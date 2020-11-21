@@ -3,7 +3,7 @@
 EnemyUnit::EnemyUnit(QPointF spawnPoint)
     : isAlive(true)
 {
-    this->pos() = spawnPoint;
+    this->setPos(spawnPoint);
 
     Game::game().scene->addItem(this);
 
