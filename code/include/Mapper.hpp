@@ -3,7 +3,9 @@
 
 #include <QFile>
 #include <QString>
-
+#include <QVector>
+#include <QPair>
+#include <QPointF>
 
 class Mapper
 {
@@ -35,8 +37,20 @@ public:
     QVector<QPair<int, int>>& getTowerTilesXY();
     QVector<QPair<int, int>>& getTurningRoadPoint();
 
-    //Return unit path with directions
+    //Return unit path that returns QPointF vector
+    //with points where a unit must turn
+    //--->The pixels returned are positioned in the middle of the tile
+    QVector<QPointF> getUnitTurnPointsXY(int resX, int resY);
 
+    //Next we want the direction where to which
+    //the unit must turn from that point
+
+    //For each index in the unitTurnPoint vector
+    //there is a corresponding direction in this vector
+    QVector<unsigned>& getDirections();
+
+    //Calculate direction using two points
+    unsigned calcDirection(QPointF p1, QPointF p2);
 
 private:
 
@@ -48,6 +62,16 @@ private:
     int unitSpawnPointY;
 
     QString path;
+
+    QVector<QPointF> turningPointFs;
+    /*
+    1 for down
+    2 for left
+    3 for right
+    4 for up
+    */
+    QVector<unsigned> directions;
+
 
     QVector<QPair<int, int>> roadToNexus;
     QVector<QPair<int, int>> turningPointRoad;

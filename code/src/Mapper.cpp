@@ -111,3 +111,65 @@ QVector<QPair<int, int>>& Mapper::getTurningRoadPoint(){
 QPair<int, int> Mapper::gridPosToPixels(int resX, int resY, QPair<int, int> gridPos){
     return{(gridPos.first-1)*(resX/tilesX), (gridPos.second-1)*(resY/tilesY)};
 }
+
+//Return unit path that returns QPointF vector
+//with points where a unit must turn
+//--->The pixels returned are positioned in the middle of the tile
+QVector<QPointF> Mapper::getUnitTurnPointsXY(int resX, int resY){
+    QPointF point;
+    QPointF point_old;
+    int n = turningPointRoad.size();
+
+    QPair<int, int> tileSize = getSizeOfTilePixels(resX, resY);
+    float sizeOfHalfTileX = tileSize.first/2;
+    float sizeOfHalfTileY = tileSize.first/2;
+
+    QPair<int, int> temp = gridPosToPixels(resX, resY, getUnitSpawnPointXY());
+    point.setX(static_cast<float>(temp.first) + sizeOfHalfTileX);
+    point.setY(static_cast<float>(temp.second) + sizeOfHalfTileY);
+
+    //Go through all turning tiles
+    for(int i=0; i<n; i++){
+        //Get the pixel X,Y of tile
+        temp = gridPosToPixels(resX, resY, turningPointRoad[i]);
+
+        //Save old point
+        point_old = point;
+
+        //Add half of tile size to it, to get the center of the tile
+        point.setX(static_cast<float>(temp.first) + sizeOfHalfTileX);
+        point.setY(static_cast<float>(temp.second) + sizeOfHalfTileY);
+
+        turningPointFs.push_back(point);
+        directions.push_back(calcDirection(point_old, point));
+    }
+
+    return turningPointFs;
+}
+
+//Calculate direction using two points
+unsigned Mapper::calcDirection(QPointF p1, QPointF p2){
+    //go down
+    if(p1.x() == p2.x() && p1.y() < p2.y()){
+        return 1u;
+    }
+    //go left
+    else if(p1.x() > p2.x() && p1.y() == p2.y()){
+        return 2u;
+    }
+    //go right
+    else if(p1.x() < p2.x() && p1.y() == p2.y()){
+        return 3u;
+    }
+
+    return 4u;
+}
+
+//Next we want the direction where to which
+//the unit must turn from that point
+
+//For each index in the unitTurnPoint vector
+//there is a corresponding direction in this vector
+QVector<unsigned>& Mapper::getDirections(){
+    return directions;
+}
