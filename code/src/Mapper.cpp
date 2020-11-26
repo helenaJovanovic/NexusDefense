@@ -1,4 +1,4 @@
-#include <code/include/Mapper.hpp>
+﻿#include <code/include/Mapper.hpp>
 #include <iostream>
 #include <QDebug>
 
@@ -173,3 +173,5 @@ unsigned Mapper::calcDirection(QPointF p1, QPointF p2){
 QVector<unsigned>& Mapper::getDirections(){
     return directions;
 }
+
+Mapper::~Mapper(){}

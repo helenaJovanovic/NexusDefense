@@ -12,6 +12,7 @@ class Mapper
 public:
     //Required: Path to map .txt file, resX, resY of screen
     Mapper(QString& path);
+    ~Mapper();
 
     //Returns true if file is opened succesfully
     bool readFile();
@@ -51,6 +52,8 @@ public:
 
     //Calculate direction using two points
     unsigned calcDirection(QPointF p1, QPointF p2);
+
+
 
 private:
 

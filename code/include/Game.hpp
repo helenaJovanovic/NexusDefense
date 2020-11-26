@@ -6,8 +6,11 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPushButton>
+#include <QObject>
 
-class Game {
+class Game : public QObject {
+    Q_OBJECT
 public:
     // Returns a reference to the singleton game object
     static Game& game();
@@ -16,10 +19,12 @@ public:
     void initScreen();
     void initMap();
     void beginGame();
+    void menuScreen();
 
     // Pointers to scene and view
     QGraphicsScene *scene;
     QGraphicsView *view;
+    QPushButton *startGameBtn;
 
     // Pointer to currently visible map
     Map *currentMap = nullptr;
@@ -42,6 +47,10 @@ public:
         // Release only the memory which we have to take care of
         //delete currentMap;  this is a QObject aswell atm
     }
+
+public slots:
+    void startSecondScene();
+
 private:
     Game();
     Game(const Game&) = delete;
