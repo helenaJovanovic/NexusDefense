@@ -13,10 +13,6 @@ public:
 
     //Returns true if file is opened succesfully
     bool readFile();
-    //Enables easy reading of lines in format of
-    // poslist : [x1, y1], [x2, y2]
-    //with ", " being a seperator
-    void loadArrayString(QString& line, QVector<QPair<int, int>> &obj);
 
     //Size of one tile in pixels, with respect to current size of of area
     //where the map is being drawn (the resolution of the area where map
@@ -37,6 +33,10 @@ public:
     QPair<int, int> getUnitSpawnPointXY();
     QVector<QPair<int, int>>& getRoadTilesXY();
     QVector<QPair<int, int>>& getTowerTilesXY();
+    QVector<QPair<int, int>>& getTurningRoadPoint();
+
+    //Return unit path with directions
+
 
 private:
 
@@ -50,6 +50,7 @@ private:
     QString path;
 
     QVector<QPair<int, int>> roadToNexus;
+    QVector<QPair<int, int>> turningPointRoad;
     QVector<QPair<int, int>> towerPositions;
 };
 

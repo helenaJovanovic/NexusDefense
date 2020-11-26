@@ -21,69 +21,54 @@ bool Mapper::readFile(){
     //Opening a text stream from the file
     QTextStream in(&file);
 
-    //Read integer variables
-    for(int i=0; i<6; i++){
-        //Read line by line for first 6 lines and seperate with :
-        QString line = in.readLine();
-        QStringList fields = line.split(" : ");
+    QString line = in.readLine();
+    QStringList fields = line.split(" ");
+    tilesX = fields[0].toInt();
+    tilesY = fields[1].toInt();
 
-        switch (i) {
-            //Loading first six values into variables
-            case 0: tilesX = fields[1].toInt(); break;
-            case 1: tilesY = fields[1].toInt(); break;
-            case 2: nexusX = fields[1].toInt(); break;
-            case 3: nexusY = fields[1].toInt(); break;
-            case 4: unitSpawnPointX = fields[1].toInt(); break;
-            case 5: unitSpawnPointY = fields[1].toInt(); break;
-        default: break;
+    int tmp;
+/*  Read the matrix where:
+ *  1 is entry point, but also a road tile
+ *  2 is road tile,
+ *  3 is towerPosition,
+ *  4 is exit point - nexus, but also a road tile
+ *  9 is a tile where road turns (it can be a tower spot also)
+*/
+    for(int j=0; j<tilesY; j++){
+        line = in.readLine();
+        fields = line.split(" ");
+
+        for(int i=0; i<tilesX; i++){
+           tmp = fields[i].toInt();
+
+           if(tmp == 1){
+               unitSpawnPointX = i+1;
+               unitSpawnPointY = j+1;
+               roadToNexus.push_back({i+1, j+1});
+           }
+           else if(tmp == 4){
+               nexusX = i+1;
+               nexusY = j+1;
+               roadToNexus.push_back({i+1, j+1});
+           }
+           else if(tmp == 2){
+               roadToNexus.push_back({i+1, j+1});
+           }
+           else if(tmp == 9){
+               roadToNexus.push_back({i+1, j+1});
+               turningPointRoad.push_back({i+1, j+1});
+               towerPositions.push_back({i+1, j+1});
+           }
+           else if(tmp == 3){
+               towerPositions.push_back({i+1, j+1});
+           }
         }
     }
-
-
-    //Read arrays defined like poslist : [x1, y1], [x2, y2]
-    QString line = in.readLine();
-    loadArrayString(line, roadToNexus);
-
-    line = in.readLine();
-    loadArrayString(line, towerPositions);
 
 
 
     file.close();
     return true;
-}
-
-/*
- * Operations with string in array format
- * Load values from such string into QVector<QPair<int, int>> type
-*/
-void Mapper::loadArrayString(QString& line, QVector<QPair<int, int>> &obj){
-
-        //Remove from list from string in format name : list
-        QStringList fields = line.split(" : ");
-        //Split a list in format [x1, y1], [x2, y2] ... with a serperator ", "
-        QString test = fields[1];
-
-        fields = fields[1].split("], [");
-
-        //Go through [xi, yi] format strings and remove [ and ] from start and end
-        //Then split by ", " and transform two numbers to integers
-        //So that they could be put into a vector in pair form
-        for(QString& str : fields){
-
-            QString tmp = str;
-            int n = tmp.size();
-            if(tmp[0] == '['){
-                tmp.remove(0, 1);
-            }
-            else if(tmp[n-1] == ']'){
-                tmp.remove(n-1, 1);
-            }
-
-            QStringList nums = tmp.split(", ");
-            obj.push_back({nums[0].toInt(), nums[1].toInt()});
-        }
-
 }
 
 //Size of one tile in pixels, with respect to current size of of area
@@ -114,6 +99,10 @@ QVector<QPair<int, int>>& Mapper::getRoadTilesXY(){
 
 QVector<QPair<int, int>>& Mapper::getTowerTilesXY(){
     return towerPositions;
+}
+
+QVector<QPair<int, int>>& Mapper::getTurningRoadPoint(){
+    return turningPointRoad;
 }
 
 //Function that takes height, width of where the map is being drawn

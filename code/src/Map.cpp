@@ -6,6 +6,21 @@
 // When the map is created, it utilizes a parser object (Mapper),
 // from which it takes relevant information about the map, and fills the
 // map container
+
+/* Uniti su napravljeni
+ * a ja ne mogu bez interfejsa da stavim toranj
+ *
+ * hteo je slot i signal?
+ *
+ *
+ *
+ *
+ * - Start game dugme dok se sve ucita.
+ * - Path za unite, primer nivoa.
+ *
+ *
+*/
+
 Map::Map(Mapper* parser) {
     if(parser->readFile() == true) {
 
