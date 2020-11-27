@@ -15,6 +15,9 @@ public:
     // Returns a reference to the singleton game object
     static Game& game();
 
+    // All cleanup code goes in this function (aka freeing up memory etc)
+    static void cleanup();
+
     void launchGame();
     void initScreen();
     void initMap();
@@ -38,15 +41,6 @@ public:
     int sceneHeight = 3200;
 
     int tileWidth = 32;
-
-    // TODO: make a proper static function for instance deletion
-    ~Game() {
-
-        // Don't need to worry about scene and view, they are QObjects
-        // and as such are automatically deleted when game closes
-        // Release only the memory which we have to take care of
-        //delete currentMap;  this is a QObject aswell atm
-    }
 
 public slots:
     void startSecondScene();

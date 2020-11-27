@@ -95,4 +95,11 @@ void Game::beginGame() {
     qDebug() << "Game begins.";
 }
 
+void Game::cleanup() {
+
+    delete instance;
+
+    qDebug() << "Game ends.";
+}
+
 
