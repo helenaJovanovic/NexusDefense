@@ -1,0 +1,17 @@
+{
+    "name" : "Zombie",
+    "spriteAnimation" : {
+        "initialState" : "east",
+        "states" : [
+            {
+                "stateName" : "east",
+                "stateFrames" : [
+                    { "duration": 100, "rect": [70, 17, 46, 69], "origin": [17, 69] },
+                    { "duration": 80, "rect": [70, 17, 46, 69], "origin": [17, 69] },
+                    { "duration": 50, "rect": [221, 17, 47, 69], "origin": [18, 69] }
+                ]
+            }
+
+        ]
+    }
+}
