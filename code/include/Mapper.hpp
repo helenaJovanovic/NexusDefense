@@ -41,7 +41,7 @@ public:
     //Return unit path that returns QPointF vector
     //with points where a unit must turn
     //--->The pixels returned are positioned in the middle of the tile
-    QVector<QPointF> getUnitTurnPointsXY(int resX, int resY);
+    QVector<QPointF>& getUnitTurnPointsXY(int resX, int resY);
 
     //Next we want the direction where to which
     //the unit must turn from that point

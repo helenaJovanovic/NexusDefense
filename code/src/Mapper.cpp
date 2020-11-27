@@ -115,7 +115,7 @@ QPair<int, int> Mapper::gridPosToPixels(int resX, int resY, QPair<int, int> grid
 //Return unit path that returns QPointF vector
 //with points where a unit must turn
 //--->The pixels returned are positioned in the middle of the tile
-QVector<QPointF> Mapper::getUnitTurnPointsXY(int resX, int resY){
+QVector<QPointF>& Mapper::getUnitTurnPointsXY(int resX, int resY){
     QPointF point;
     QPointF point_old;
     int n = turningPointRoad.size();
