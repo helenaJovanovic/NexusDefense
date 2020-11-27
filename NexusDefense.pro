@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     code/src/EnemyUnit.cpp \
+    code/src/Sprite.cpp \
+    code/src/SpriteLoader.cpp \
     code/src/Tower.cpp \
     code/src/GameTimer.cpp \
     code/src/Game.cpp \
@@ -20,6 +22,8 @@ SOURCES += \
 
 HEADERS += \
     code/include/EnemyUnit.hpp \
+    code/include/Sprite.hpp \
+    code/include/SpriteLoader.hpp \
     code/include/Tower.hpp \
     code/include/GameTimer.hpp \
     code/include/Game.hpp \
