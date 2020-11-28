@@ -3,7 +3,7 @@
 
 #include "MapTile.hpp"
 #include "Mapper.hpp"
-
+#include<QPointF>
 #include <QObject>
 
 // All map related information goes here
@@ -31,6 +31,14 @@ public:
 
     // Returns a pointer to the MapTile located at (x, y) map tile coordinates, or nullptr if not found
     MapTile *getTilePointer(int x, int y);
+
+    //Getters for turn points and directions of units
+    QVector<QPointF>& getTurnPoints();
+    QVector<unsigned>& getTurnDirections();
+
+private:
+    QVector<QPointF> turnPoints;
+    QVector<unsigned> turnDirections;
 };
 
 #endif // MAP_HPP

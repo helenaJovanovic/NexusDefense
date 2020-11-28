@@ -9,6 +9,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    code/src/EnemyUnit.cpp \
+    code/src/Tower.cpp \
+    code/src/GameTimer.cpp \
     code/src/Game.cpp \
     code/src/Map.cpp \
     code/src/MapTile.cpp \
@@ -16,6 +19,9 @@ SOURCES += \
     code/src/main.cpp
 
 HEADERS += \
+    code/include/EnemyUnit.hpp \
+    code/include/Tower.hpp \
+    code/include/GameTimer.hpp \
     code/include/Game.hpp \
     code/include/Map.hpp \
     code/include/MapTile.hpp \

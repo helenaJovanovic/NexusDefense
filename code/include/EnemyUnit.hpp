@@ -20,7 +20,10 @@ public:
     //Getters
     float getMaxHealth() const;
     float getCurrentHealth() const;
-    float getMovementSpeed() const;
+    float getMovementDelay() const;
+
+    //Setters
+    void setMovementDelay(int movementDelay);
 
     //Reduces the unit's healh by damageAmount and destroys it if currentHealth <= 0
     void takeDamage(float damageAmount);
@@ -34,8 +37,25 @@ private:
     float maxHealth = 500;
     float currentHealth = 500;
 
-    float movementSpeed = 10;
+    float movementDelay = 2;
     float attackDamage = 40;
+
+    //Ticks
+    int numOfTicks = 0;
+
+    bool stopMovement = false;
+
+    //Moving directions
+    QVector<QPointF> turnPoints;
+    QVector<unsigned> turnDirections;
+
+    int currentDirectionIndex;
+    int currentDirection;
+    int nextTurnPointIndex;
+    int numOfTurns;
+
+private slots:
+    void update();
 
 };
 
