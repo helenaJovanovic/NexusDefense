@@ -1,4 +1,4 @@
-﻿#include <code/include/Mapper.hpp>
+#include <code/include/Mapper.hpp>
 #include <iostream>
 #include <QDebug>
 
@@ -50,6 +50,7 @@ bool Mapper::readFile(){
                nexusX = i+1;
                nexusY = j+1;
                roadToNexus.push_back({i+1, j+1});
+               turningPointRoad.push_back({i+1, j+1});
            }
            else if(tmp == 2){
                roadToNexus.push_back({i+1, j+1});
@@ -64,8 +65,6 @@ bool Mapper::readFile(){
            }
         }
     }
-
-
 
     file.close();
     return true;
@@ -115,7 +114,7 @@ QPair<int, int> Mapper::gridPosToPixels(int resX, int resY, QPair<int, int> grid
 //Return unit path that returns QPointF vector
 //with points where a unit must turn
 //--->The pixels returned are positioned in the middle of the tile
-QVector<QPointF> Mapper::getUnitTurnPointsXY(int resX, int resY){
+QVector<QPointF>& Mapper::getUnitTurnPointsXY(int resX, int resY){
     QPointF point;
     QPointF point_old;
     int n = turningPointRoad.size();

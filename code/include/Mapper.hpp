@@ -16,7 +16,7 @@ public:
 
     //Returns true if file is opened succesfully
     bool readFile();
-
+  
     //Size of one tile in pixels, with respect to current size of of area
     //where the map is being drawn (the resolution of the area where map
     //is drawn)

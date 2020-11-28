@@ -2,6 +2,7 @@
 #include <code/include/Mapper.hpp>
 #include <QDebug>
 #include <QDir>
+#include <QPointer>
 
 
 Game *Game::instance = 0;
@@ -52,11 +53,11 @@ void Game::startSecondScene(){
    delete view;
    initScreen();
    initMap();
+   beginGame();
 }
 
 void Game::launchGame() {
     menuScreen();
-    beginGame();
 }
 
 // Simple screen initialization. All relevant pointers are set.
@@ -91,8 +92,12 @@ void Game::initMap() {
 //
 void Game::beginGame() {
     // Simple tests for now
+    gameTimer = new GameTimer();
 
     qDebug() << "Game begins.";
+
+    QPointer<EnemyUnit> enemy1 = new EnemyUnit(currentMap->unitSpawnPointer->pos());
+    enemy1->setMovementDelay(2);
 }
 
 void Game::cleanup() {

@@ -10,9 +10,15 @@
 Map::Map(Mapper* parser) {
     if(parser->readFile() == true) {
 
+
+
+
         // The area of the scene in which the map gets put, in pixels
         int resX = Game::game().tileWidth * parser->getTilesNum().first;
         int resY = Game::game().tileWidth * parser->getTilesNum().second;
+
+        turnPoints = parser->getUnitTurnPointsXY(resX, resY);
+        turnDirections = parser->getDirections();
 
         QPair<int, int> unitSpawnTile = parser->getUnitSpawnPointXY();
         QPair<int, int> nexusTile = parser->getNexusXY();
@@ -74,4 +80,11 @@ MapTile *Map::getTilePointer(int x, int y) {
     } else {
         return map[key];
     }
+}
+
+QVector<QPointF>& Map::getTurnPoints(){
+    return turnPoints;
+}
+QVector<unsigned>& Map::getTurnDirections(){
+    return turnDirections;
 }

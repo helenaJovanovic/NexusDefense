@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file>images/tileBackground.png</file>
+        <file>images/zombie.png</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
