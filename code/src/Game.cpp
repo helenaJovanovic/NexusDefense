@@ -1,5 +1,6 @@
 #include <code/include/Game.hpp>
 #include <code/include/Mapper.hpp>
+#include <code/include/SpriteLoader.hpp>
 #include <QDebug>
 #include <QDir>
 
@@ -52,11 +53,11 @@ void Game::startSecondScene(){
    delete view;
    initScreen();
    initMap();
+   beginGame();
 }
 
 void Game::launchGame() {
     menuScreen();
-    beginGame();
 }
 
 // Simple screen initialization. All relevant pointers are set.
@@ -88,11 +89,22 @@ void Game::initMap() {
 }
 
 
-//
 void Game::beginGame() {
     // Simple tests for now
 
+    SpriteLoader* spriteLoader = new SpriteLoader("units", "towers", "misc");
+
     qDebug() << "Game begins.";
+
+
+    Sprite* zombie = spriteLoader->getUnitSprite("Zombie");
+    auto tmpMap = zombie->getStatesMap();
+
+    qDebug() << zombie->getName();
+    qDebug() << "Duration of the first frame of the east state: "
+             << tmpMap["east"][0].duration;
+    qDebug() << "Second frame rectangle to draw: "
+             << tmpMap["east"][1].rect;
 }
 
 void Game::cleanup() {
