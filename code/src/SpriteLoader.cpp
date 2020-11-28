@@ -4,8 +4,10 @@
 
 #include <QDirIterator>
 #include <QDebug>
+#include <QVector>
 #include <iostream>
 #include <sstream>
+
 
 namespace pt = boost::property_tree;
 
@@ -15,9 +17,13 @@ SpriteLoader::SpriteLoader(
     const QString &miscFolderPath = ""
 ) {
     unitSprites = parseAndLoadSprites(unitsFolderPath);
-    towerSprites = parseAndLoadSprites(towersFolderPath);
+    //towerSprites = parseAndLoadSprites(towersFolderPath);
     if(miscFolderPath != "")
         miscSprites = parseAndLoadSprites(miscFolderPath);
+}
+
+Sprite *SpriteLoader::getUnitSprite(const QString & name) {
+    return unitSprites[name];
 }
 
 QMap<QString, Sprite*> SpriteLoader::parseAndLoadSprites(const QString& path) {
@@ -45,12 +51,56 @@ Sprite *SpriteLoader::parseSprite(const QString &filePath) {
     pt::ptree tree;
     pt::read_json(ss, tree);
 
-    // TODO: use boost to parse through json files and
-    // create a Sprite object based on the info in the file
+
     QString name = QString::fromStdString(tree.get("name", ""));
     QString initialState = QString::fromStdString(tree.get("spriteAnimation.initialState", ""));
+    QString spritesheet = QString::fromStdString(tree.get("spritesheet", ""));
 
-    qDebug() << name << ", initial state: " << initialState;
+    Sprite* resultingSprite = new Sprite(name, spritesheet, initialState);
 
-    return new Sprite(name);
+    for(auto &state: tree.get_child("spriteAnimation.states")) {
+        // name of the state
+        QString stateName = QString::fromStdString(state.second.get("stateName", ""));
+        QVector<Sprite::frame> frameVector;
+
+        std::vector<int> tmpVector;
+        for(auto &frame: state.second.get_child("stateFrames")) {
+            // duration in ms of the frame
+            int duration = stoi( frame.second.get("duration", "") );
+
+            for(auto &origin: frame.second.get_child("origin")) {
+                tmpVector.push_back(origin.second.get_value(0));
+            }
+
+            // origin
+            QPoint originPoint(tmpVector[0], tmpVector[1]);
+
+            tmpVector.clear();
+            for(auto &rect: frame.second.get_child("rect")) {
+                tmpVector.push_back(rect.second.get_value(0));
+            }
+
+            // rectangle (first 2 coords are top left point,
+            // last 2 are bottom right point)
+
+            // careful with y axis, Rect uses qt coord system
+            QRect frameRect(
+                QPoint(tmpVector[0], tmpVector[1]),
+                QPoint(tmpVector[2], tmpVector[3])
+            );
+
+            tmpVector.clear();
+
+            Sprite::frame stateFrame;
+            stateFrame.duration = duration;
+            stateFrame.origin = originPoint;
+            stateFrame.rect = frameRect;
+            frameVector.push_back(stateFrame);
+        }
+
+        resultingSprite->animationStates[stateName] = frameVector;
+    }
+
+
+    return resultingSprite;
 }

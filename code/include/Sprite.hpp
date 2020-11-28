@@ -8,14 +8,28 @@
 
 //Container class for all relevant spritesheet information.
 class Sprite {
+private:
+    QString name;
+    QString spritesheet;
+    QString initialState;
+
+    struct frame {
+        int duration;
+        QPoint origin;
+        QRect rect;
+    };
+
+    QMap<QString, QVector<frame>> animationStates;
+
+    friend class SpriteLoader;
 public:
-    Sprite(const QString&);
+    Sprite(const QString&, const QString&, const QString&);
     Sprite(const Sprite&);
 
     QString getName() const;
-private:
-    QString name;
-    QMap<QString, QVector<QRect>> animationStates;
+    QMap<QString, QVector<frame>>& getStatesMap();
 };
+
+
 
 #endif // SPRITE_HPP

@@ -1,14 +1,23 @@
 {
     "name" : "Zombie",
+    "spritesheet" : ":/images/units/zombie.jpg",
     "spriteAnimation" : {
         "initialState" : "east",
         "states" : [
             {
                 "stateName" : "east",
                 "stateFrames" : [
-                    { "duration": 100, "rect": [70, 17, 46, 69], "origin": [17, 69] },
-                    { "duration": 80, "rect": [70, 17, 46, 69], "origin": [17, 69] },
-                    { "duration": 50, "rect": [221, 17, 47, 69], "origin": [18, 69] }
+                    { "duration": 100, "rect": [-15, -17, 23, 5], "origin": [1, 2] },
+                    { "duration": 80, "rect": [-15, -17, 23, 5], "origin": [3, 4] },
+                    { "duration": 50, "rect": [-15, -17, 23, 5], "origin": [18, 69] }
+                ]
+            },
+            {
+                "stateName" : "south",
+                "stateFrames" : [
+                    { "duration": 100, "rect": [-15, -17, 23, 5], "origin": [17, 69] },
+                    { "duration": 80, "rect": [-15, -17, 23, 5], "origin": [17, 69] },
+                    { "duration": 50, "rect": [-15, -17, 23, 5], "origin": [18, 69] }
                 ]
             }
 

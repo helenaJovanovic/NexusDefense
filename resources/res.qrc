@@ -6,7 +6,6 @@
         <file>mapPrototype.txt</file>
         <file>towers/archer.json</file>
         <file>towers/footman.json</file>
-        <file>units/skeleton.json</file>
         <file>units/zombie.json</file>
     </qresource>
 </RCC>

@@ -16,9 +16,9 @@ public:
         const QString& miscFolderPath
     );
 
-    Sprite& getTowerSprite(const QString&);
-    Sprite& getUnitSprite(const QString&);
-    Sprite& getMiscSprite(const QString&);
+    Sprite* getTowerSprite(const QString&);
+    Sprite* getUnitSprite(const QString&);
+    Sprite* getMiscSprite(const QString&);
 
 private:
     QMap<QString, Sprite*> parseAndLoadSprites(const QString& folderPath);
