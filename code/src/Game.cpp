@@ -53,6 +53,7 @@ void Game::startSecondScene(){
    delete view;
    initScreen();
    initMap();
+   initScore();
    beginGame();
 }
 
@@ -105,6 +106,12 @@ void Game::cleanup() {
     delete instance;
 
     qDebug() << "Game ends.";
+}
+
+
+void Game::initScore() {
+    score = new Score();
+    scene->addItem(score);
 }
 
 
