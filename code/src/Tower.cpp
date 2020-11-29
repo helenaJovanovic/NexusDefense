@@ -6,8 +6,8 @@
 Tower::Tower(MapTile* tile,float attackRange,int width,int height)
     : locationOnMap(tile),width(width),height(height)
 {
-    this->pos()=this->locationOnMap->pos();
-    Game::game().scene->addItem(this);
+    this->setPos(this->locationOnMap->pos());
+
     QVector<QPointF> rangeOctagonPoints;
     QPointF towerCenter((width*Game::game().tileWidth)/2,(height*Game::game().tileWidth)/2);
     //octagon points,one on each 45 degrees
@@ -18,8 +18,10 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height)
         angleDegrees+=45;
     }
     attackArea=new QGraphicsPolygonItem(QPolygonF(rangeOctagonPoints),this);
-    attackArea->setPos(towerCenter.x(),towerCenter.y());
-    Game::game().scene->addItem(attackArea);
+//    attackArea->setPos(towerCenter.x(),towerCenter.y());
+//    attackArea->setOpacity(0);
+//    Game::game().scene->addItem(attackArea);
+    connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
     qDebug()<<"Tower created"<<"\n";
 }
 
@@ -27,7 +29,7 @@ Tower::Tower(int x, int y,float attackRange,int width,int height)
 : width(width),height(height)
 {
     locationOnMap=Game::game().currentMap->getTilePointer(x,y);
-    this->pos()=this->locationOnMap->pos();
+    this->setPos(this->locationOnMap->pos());
     Game::game().scene->addItem(this);
     QVector<QPointF> rangeOctagonPoints;
     QPointF towerCenter((width*Game::game().tileWidth)/2,(height*Game::game().tileWidth)/2);
@@ -39,8 +41,11 @@ Tower::Tower(int x, int y,float attackRange,int width,int height)
         angleDegrees+=45;
     }
     attackArea=new QGraphicsPolygonItem(QPolygonF(rangeOctagonPoints),this);
-    attackArea->setPos(towerCenter.x(),towerCenter.y());
-    Game::game().scene->addItem(attackArea);
+//    attackArea->setPos(towerCenter.x(),towerCenter.y());
+//    attackArea->setOpacity(0);
+
+//    Game::game().scene->addItem(attackArea);
+    connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
     qDebug()<<"Tower created"<<"\n";
 }
 Tower::~Tower()
@@ -61,6 +66,7 @@ bool Tower::currentTargetInRange()
 void Tower::acquireTarget()
 {
     QList<QGraphicsItem*> collidingItems=attackArea->collidingItems();
+    qDebug()<<collidingItems.count()<<"\n";
     if(collidingItems.size()==1)
     {
         target=nullptr;
@@ -69,7 +75,7 @@ void Tower::acquireTarget()
     double closestDistance=MAXFLOAT;
     for (int i = 0; i < collidingItems.size(); i++) {
         EnemyUnit* enemyUnit=dynamic_cast<EnemyUnit*>(collidingItems[i]);
-        if(enemyUnit)
+        if(enemyUnit!=nullptr)
         {
             double currentEnemyDistance=distanceTo(enemyUnit);
             if(currentEnemyDistance<closestDistance)
@@ -79,6 +85,10 @@ void Tower::acquireTarget()
             }
         }
     }
+    if(target==nullptr)
+        qDebug()<<"No target"<<"\n";
+    else
+        qDebug()<<"Target acquired"<<target->getCurrentHealth()<<"\n";
 }
 
 void Tower::attack()
@@ -88,6 +98,7 @@ void Tower::attack()
     target->takeDamage(getAttackDamage());
     if(!target || !target->isAlive)
         target=nullptr;
+    qDebug()<<"Shots fired"<<"\n";
 }
 
 double Tower::distanceTo(QGraphicsItem *item)
@@ -122,6 +133,16 @@ void Tower::acquireTargetAndAttack()
     attack();
 }
 
+void Tower::update()
+{
+   numberOfTicks++;
+   if(numberOfTicks==50)
+   {
+       acquireTargetAndAttack();
+       numberOfTicks=0;
+   }
+}
+
 int Tower::getWidth() const
 {
     return width;
@@ -139,11 +160,12 @@ QRectF Tower::boundingRect() const
 
 void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QRectF towerRect(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth);
+//    QRectF towerRect(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth);
+//    painter->setBrush(Qt::);
+//    painter->drawPolygon(getAttackArea()->polygon());
     painter->setBrush(Qt::green);
-    painter->drawRect(towerRect);
+    painter->drawRect(QRectF(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth));
 
-    painter->setBrush(Qt::gray);
-    painter->drawPolygon(getAttackArea()->polygon());
+
 }
 

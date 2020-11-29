@@ -1,12 +1,14 @@
 #ifndef TOWER_HPP
 #define TOWER_HPP
 
+
 #include <code/include/Game.hpp>
 #include <QGraphicsRectItem>
 #include <QDebug>
 #include <code/include/MapTile.hpp>
-#include <code/include/EnemyUnit.hpp>
 #include <code/include/Map.hpp>
+#include <QPointer>
+#include <code/include/EnemyUnit.hpp>
 
 class Tower : public QObject,public QGraphicsRectItem
 {
@@ -23,6 +25,7 @@ private:
     int width;
     int height;
     EnemyUnit* target=nullptr;
+    int numberOfTicks=0;
 public:
     //Creates a tower on specified map tile
     Tower(MapTile* tile,float attackRange,int width,int height);
@@ -46,9 +49,10 @@ public:
     int getHeight() const;
     MapTile* getLocationOnMap() const;
     QGraphicsPolygonItem *getAttackArea() const;
-public slots:
-    //acqure+attack in one,for timer
     void acquireTargetAndAttack();
+public slots:
+    //on timer tick
+    void update();
 };
 
 #endif // TOWER_HPP
