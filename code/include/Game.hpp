@@ -54,7 +54,7 @@ public slots:
         // and as such are automatically deleted when game closes
         // Release only the memory which we have to take care of
         //delete currentMap;  this is a QObject aswell atm
-    }
+
 private:
     Game();
     Game(const Game&) = delete;
