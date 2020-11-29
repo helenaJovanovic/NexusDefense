@@ -1,5 +1,6 @@
 #include <code/include/Game.hpp>
 #include <code/include/Mapper.hpp>
+#include <code/include/SpriteLoader.hpp>
 #include <QDebug>
 #include <QDir>
 #include <QPointer>
@@ -95,10 +96,21 @@ void Game::beginGame() {
     // Simple tests for now
     gameTimer = new GameTimer();
 
+    SpriteLoader* spriteLoader = new SpriteLoader("units", "towers", "misc");
+	
+	QPointer<EnemyUnit> enemy1 = new EnemyUnit(currentMap->unitSpawnPointer->pos());
+    enemy1->setMovementDelay(2);
     qDebug() << "Game begins.";
 
-    QPointer<EnemyUnit> enemy1 = new EnemyUnit(currentMap->unitSpawnPointer->pos());
-    enemy1->setMovementDelay(2);
+
+    Sprite* zombie = spriteLoader->getUnitSprite("Zombie");
+    auto tmpMap = zombie->getStatesMap();
+
+    qDebug() << zombie->getName();
+    qDebug() << "Duration of the first frame of the east state: "
+             << tmpMap["east"][0].duration;
+    qDebug() << "Second frame rectangle to draw: "
+             << tmpMap["east"][1].rect;
 }
 
 void Game::cleanup() {
