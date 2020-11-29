@@ -7,7 +7,7 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height)
     : locationOnMap(tile),width(width),height(height)
 {
     this->setPos(this->locationOnMap->pos());
-
+    this->setPos(this->locationOnMap->pos());
     QVector<QPointF> rangeOctagonPoints;
     QPointF towerCenter((width*Game::game().tileWidth)/2,(height*Game::game().tileWidth)/2);
     //octagon points,one on each 45 degrees
