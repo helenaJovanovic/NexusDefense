@@ -3,23 +3,36 @@
 
 #include "Map.hpp"
 #include "MapTile.hpp"
+#include "GameTimer.hpp"
+#include "EnemyUnit.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPushButton>
+#include <QObject>
 
-class Game {
+class Game : public QObject {
+    Q_OBJECT
 public:
     // Returns a reference to the singleton game object
     static Game& game();
+
+    // Pointer to the game timer
+    GameTimer *gameTimer;
+
+    // All cleanup code goes in this function (aka freeing up memory etc)
+    static void cleanup();
 
     void launchGame();
     void initScreen();
     void initMap();
     void beginGame();
+    void menuScreen();
 
     // Pointers to scene and view
     QGraphicsScene *scene;
     QGraphicsView *view;
+    QPushButton *startGameBtn;
 
     // Pointer to currently visible map
     Map *currentMap = nullptr;
@@ -34,14 +47,14 @@ public:
 
     int tileWidth = 32;
 
-    // TODO: make a proper static function for instance deletion
-    ~Game() {
+public slots:
+    void startSecondScene();
 
         // Don't need to worry about scene and view, they are QObjects
         // and as such are automatically deleted when game closes
         // Release only the memory which we have to take care of
         //delete currentMap;  this is a QObject aswell atm
-    }
+
 private:
     Game();
     Game(const Game&) = delete;

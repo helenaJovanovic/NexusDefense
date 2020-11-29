@@ -2,6 +2,8 @@
 #include <code/include/Mapper.hpp>
 #include <QDebug>
 #include <QDir>
+#include <QPointer>
+
 
 Game *Game::instance = 0;
 
@@ -16,10 +18,46 @@ Game &Game::game()
     return *instance;
 }
 
+void Game::menuScreen(){
+    //Add a smaller scene with a view to
+    //show the starting menu witha button
+    //Button deletes the main menu and starts the game
+    //scene and view
+
+    scene = new QGraphicsScene();
+    scene->setSceneRect(-width/2, -height/2, width-50, height-50);
+
+    view = new QGraphicsView(scene);
+    view->setRenderHint(QPainter::Antialiasing);
+
+    view->setMaximumSize(width, height);
+    view->setMinimumSize(width, height);
+    view->centerOn(0, 0);
+
+
+    startGameBtn = new QPushButton("Start Game", view);
+    startGameBtn->setGeometry(QRect(QPoint(450, 320), QSize(150, 100)));
+
+
+    QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
+    scene->addWidget(startGameBtn);
+    startGameBtn->show();
+
+
+    view->show();
+}
+
+void Game::startSecondScene(){
+   view->hide();
+   delete startGameBtn;
+   delete view;
+   initScreen();
+   initMap();
+   beginGame();
+}
+
 void Game::launchGame() {
-    initScreen();
-    initMap();
-    beginGame();
+    menuScreen();
 }
 
 // Simple screen initialization. All relevant pointers are set.
@@ -54,8 +92,19 @@ void Game::initMap() {
 //
 void Game::beginGame() {
     // Simple tests for now
+    gameTimer = new GameTimer();
 
     qDebug() << "Game begins.";
+
+    QPointer<EnemyUnit> enemy1 = new EnemyUnit(currentMap->unitSpawnPointer->pos());
+    enemy1->setMovementDelay(2);
+}
+
+void Game::cleanup() {
+
+    delete instance;
+
+    qDebug() << "Game ends.";
 }
 
 
