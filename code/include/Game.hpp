@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "MapTile.hpp"
 #include "GameTimer.hpp"
+#include "GameScore.hpp"
 #include "EnemyUnit.hpp"
 
 #include <QGraphicsScene>
@@ -19,6 +20,7 @@ public:
 
     // Pointer to the game timer
     GameTimer *gameTimer;
+    Score *score;
 
     // All cleanup code goes in this function (aka freeing up memory etc)
     static void cleanup();
@@ -28,7 +30,7 @@ public:
     void initMap();
     void beginGame();
     void menuScreen();
-
+    void initScore();
     // Pointers to scene and view
     QGraphicsScene *scene;
     QGraphicsView *view;
