@@ -17,9 +17,16 @@ SpriteLoader::SpriteLoader(
     const QString &miscFolderPath = ""
 ) {
     unitSprites = parseAndLoadSprites(unitsFolderPath);
-    //towerSprites = parseAndLoadSprites(towersFolderPath);
+    towerSprites = parseAndLoadSprites(towersFolderPath);
     if(miscFolderPath != "")
         miscSprites = parseAndLoadSprites(miscFolderPath);
+}
+
+SpriteLoader::~SpriteLoader() {
+    for(auto sprite: unitSprites.values()) {
+        delete sprite;
+    }
+    qDebug() << "Deleted allocated sprites.";
 }
 
 Sprite *SpriteLoader::getUnitSprite(const QString & name) {

@@ -24,7 +24,6 @@ private:
     friend class SpriteLoader;
 public:
     Sprite(const QString&, const QString&, const QString&);
-    Sprite(const Sprite&);
 
     QString getName() const;
     QMap<QString, QVector<frame>>& getStatesMap();

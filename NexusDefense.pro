@@ -33,7 +33,12 @@ HEADERS += \
     code/include/MapTile.hpp \
     code/include/Mapper.hpp
 
-FORMS +=
+
+INCLUDEPATH = libraries/boost_1_74_0/
+
+#FORMS +=
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -41,8 +46,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources/res.qrc \
     resources/res.qrc
+
 
 DISTFILES += \
     resources/mapPrototype.txt
