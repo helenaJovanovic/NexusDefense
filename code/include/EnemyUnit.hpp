@@ -6,7 +6,7 @@
 #include <QGraphicsRectItem>
 #include <QDebug>
 
-class EnemyUnit : public QObject, public QGraphicsRectItem{
+class EnemyUnit : public QObject, public QGraphicsItem{
     Q_OBJECT
 public:
     //Creates an EnemyUnit object and places it on the scene @ spawnPoint

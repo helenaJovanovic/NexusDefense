@@ -4,7 +4,7 @@
 #include <QMap>
 #include <QRect>
 #include <QString>
-
+#include <QVector>
 
 //Container class for all relevant spritesheet information.
 class Sprite {

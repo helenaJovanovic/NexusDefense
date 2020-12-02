@@ -17,7 +17,7 @@ private:
 
     QGraphicsPolygonItem* attackArea;
     //damage dealt per attack
-    float attackDamage=60;
+    float attackDamage=50;
     //number of attacks in 1 second
     float attackSpeed=1;
     MapTile* locationOnMap;//anchor tile if tower spans more than one

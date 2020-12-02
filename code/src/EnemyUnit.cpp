@@ -5,6 +5,7 @@
 EnemyUnit::EnemyUnit(QPointF spawnPoint)
     : isAlive(true)
 {
+
     turnPoints = Game::game().currentMap->getTurnPoints();
     turnDirections = Game::game().currentMap->getTurnDirections();
 
@@ -68,7 +69,7 @@ void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 }
 
 QRectF EnemyUnit::boundingRect() const {
-    return QRectF(0, 0, 30, 47);
+    return QRectF(0, 0, 29, 46);
 }
 
 void EnemyUnit::update(){
@@ -80,6 +81,7 @@ void EnemyUnit::update(){
     this->numOfTicks++;
 
     if(numOfTicks == movementDelay){
+
         /*
         1 for down
         2 for left
@@ -96,6 +98,7 @@ void EnemyUnit::update(){
         else if(currentDirection == 4)
             moveBy(0, -4);
 
+        // If the unit is not on the last direction we take the next turn
         if(nextTurnPointIndex < numOfTurns - 1){
             if(pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()){
                 nextTurnPointIndex++;
@@ -105,14 +108,17 @@ void EnemyUnit::update(){
             }
         }
 
-        else if(pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())
-            stopMovement = true;
+        // If it is the last direction we stop the unit in front of the nexus
+        else{
+            if((pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 48 == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() - 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()))
+
+                stopMovement = true;
+
+        }
 
         numOfTicks = 0;
     }
-
-    //qDebug() << "*****" << "\n";
 }
-
-
-
