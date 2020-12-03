@@ -4,17 +4,22 @@
 #include <code/include/MapTile.hpp>
 
 
-MapTile::MapTile(QString type)
-    : type(type)
+MapTile::MapTile(QString type, QPixmap& texture)
+    : type(type), texture(texture)
 {}
 
 void MapTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-    painter->drawPixmap(0, 0, QPixmap(":/images/images/tileBackground.png"));
+
     QString typeString = type;
+
     if(isNexus)
         typeString = QString("NEX");
     if(isUnitSpawn)
         typeString = QString("SP");
+
+    painter->drawPixmap(0, 0, texture);
+
+
     painter->drawText(8, 15, typeString);
 }
 

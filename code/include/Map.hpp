@@ -39,6 +39,8 @@ public:
 private:
     QVector<QPointF> turnPoints;
     QVector<unsigned> turnDirections;
+    QPixmap roadTexture;
+    QPixmap towerTexture;
 };
 
 #endif // MAP_HPP

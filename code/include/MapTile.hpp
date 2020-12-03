@@ -7,7 +7,7 @@
 
 class MapTile: public QGraphicsRectItem {
 public:
-    MapTile(QString);
+    MapTile(QString type, QPixmap& texture);
 
     //bool contains(const QPointF &point) const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -19,6 +19,7 @@ public:
     QString type;
     bool isUnitSpawn = false;
     bool isNexus = false;
+    QPixmap& texture;
 };
 
 #endif // MAPTILE_HPP

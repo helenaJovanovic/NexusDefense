@@ -8,6 +8,9 @@
 // map container
 
 Map::Map(Mapper* parser) {
+
+    roadTexture = QPixmap(":/images/images/tileBackground.png").scaled(32, 32);
+    towerTexture = QPixmap(":/images/images/towerPlace.png").scaled(32, 32);
     if(parser->readFile() == true) {
 
 
@@ -28,7 +31,7 @@ Map::Map(Mapper* parser) {
             QString key = QString(QString(p.first) + ", " + QString(p.second));
             QPair<int, int> position = parser->gridPosToPixels(resX, resY, {p.first, p.second});
 
-            map[key] = new MapTile("E");
+            map[key] = new MapTile("E", roadTexture);
             map[key]->setPos(position.first, position.second);
             if(unitSpawnTile == p) {
                 map[key]->isUnitSpawn = true;
@@ -53,7 +56,7 @@ Map::Map(Mapper* parser) {
             if(map.contains(key)) {
                 map[key]->type = QString("TE");
             } else {
-                map[key] = new MapTile("T");
+                map[key] = new MapTile("T", towerTexture);
                 map[key]->setPos(position.first, position.second);
 
                 if(nexusTile == p) {
