@@ -96,3 +96,5 @@ compile_commands.json
 *_LOCAL_*
 *_REMOTE_*
 
+#Library folder
+libraries/
