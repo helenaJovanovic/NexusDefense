@@ -11,6 +11,7 @@ Map::Map(Mapper* parser) {
 
     roadTexture = QPixmap(":/images/images/tileBackground.png").scaled(32, 32);
     towerTexture = QPixmap(":/images/images/towerPlace.png").scaled(32, 32);
+    nexusTexture = QPixmap(":/images/images/nexus.png").scaled(32, 32);
     if(parser->readFile() == true) {
 
 

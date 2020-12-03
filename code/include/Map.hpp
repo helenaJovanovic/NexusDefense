@@ -41,6 +41,7 @@ private:
     QVector<unsigned> turnDirections;
     QPixmap roadTexture;
     QPixmap towerTexture;
+    QPixmap nexusTexture;
 };
 
 #endif // MAP_HPP

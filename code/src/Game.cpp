@@ -28,7 +28,12 @@ void Game::menuScreen(){
     scene = new QGraphicsScene();
     scene->setSceneRect(-width/2, -height/2, width-50, height-50);
 
+    QGraphicsPixmapItem* background_image = new QGraphicsPixmapItem(QPixmap(":/images/images/battleback5.png").scaled(width, height));
+    background_image->setPos(-width/2-25, -height/2-25);
+    scene->addItem(background_image);
+
     view = new QGraphicsView(scene);
+
     view->setRenderHint(QPainter::Antialiasing);
 
     view->setMaximumSize(width, height);
@@ -37,20 +42,62 @@ void Game::menuScreen(){
 
 
     startGameBtn = new QPushButton("Start Game", view);
-    startGameBtn->setGeometry(QRect(QPoint(450, 320), QSize(150, 100)));
+    startGameBtn->setGeometry(QRect(QPoint(450, 300), QSize(150, 50)));
+    startGameBtn->setStyleSheet(
+                "QPushButton {"
+                               "border-image:url(:/images/images/normal.png); min-width: 150; min-height: 50;"
+                               "font: 20px Arial, sans-serif;"
+                             "}"
+                             "QPushButton:pressed {"
+                                 "border-image:url(:/images/images/pressed.png); min-width: 150; min-height: 50;"
+                             "}"
+                );
+
+    loadMapButton = new QPushButton("Change map", view);
+    loadMapButton->setGeometry(QRect(QPoint(450, 375), QSize(150, 50)));
+    loadMapButton->setStyleSheet(
+                "QPushButton {"
+                               "border-image:url(:/images/images/normal.png); min-width: 150; min-height: 50;"
+                               "font: 20px Arial, sans-serif;"
+                             "}"
+                             "QPushButton:pressed {"
+                                 "border-image:url(:/images/images/pressed.png); min-width: 150; min-height: 50;"
+                             "}"
+                );
+
+    exitButton = new QPushButton("Exit", view);
+    exitButton->setGeometry(QRect(QPoint(450, 450), QSize(150, 50)));
+    exitButton->setStyleSheet(
+                "QPushButton {"
+                               "border-image:url(:/images/images/normal.png); min-width: 150; min-height: 50;"
+                               "font: 20px Arial, sans-serif;"
+                             "}"
+                             "QPushButton:pressed {"
+                                 "border-image:url(:/images/images/pressed.png); min-width: 150; min-height: 50;"
+                             "}"
+                );
+
+
+
 
 
     QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
+    //TODO: Implement functionality for other buttons
     scene->addWidget(startGameBtn);
+    scene->addWidget(loadMapButton);
+    scene->addWidget(exitButton);
     startGameBtn->show();
-
+    loadMapButton->show();
+    exitButton->show();
 
     view->show();
 }
 
 void Game::startSecondScene(){
    //view->hide();
-   delete startGameBtn;
+   startGameBtn->hide();
+   loadMapButton->hide();
+   exitButton->hide();
    //delete view;
    initScreen();
    initGraphics();

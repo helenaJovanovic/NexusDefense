@@ -19,8 +19,8 @@ void MapTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 
     painter->drawPixmap(0, 0, texture);
 
-
-    painter->drawText(8, 15, typeString);
+    //Uncomment to see which type of tile it is
+    //painter->drawText(8, 15, typeString);
 }
 
 QRectF MapTile::boundingRect() const {
