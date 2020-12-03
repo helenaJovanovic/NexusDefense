@@ -49,10 +49,11 @@ void Game::menuScreen(){
 }
 
 void Game::startSecondScene(){
-   view->hide();
+   //view->hide();
    delete startGameBtn;
-   delete view;
+   //delete view;
    initScreen();
+   initGraphics();
    initMap();
    initScore();
    beginGame();
@@ -69,7 +70,8 @@ void Game::initScreen() {
     // This line makes the scene coordinate system -1600 -> 1600 on both axes
     scene->setSceneRect(-sceneWidth/2, -sceneWidth/2, sceneWidth, sceneWidth);
 
-    view = new QGraphicsView(scene);
+    //view = new QGraphicsView(scene);
+    view->setScene(scene);
     view->setRenderHint(QPainter::Antialiasing);
     view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     //view->setDragMode(QGraphicsView::ScrollHandDrag);
@@ -90,31 +92,34 @@ void Game::initMap() {
     currentMap = new Map(new Mapper(chosenMap));
 }
 
+void Game::initGraphics() {
+    spriteLoader = new SpriteLoader("units", "towers", "misc");
+}
+
 
 //
 void Game::beginGame() {
     // Simple tests for now
     gameTimer = new GameTimer();
-
-    SpriteLoader* spriteLoader = new SpriteLoader("units", "towers", "misc");
 	
-	QPointer<EnemyUnit> enemy1 = new EnemyUnit(currentMap->unitSpawnPointer->pos());
-    enemy1->setMovementDelay(2);
     qDebug() << "Game begins.";
 
-
-    Sprite* zombie = spriteLoader->getUnitSprite("Zombie");
-    auto tmpMap = zombie->getStatesMap();
-
-    qDebug() << zombie->getName();
-    qDebug() << "Duration of the first frame of the east state: "
-             << tmpMap["east"][0].duration;
-    qDebug() << "Second frame rectangle to draw: "
-             << tmpMap["east"][1].rect;
+    /*   SpriteLoader example
+     *
+     *   Sprite* zombie = spriteLoader->getUnitSprite("Zombie");
+     *   auto tmpMap = zombie->getStatesMap();
+     *
+     *   qDebug() << zombie->getName();
+     *   qDebug() << "Duration of the first frame of the east state: "
+     *            << tmpMap["east"][0].duration;
+     *   qDebug() << "Second frame rectangle to draw: "
+     *            << tmpMap["east"][1].rect;
+     */
 }
 
 void Game::cleanup() {
 
+    delete Game::game().spriteLoader;
     delete instance;
 
     qDebug() << "Game ends.";

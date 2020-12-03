@@ -6,10 +6,6 @@ Sprite::Sprite(const QString& name, const QString& spritesheet, const QString& i
 
 }
 
-Sprite::Sprite(const Sprite &) {
-    //TODO: implement copy constructor
-}
-
 QString Sprite::getName() const {
     return name;
 }

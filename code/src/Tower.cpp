@@ -12,29 +12,6 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height)
     QPointF towerCenter((width*Game::game().tileWidth)/2,(height*Game::game().tileWidth)/2);
     //octagon points,one on each 45 degrees
     float angleDegrees=0;
-    for (int i = 0; i < 7; i++) {
-        float angleRads=angleDegrees*M_PI/180.0;
-        rangeOctagonPoints << QPoint(towerCenter.x()+attackRange*cos(angleRads),towerCenter.y()+attackRange*sin(angleRads));
-        angleDegrees+=45;
-    }
-    attackArea=new QGraphicsPolygonItem(QPolygonF(rangeOctagonPoints),this);
-//    attackArea->setPos(towerCenter.x(),towerCenter.y());
-//    attackArea->setOpacity(0);
-//    Game::game().scene->addItem(attackArea);
-    connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
-    qDebug()<<"Tower created"<<"\n";
-}
-
-Tower::Tower(int x, int y,float attackRange,int width,int height)
-: width(width),height(height)
-{
-    locationOnMap=Game::game().currentMap->getTilePointer(x,y);
-    this->setPos(this->locationOnMap->pos());
-    Game::game().scene->addItem(this);
-    QVector<QPointF> rangeOctagonPoints;
-    QPointF towerCenter((width*Game::game().tileWidth)/2,(height*Game::game().tileWidth)/2);
-    //octagon points
-    float angleDegrees=0;
     for (int i = 0; i < 8; i++) {
         float angleRads=angleDegrees*M_PI/180.0;
         rangeOctagonPoints << QPoint(towerCenter.x()+attackRange*cos(angleRads),towerCenter.y()+attackRange*sin(angleRads));
@@ -43,11 +20,15 @@ Tower::Tower(int x, int y,float attackRange,int width,int height)
     attackArea=new QGraphicsPolygonItem(QPolygonF(rangeOctagonPoints),this);
 //    attackArea->setPos(towerCenter.x(),towerCenter.y());
 //    attackArea->setOpacity(0);
-
 //    Game::game().scene->addItem(attackArea);
+    Game::game().scene->addItem(this);
     connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
     qDebug()<<"Tower created"<<"\n";
 }
+
+Tower::Tower(int x, int y,float attackRange,int width,int height)
+    :Tower(Game::game().currentMap->getTilePointer(x,y),attackRange,width,height)
+{}
 Tower::~Tower()
 {
 
@@ -85,10 +66,10 @@ void Tower::acquireTarget()
             }
         }
     }
-    if(target==nullptr)
-        qDebug()<<"No target"<<"\n";
-    else
-        qDebug()<<"Target acquired"<<target->getCurrentHealth()<<"\n";
+//    if(target==nullptr)
+//        qDebug()<<"No target"<<"\n";
+//    else
+//        qDebug()<<"Target acquired"<<target->getCurrentHealth()<<"\n";
 }
 
 void Tower::attack()

@@ -4,7 +4,7 @@
 #include <QMap>
 #include <QRect>
 #include <QString>
-
+#include <QVector>
 
 //Container class for all relevant spritesheet information.
 class Sprite {
@@ -24,7 +24,6 @@ private:
     friend class SpriteLoader;
 public:
     Sprite(const QString&, const QString&, const QString&);
-    Sprite(const Sprite&);
 
     QString getName() const;
     QMap<QString, QVector<frame>>& getStatesMap();

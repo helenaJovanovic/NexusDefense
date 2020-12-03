@@ -15,6 +15,7 @@ public:
         const QString& towersFolderPath,
         const QString& miscFolderPath
     );
+    ~SpriteLoader();
 
     Sprite* getTowerSprite(const QString&);
     Sprite* getUnitSprite(const QString&);

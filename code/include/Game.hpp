@@ -6,6 +6,7 @@
 #include "GameTimer.hpp"
 #include "GameScore.hpp"
 #include "EnemyUnit.hpp"
+#include "SpriteLoader.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -21,6 +22,7 @@ public:
     // Pointer to the game timer
     GameTimer *gameTimer;
     Score *score;
+    SpriteLoader *spriteLoader;
 
     // All cleanup code goes in this function (aka freeing up memory etc)
     static void cleanup();
@@ -28,6 +30,7 @@ public:
     void launchGame();
     void initScreen();
     void initMap();
+    void initGraphics();
     void beginGame();
     void menuScreen();
     void initScore();
