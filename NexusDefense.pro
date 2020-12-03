@@ -36,7 +36,7 @@ HEADERS += \
     code/include/Mapper.hpp
 
 
-INCLUDEPATH = libraries/boost_1_74_0/
+
 
 #FORMS +=
 
