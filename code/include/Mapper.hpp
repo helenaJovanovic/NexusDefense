@@ -37,6 +37,7 @@ public:
     QVector<QPair<int, int>>& getRoadTilesXY();
     QVector<QPair<int, int>>& getTowerTilesXY();
     QVector<QPair<int, int>>& getTurningRoadPoint();
+    QVector<QPair<int, int>>& getEmptyTiles();
 
     //Return unit path that returns QPointF vector
     //with points where a unit must turn
@@ -79,6 +80,7 @@ private:
     QVector<QPair<int, int>> roadToNexus;
     QVector<QPair<int, int>> turningPointRoad;
     QVector<QPair<int, int>> towerPositions;
+    QVector<QPair<int, int>> emptyTiles;
 };
 
 #endif // JSONMAPPER_HPP

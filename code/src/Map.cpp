@@ -26,6 +26,8 @@ Map::Map(Mapper* parser) {
         QPair<int, int> unitSpawnTile = parser->getUnitSpawnPointXY();
         QPair<int, int> nexusTile = parser->getNexusXY();
 
+
+
         // Go through all the road tiles and add them to the map with proper tags
         for(auto p: parser->getRoadTilesXY()) {
             QString key = QString(QString(p.first) + ", " + QString(p.second));
@@ -42,6 +44,17 @@ Map::Map(Mapper* parser) {
                 map[key]->isNexus = true;
                 nexusPointer = map[key];
             }
+
+
+            Game::game().scene->addItem(map[key]);
+        }
+
+        for(auto p: parser->getEmptyTiles()){
+            QString key = QString(QString(p.first) + ", " + QString(p.second));
+            QPair<int, int> position = parser->gridPosToPixels(resX, resY, {p.first, p.second});
+
+            map[key] = new MapTile("Z", roadTexture);
+            map[key]->setPos(position.first, position.second);
 
 
             Game::game().scene->addItem(map[key]);
