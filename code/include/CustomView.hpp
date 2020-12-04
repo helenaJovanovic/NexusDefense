@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QTimeLine>
 
 class CustomView: public QGraphicsView {
 public:
@@ -12,6 +13,20 @@ public:
 protected:
     void leaveEvent(QEvent *event);
     void keyPressEvent(QKeyEvent *event);
+
+private:
+    QTimeLine cameraMoveTimeline;
+
+    bool animatingCameraMovement = false;
+    qreal offset = 16;
+    enum CameraDir{
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST
+    };
+
+    void animateCamera(const CameraDir& dir);
 };
 
 #endif // CUSTOMVIEW_HPP
