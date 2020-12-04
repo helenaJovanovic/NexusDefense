@@ -24,4 +24,10 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_Escape) {
         Game::game().getGameApp()->quit();
     }
+    else if(event->key() == Qt::Key_Plus) {
+        scale(2, 2);
+    }
+    else if(event->key() == Qt::Key_Minus) {
+        scale(0.5, 0.5);
+    }
 }
