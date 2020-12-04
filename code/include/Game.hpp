@@ -13,6 +13,7 @@
 #include <QGraphicsView>
 #include <QPushButton>
 #include <QObject>
+#include <QApplication>
 
 class Game : public QObject {
     Q_OBJECT
@@ -28,13 +29,20 @@ public:
     // All cleanup code goes in this function (aka freeing up memory etc)
     static void cleanup();
 
+    void setApp(QApplication*);
     void launchGame();
     void initScreen();
     void initMap();
     void initGraphics();
-    void beginGame();
-    void menuScreen();
     void initScore();
+
+    void beginGame();
+
+    void menuScreen();
+
+
+    QApplication* getGameApp();
+
     // Pointers to scene and view
     QGraphicsScene *scene;
     CustomView *view;
@@ -66,7 +74,10 @@ private:
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
+    QApplication* gameApp;
+
     static Game *instance;
+
 };
 
 #endif // GAME_HPP

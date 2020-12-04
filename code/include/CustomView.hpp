@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QEvent>
+#include <QKeyEvent>
 
 class CustomView: public QGraphicsView {
 public:
@@ -10,6 +11,7 @@ public:
 
 protected:
     void leaveEvent(QEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // CUSTOMVIEW_HPP

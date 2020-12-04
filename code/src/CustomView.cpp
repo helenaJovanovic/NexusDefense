@@ -1,4 +1,6 @@
 #include <code/include/CustomView.hpp>
+#include <code/include/Game.hpp>
+#include <QDebug>
 
 CustomView::CustomView(QGraphicsScene *scene, QWidget *parent)
     : QGraphicsView(scene, parent)
@@ -16,4 +18,10 @@ void CustomView::leaveEvent(QEvent *event) {
 
     event->accept();
     QGraphicsView::leaveEvent(event);
+}
+
+void CustomView::keyPressEvent(QKeyEvent *event) {
+    if(event->key() == Qt::Key_Escape) {
+        Game::game().getGameApp()->quit();
+    }
 }

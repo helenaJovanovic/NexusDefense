@@ -48,6 +48,7 @@ void Game::menuScreen(){
     view->show();
 }
 
+
 void Game::startSecondScene(){
    //view->hide();
    delete startGameBtn;
@@ -57,6 +58,14 @@ void Game::startSecondScene(){
    initMap();
    initScore();
    beginGame();
+}
+
+void Game::setApp(QApplication *app) {
+    gameApp = app;
+}
+
+QApplication *Game::getGameApp() {
+    return gameApp;
 }
 
 void Game::launchGame() {
@@ -124,6 +133,8 @@ void Game::cleanup() {
 
     qDebug() << "Game ends.";
 }
+
+
 
 
 void Game::initScore() {
