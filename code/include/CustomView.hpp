@@ -4,21 +4,24 @@
 #include <QGraphicsView>
 #include <QEvent>
 #include <QKeyEvent>
-#include <QTimeLine>
 
 class CustomView: public QGraphicsView {
+    Q_OBJECT
+
 public:
     CustomView(QGraphicsScene *scene, QWidget *parent = nullptr);
-
+    void enableMouseMovement();
 protected:
     void leaveEvent(QEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    QTimeLine cameraMoveTimeline;
-
+    bool cameraEnabled = false;
     bool animatingCameraMovement = false;
-    qreal offset = 16;
+    qreal defaultOffset = 1;
+    qreal xOffset;
+    qreal yOffset;
+    qint32 timeElapsed = 0;
     enum CameraDir{
         NORTH,
         SOUTH,
@@ -27,6 +30,9 @@ private:
     };
 
     void animateCamera(const CameraDir& dir);
+
+private slots:
+    void cameraMoveTick();
 };
 
 #endif // CUSTOMVIEW_HPP

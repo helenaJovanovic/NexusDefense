@@ -110,6 +110,7 @@ void Game::initGraphics() {
 void Game::beginGame() {
     // Simple tests for now
     gameTimer = new GameTimer();
+    view->enableMouseMovement();
 	
     qDebug() << "Game begins.";
 

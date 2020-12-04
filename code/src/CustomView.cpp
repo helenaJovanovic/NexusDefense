@@ -8,6 +8,10 @@ CustomView::CustomView(QGraphicsScene *scene, QWidget *parent)
     setTransformationAnchor(QGraphicsView::NoAnchor);
 }
 
+void CustomView::enableMouseMovement(){
+    cameraEnabled = true;
+}
+
 void CustomView::leaveEvent(QEvent *event) {
     const QRect& windowRect = geometry();
     QPoint mousePosition = QCursor::pos();
@@ -15,11 +19,8 @@ void CustomView::leaveEvent(QEvent *event) {
     qint32 x = qBound(windowRect.left(), mousePosition.x(), windowRect.right());
     qint32 y = qBound(windowRect.top(), mousePosition.y(), windowRect.bottom());
 
-    if (animatingCameraMovement == false) {
-        animatingCameraMovement = true;
-
+    if(cameraEnabled) {
         CameraDir cameraDir = CameraDir::NORTH;
-
         if(x < mousePosition.x()) {
             cameraDir = CameraDir::EAST;
         } else if(x > mousePosition.x()) {
@@ -27,8 +28,8 @@ void CustomView::leaveEvent(QEvent *event) {
         } else if(y < mousePosition.y()) {
             cameraDir = CameraDir::SOUTH;
         }
-
-        animateCamera(cameraDir);
+        if(!animatingCameraMovement)
+            animateCamera(cameraDir);
     }
 
     if(x != mousePosition.x() || y != mousePosition.y())
@@ -45,6 +46,7 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
     }
 
     // Zoom controls
+    // TODO: animate this, and add it to mouseWheel event aswell
     else if(event->key() == Qt::Key_Plus) {
         scale(2, 2);
     }
@@ -53,32 +55,50 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
     }
 
     // Camera controls
-    else if(event->key() == Qt::Key_Right) {
-        animateCamera(CameraDir::EAST);
-    } else if(event->key() == Qt::Key_Left) {
-        animateCamera(CameraDir::WEST);
-    } else if(event->key() == Qt::Key_Up) {
-        animateCamera(CameraDir::NORTH);
-    } else if(event->key() == Qt::Key_Down) {
-        animateCamera(CameraDir::SOUTH);
-    }
+    else
+        if(cameraEnabled) {
+            if(event->key() == Qt::Key_Right) {
+                animateCamera(CameraDir::EAST);
+            } else if(event->key() == Qt::Key_Left) {
+                animateCamera(CameraDir::WEST);
+            } else if(event->key() == Qt::Key_Up) {
+                animateCamera(CameraDir::NORTH);
+            } else if(event->key() == Qt::Key_Down) {
+                animateCamera(CameraDir::SOUTH);
+            }
+        }
 }
 
 void CustomView::animateCamera(const CustomView::CameraDir &dir) {
-    qreal xCameraOffset = 0;
-    qreal yCameraOffset = 0;
+    if(animatingCameraMovement)
+        return;
 
     if(dir == CameraDir::EAST) {
-        xCameraOffset = offset;
+        yOffset = 0;
+        xOffset = defaultOffset;
     } else if(dir == CameraDir::WEST) {
-        xCameraOffset = -offset;
+        xOffset = -defaultOffset;
+        yOffset = 0;
     } else if(dir == CameraDir::NORTH) {
-        yCameraOffset = -offset;
+        yOffset = -defaultOffset;
+        xOffset = 0;
     } else if(dir == CameraDir::SOUTH) {
-        yCameraOffset = offset;
+        yOffset = defaultOffset;
+        xOffset = 0;
     }
 
-    translate(xCameraOffset, yCameraOffset);
+    if(!animatingCameraMovement)
+        connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(cameraMoveTick()));
+}
+
+void CustomView::cameraMoveTick() {
+    timeElapsed += 16;
+    translate(-xOffset, -yOffset);
+    if(timeElapsed >= 160) {
+        disconnect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(cameraMoveTick()));
+        timeElapsed = 0;
+        animatingCameraMovement = false;
+    }
 }
 
 
