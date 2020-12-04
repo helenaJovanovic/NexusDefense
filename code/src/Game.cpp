@@ -28,7 +28,7 @@ void Game::menuScreen(){
     scene = new QGraphicsScene();
     scene->setSceneRect(-width/2, -height/2, width-50, height-50);
 
-    view = new QGraphicsView(scene);
+    view = new CustomView(scene);
     view->setRenderHint(QPainter::Antialiasing);
 
     view->setMaximumSize(width, height);

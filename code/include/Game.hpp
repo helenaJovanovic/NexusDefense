@@ -7,6 +7,7 @@
 #include "GameScore.hpp"
 #include "EnemyUnit.hpp"
 #include "SpriteLoader.hpp"
+#include "CustomView.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -36,7 +37,7 @@ public:
     void initScore();
     // Pointers to scene and view
     QGraphicsScene *scene;
-    QGraphicsView *view;
+    CustomView *view;
     QPushButton *startGameBtn;
 
     // Pointer to currently visible map
