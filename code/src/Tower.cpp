@@ -3,8 +3,13 @@
 
 
 
-Tower::Tower(MapTile* tile,float attackRange,int width,int height)
-    : locationOnMap(tile),width(width),height(height)
+void Tower::setTarget(EnemyUnit *value)
+{
+    target = value;
+}
+
+Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName)
+    : locationOnMap(tile),width(width),height(height),spriteName(spriteName)
 {
     this->setPos(this->locationOnMap->pos());
     this->setPos(this->locationOnMap->pos());
@@ -26,9 +31,14 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height)
     qDebug()<<"Tower created"<<"\n";
 }
 
-Tower::Tower(int x, int y,float attackRange,int width,int height)
-    :Tower(Game::game().currentMap->getTilePointer(x,y),attackRange,width,height)
+Tower::Tower(int x, int y,float attackRange,int width,int height,QString spriteName)
+    :Tower(Game::game().currentMap->getTilePointer(x,y),attackRange,width,height,spriteName)
 {}
+QString Tower::getSpriteName() const
+{
+    return spriteName;
+}
+
 Tower::~Tower()
 {
 
@@ -47,12 +57,12 @@ bool Tower::currentTargetInRange()
 void Tower::acquireTarget()
 {
     QList<QGraphicsItem*> collidingItems=attackArea->collidingItems();
-    qDebug()<<collidingItems.count()<<"\n";
-    if(collidingItems.size()==1)
-    {
-        target=nullptr;
-        return;
-    }
+//    qDebug()<<collidingItems.count()<<"\n";
+//    if(collidingItems.size()==1)
+//    {
+//        target=nullptr;
+//        return;
+//    }
     double closestDistance=MAXFLOAT;
     for (int i = 0; i < collidingItems.size(); i++) {
         EnemyUnit* enemyUnit=dynamic_cast<EnemyUnit*>(collidingItems[i]);
@@ -74,9 +84,10 @@ void Tower::acquireTarget()
 
 void Tower::attack()
 {
-    if(target==nullptr)
+    if(target==nullptr || !target->isAlive)
         return;
-    target->takeDamage(getAttackDamage());
+//    target->takeDamage(getAttackDamage());
+    new Projectile(attackDamage,30,target,"projectile",this->pos()+QPointF(Game::game().tileWidth/2,Game::game().tileWidth/2));
     if(!target || !target->isAlive)
         target=nullptr;
     qDebug()<<"Shots fired"<<"\n";
@@ -110,13 +121,18 @@ QGraphicsPolygonItem *Tower::getAttackArea() const
 void Tower::acquireTargetAndAttack()
 {
     if(target==nullptr || !currentTargetInRange())
+    {
+        target=nullptr;
         acquireTarget();
+    }
     attack();
 }
 
 void Tower::update()
 {
    numberOfTicks++;
+   if(target==nullptr || !target->isAlive || !currentTargetInRange())
+       target=nullptr;
    if(numberOfTicks==50)
    {
        acquireTargetAndAttack();
@@ -139,7 +155,7 @@ QRectF Tower::boundingRect() const
     return QRectF(0,0,width*len,height*len);
 }
 
-void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 //    QRectF towerRect(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth);
 //    painter->setBrush(Qt::);

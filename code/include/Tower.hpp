@@ -9,6 +9,7 @@
 #include <code/include/Map.hpp>
 #include <QPointer>
 #include <code/include/EnemyUnit.hpp>
+#include <code/include/Projectile.hpp>
 
 class Tower : public QObject,public QGraphicsRectItem
 {
@@ -26,10 +27,11 @@ private:
     int height;
     EnemyUnit* target=nullptr;
     int numberOfTicks=0;
+    QString spriteName;
 public:
     //Creates a tower on specified map tile
-    Tower(MapTile* tile,float attackRange,int width,int height);
-    Tower(int x,int y,float attackRange,int width,int height);
+    Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName);
+    Tower(int x,int y,float attackRange,int width,int height,QString spriteName);
     ~Tower();
     //check if current target is still in range
     bool currentTargetInRange();
@@ -41,7 +43,7 @@ public:
     double distanceTo(QGraphicsItem* item);
     // QGraphicsItem interface
     QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
     //getters
     float getAttackDamage() const;
     float getAttackSpeed() const;
@@ -50,6 +52,10 @@ public:
     MapTile* getLocationOnMap() const;
     QGraphicsPolygonItem *getAttackArea() const;
     void acquireTargetAndAttack();
+    QString getSpriteName() const;
+
+    void setTarget(EnemyUnit *value);
+
 public slots:
     //on timer tick
     void update();
