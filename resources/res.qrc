@@ -3,6 +3,10 @@
         <file>images/tileBackground.png</file>
         <file>images/zombie.png</file>
         <file>images/towerPlace.png</file>
+        <file>images/battleback5.png</file>
+        <file>images/normal.png</file>
+        <file>images/pressed.png</file>
+        <file>images/nexus.png</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>

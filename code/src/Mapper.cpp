@@ -63,6 +63,9 @@ bool Mapper::readFile(){
            else if(tmp == 3){
                towerPositions.push_back({i+1, j+1});
            }
+           else{
+               emptyTiles.push_back({i+1, j+1});
+           }
         }
     }
 
@@ -102,6 +105,10 @@ QVector<QPair<int, int>>& Mapper::getTowerTilesXY(){
 
 QVector<QPair<int, int>>& Mapper::getTurningRoadPoint(){
     return turningPointRoad;
+}
+
+QVector<QPair<int, int>>& Mapper::getEmptyTiles(){
+    return emptyTiles;
 }
 
 //Function that takes height, width of where the map is being drawn

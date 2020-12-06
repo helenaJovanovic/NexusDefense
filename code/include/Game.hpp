@@ -38,7 +38,8 @@ public:
     QGraphicsScene *scene;
     QGraphicsView *view;
     QPushButton *startGameBtn;
-
+    QPushButton *loadMapButton;
+    QPushButton *exitButton;
     // Pointer to currently visible map
     Map *currentMap = nullptr;
 
