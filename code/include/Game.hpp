@@ -5,8 +5,11 @@
 #include "MapTile.hpp"
 #include "GameTimer.hpp"
 #include "GameScore.hpp"
+#include "Gold.hpp"
+#include "Health.hpp"
 #include "EnemyUnit.hpp"
 #include "SpriteLoader.hpp"
+
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -21,7 +24,13 @@ public:
 
     // Pointer to the game timer
     GameTimer *gameTimer;
+    // Pointer to the game score
     Score *score;
+    //Pointer to the gold saldo
+    Gold *gold;
+    //Pointer to the health
+    Health *health;
+
     SpriteLoader *spriteLoader;
 
     // All cleanup code goes in this function (aka freeing up memory etc)
@@ -34,6 +43,8 @@ public:
     void beginGame();
     void menuScreen();
     void initScore();
+    void initGold();
+    void initHealth();
     // Pointers to scene and view
     QGraphicsScene *scene;
     QGraphicsView *view;

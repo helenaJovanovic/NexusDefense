@@ -58,6 +58,10 @@ void EnemyUnit::takeDamage(float damageAmount) {
 
         Game::game().scene->removeItem(this);
 
+        //When enemy unit is destroyed score and gold should increase
+        Game::game().score->increase();
+        Game::game().gold->increaseGold();
+
         delete(this);
 
         qDebug() << "Unit death" << "\n";
@@ -116,6 +120,8 @@ void EnemyUnit::update(){
                 || (pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()))
 
                 stopMovement = true;
+            // nexus health should decrease
+            Game::game().health->decrease();
 
         }
 

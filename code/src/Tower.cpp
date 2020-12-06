@@ -29,6 +29,8 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString sprite
     Game::game().scene->addItem(this);
     connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
     qDebug()<<"Tower created"<<"\n";
+    // When Tower constructor is called gold saldo should decrease
+    Game::game().gold->decreaseGold();
 }
 
 Tower::Tower(int x, int y,float attackRange,int width,int height,QString spriteName)

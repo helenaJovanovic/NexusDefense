@@ -11,6 +11,9 @@ CONFIG += c++17
 SOURCES += \
     code/src/EnemyUnit.cpp \
     code/src/GameScore.cpp \
+    code/src/Gold.cpp \
+    code/src/Health.cpp \
+    code/src/Projectile.cpp \
     code/src/Sprite.cpp \
     code/src/SpriteLoader.cpp \
     code/src/Tower.cpp \
@@ -24,6 +27,9 @@ SOURCES += \
 HEADERS += \
     code/include/EnemyUnit.hpp \
     code/include/GameScore.hpp \
+    code/include/Gold.hpp \
+    code/include/Health.hpp \
+    code/include/Projectile.hpp \
     code/include/Sprite.hpp \
     code/include/SpriteLoader.hpp \
     code/include/Tower.hpp \

@@ -101,6 +101,8 @@ void Game::startSecondScene(){
    initGraphics();
    initMap();
    initScore();
+   initGold();
+   initHealth();
    beginGame();
 }
 
@@ -175,5 +177,25 @@ void Game::initScore() {
     score = new Score();
     scene->addItem(score);
 }
+
+void Game::initGold() {
+    gold = new Gold();
+    gold->setPos(gold->x(), gold->y()+25);
+    scene->addItem(gold);
+}
+
+void Game::initHealth() {
+    health = new Health();
+    health->setPos(health->x(), health->y()+50);
+    scene->addItem(health);
+}
+
+
+
+
+
+
+
+
 
 
