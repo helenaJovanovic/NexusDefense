@@ -70,6 +70,7 @@ public:
 
 public slots:
     void startSecondScene();
+    void localQuitGame();
 
         // Don't need to worry about scene and view, they are QObjects
         // and as such are automatically deleted when game closes

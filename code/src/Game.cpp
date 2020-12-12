@@ -1,7 +1,5 @@
 #include <code/include/Game.hpp>
 #include <code/include/Mapper.hpp>
-#include <code/include/SpriteLoader.hpp>
-#include <code/include/CustomView.hpp>
 #include <QDebug>
 #include <QDir>
 #include <QGLWidget>
@@ -87,12 +85,17 @@ void Game::menuScreen(){
 
 
     QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
-    
+    QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
+
     startGameBtn->show();
     loadMapButton->show();
     exitButton->show();
 
     view->show();
+}
+
+void Game::localQuitGame(){
+    gameApp->quit();
 }
 
 void Game::startSecondScene(){
@@ -167,7 +170,9 @@ void Game::beginGame() {
     gameTimer = new QTimer();
     gameTimer->start(16);
     view->enableMouseMovement();
-	
+
+
+
     qDebug() << "Game begins.";
 
     /*   SpriteLoader example
