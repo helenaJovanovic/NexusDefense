@@ -26,7 +26,12 @@ SpriteLoader::~SpriteLoader() {
     for(auto sprite: unitSprites.values()) {
         delete sprite;
     }
-    qDebug() << "Deleted allocated sprites.";
+    for(auto sprite: towerSprites.values()) {
+        delete sprite;
+    }
+    for(auto sprite: miscSprites.values()) {
+        delete sprite;
+    }
 }
 
 Sprite *SpriteLoader::getUnitSprite(const QString & name) {

@@ -9,7 +9,7 @@
 #include "Health.hpp"
 #include "EnemyUnit.hpp"
 #include "SpriteLoader.hpp"
-
+#include "CustomView.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -23,8 +23,8 @@ public:
     static Game& game();
 
     // Pointer to the game timer
-    GameTimer *gameTimer;
-    // Pointer to the game score
+    QTimer *gameTimer;
+    //GameTimer *gameTimer;
     Score *score;
     //Pointer to the gold saldo
     Gold *gold;
@@ -36,6 +36,7 @@ public:
     // All cleanup code goes in this function (aka freeing up memory etc)
     static void cleanup();
 
+    void setApp(QApplication*);
     void launchGame();
     void initScreen();
     void initMap();
@@ -45,9 +46,13 @@ public:
     void initScore();
     void initGold();
     void initHealth();
+	void initScore();
+    void initGold();
+    void initHealth();
+	QApplication* getGameApp();
     // Pointers to scene and view
     QGraphicsScene *scene;
-    QGraphicsView *view;
+    CustomView *view;
     QPushButton *startGameBtn;
     QPushButton *loadMapButton;
     QPushButton *exitButton;
@@ -77,7 +82,10 @@ private:
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
+    QApplication* gameApp;
+
     static Game *instance;
+
 };
 
 #endif // GAME_HPP

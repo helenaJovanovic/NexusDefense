@@ -5,7 +5,6 @@
 
 #include <QString>
 
-
 class SpriteLoader {
 public:
     // Takes the paths to folders containing json defintions for each type
@@ -31,3 +30,6 @@ private:
 };
 
 #endif // SPRITELOADER_HPP
+
+
+
