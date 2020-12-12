@@ -85,6 +85,7 @@ void Game::menuScreen(){
 
 
     QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
+    QObject::connect(loadMapButton, SIGNAL(released()), this, SLOT(startThirdScene()));
     QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
 
     startGameBtn->show();
@@ -111,6 +112,13 @@ void Game::startSecondScene(){
    initGold();
    initHealth();
    beginGame();
+}
+
+void Game::startThirdScene(){
+    startGameBtn->hide();
+    loadMapButton->hide();
+
+    //exitButton->hide();
 }
 
 void Game::setApp(QApplication *app) {
@@ -195,7 +203,6 @@ void Game::cleanup() {
 
     qDebug() << "Game ends.";
 }
-
 
 void Game::initScore() {
     score = new Score();

@@ -70,6 +70,7 @@ public:
 
 public slots:
     void startSecondScene();
+    void startThirdScene();
     void localQuitGame();
 
         // Don't need to worry about scene and view, they are QObjects
