@@ -15,6 +15,7 @@
 #include <QGraphicsView>
 #include <QPushButton>
 #include <QObject>
+#include <QApplication>
 
 class Game : public QObject {
     Q_OBJECT
@@ -46,9 +47,7 @@ public:
     void initScore();
     void initGold();
     void initHealth();
-	void initScore();
-    void initGold();
-    void initHealth();
+
 	QApplication* getGameApp();
     // Pointers to scene and view
     QGraphicsScene *scene;
