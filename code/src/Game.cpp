@@ -156,7 +156,7 @@ void Game::initScreen() {
 
 // chosenMap is hard-coded atm, changeable later with level selection code
 void Game::initMap() {
-    QString chosenMap = ":/mapPrototype.txt";
+    QString chosenMap = ":/mapSecond.txt";
     currentMap = new Map(new Mapper(chosenMap));
 }
 

@@ -11,5 +11,6 @@
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
         <file>units/zombie.json</file>
+        <file>mapSecond.txt</file>
     </qresource>
 </RCC>

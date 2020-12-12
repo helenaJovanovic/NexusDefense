@@ -115,7 +115,7 @@ QVector<QPair<int, int>>& Mapper::getEmptyTiles(){
 //and position of an object.
 //It returns the location in pixels of where the tile should be drawn.
 QPair<int, int> Mapper::gridPosToPixels(int resX, int resY, QPair<int, int> gridPos){
-    return{(gridPos.first-1)*(resX/tilesX), (gridPos.second-1)*(resY/tilesY)};
+    return{(gridPos.first-1)*(resX/tilesX)-resX/2, (gridPos.second-1)*(resY/tilesY) - resY/2};
 }
 
 //Return unit path that returns QPointF vector
