@@ -1,15 +1,54 @@
 #include <code/include/CustomView.hpp>
 #include <code/include/Game.hpp>
 #include <QDebug>
+#include <QScrollBar>
 
 CustomView::CustomView(QGraphicsScene *scene, QWidget *parent)
     : QGraphicsView(scene, parent)
 {
     setTransformationAnchor(QGraphicsView::NoAnchor);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //showFullScreen();
 }
 
 void CustomView::enableMouseMovement(){
     cameraEnabled = true;
+    connect(Game::game().gameTimer, &QTimer::timeout, this, &CustomView::cameraMoveTick);
+}
+
+void CustomView::mouseMoveEvent(QMouseEvent* event) {
+    if(!cameraEnabled) return;
+
+    const QRect& windowRect = geometry();
+    qint32 mouseXPos = event->x();
+    qint32 mouseYPos = event->y();
+
+    qint32 cameraEdgeOffset = Game::game().tileWidth*2;
+    qint32 right = windowRect.width();
+    qint32 bottom = windowRect.height();
+
+    if(!animatingCameraMovement) {
+        if(mouseXPos >= right-cameraEdgeOffset) {
+            animateCamera(CameraDir::EAST);
+        } else if (mouseXPos <= 0+cameraEdgeOffset) {
+            animateCamera(CameraDir::WEST);
+        } else if (mouseYPos <= 0+cameraEdgeOffset) {
+            animateCamera(CameraDir::NORTH);
+        } else if (mouseYPos >= bottom-cameraEdgeOffset) {
+            animateCamera(CameraDir::SOUTH);
+        }
+    } else {
+        if(mouseXPos <= right-cameraEdgeOffset &&
+           mouseXPos >= 0+cameraEdgeOffset &&
+           mouseYPos >= 0+cameraEdgeOffset &&
+           mouseYPos <= bottom-cameraEdgeOffset) {
+            animatingCameraMovement = false;
+        }
+    }
+
+    event->accept();
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void CustomView::leaveEvent(QEvent *event) {
@@ -18,19 +57,6 @@ void CustomView::leaveEvent(QEvent *event) {
 
     qint32 x = qBound(windowRect.left(), mousePosition.x(), windowRect.right());
     qint32 y = qBound(windowRect.top(), mousePosition.y(), windowRect.bottom());
-
-    if(cameraEnabled) {
-        CameraDir cameraDir = CameraDir::NORTH;
-        if(x < mousePosition.x()) {
-            cameraDir = CameraDir::EAST;
-        } else if(x > mousePosition.x()) {
-            cameraDir = CameraDir::WEST;
-        } else if(y < mousePosition.y()) {
-            cameraDir = CameraDir::SOUTH;
-        }
-        if(!animatingCameraMovement)
-            animateCamera(cameraDir);
-    }
 
     if(x != mousePosition.x() || y != mousePosition.y())
         QCursor::setPos(x, y);
@@ -56,7 +82,7 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
 
     // Camera controls
     else
-        if(cameraEnabled) {
+        if(!animatingCameraMovement && cameraEnabled) {
             if(event->key() == Qt::Key_Right) {
                 animateCamera(CameraDir::EAST);
             } else if(event->key() == Qt::Key_Left) {
@@ -67,6 +93,16 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
                 animateCamera(CameraDir::SOUTH);
             }
         }
+}
+
+void CustomView::keyReleaseEvent(QKeyEvent* event) {
+    if(event->key() == Qt::Key_Right ||
+       event->key() == Qt::Key_Left ||
+       event->key() == Qt::Key_Up ||
+       event->key() == Qt::Key_Down) {
+
+       animatingCameraMovement = false;
+    }
 }
 
 void CustomView::animateCamera(const CustomView::CameraDir &dir) {
@@ -87,19 +123,14 @@ void CustomView::animateCamera(const CustomView::CameraDir &dir) {
         xOffset = 0;
     }
 
-    if(!animatingCameraMovement)
-        connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(cameraMoveTick()));
+    animatingCameraMovement = true;
 }
 
 void CustomView::cameraMoveTick() {
-    timeElapsed += 16;
+    if(!animatingCameraMovement) return;
+
     translate(-xOffset, -yOffset);
-    if(timeElapsed >= 160) {
-        disconnect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(cameraMoveTick()));
-        timeElapsed = 0;
-        animatingCameraMovement = false;
-    }
+
+    /*horizontalScrollBar()->setValue( horizontalScrollBar()->value() + xOffset);
+    verticalScrollBar()->setValue( verticalScrollBar()->value() + yOffset);*/
 }
-
-
-

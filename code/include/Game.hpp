@@ -22,7 +22,8 @@ public:
     static Game& game();
 
     // Pointer to the game timer
-    GameTimer *gameTimer;
+    QTimer *gameTimer;
+    //GameTimer *gameTimer;
     Score *score;
     SpriteLoader *spriteLoader;
 

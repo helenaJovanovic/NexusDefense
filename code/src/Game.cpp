@@ -1,9 +1,13 @@
 #include <code/include/Game.hpp>
 #include <code/include/Mapper.hpp>
 #include <code/include/SpriteLoader.hpp>
+#include <code/include/CustomView.hpp>
 #include <QDebug>
 #include <QDir>
+#include <QGLWidget>
 #include <QPointer>
+#include <QObject>
+#include <QScreen>
 
 
 Game *Game::instance = 0;
@@ -29,7 +33,6 @@ void Game::menuScreen(){
     scene->setSceneRect(-width/2, -height/2, width-50, height-50);
 
     view = new CustomView(scene);
-    view->setRenderHint(QPainter::Antialiasing);
 
     view->setMaximumSize(width, height);
     view->setMinimumSize(width, height);
@@ -50,9 +53,7 @@ void Game::menuScreen(){
 
 
 void Game::startSecondScene(){
-   //view->hide();
    delete startGameBtn;
-   //delete view;
    initScreen();
    initGraphics();
    initMap();
@@ -78,21 +79,27 @@ void Game::initScreen() {
 
     // This line makes the scene coordinate system -1600 -> 1600 on both axes
     scene->setSceneRect(-sceneWidth/2, -sceneWidth/2, sceneWidth, sceneWidth);
-
+    scene->setItemIndexMethod(scene->NoIndex);
     //view = new QGraphicsView(scene);
+
     view->setScene(scene);
-    view->setRenderHint(QPainter::Antialiasing);
-    view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    //view->setDragMode(QGraphicsView::ScrollHandDrag);
+    view->setViewport(new QGLWidget());
+    view->setRenderHint(QPainter::SmoothPixmapTransform);
+    view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    view->setOptimizationFlags(QGraphicsView::DontSavePainterState);
+    //view->setRenderHint(QPainter::Antialiasing);
+
+    /* fullscreen test
+
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect  screenGeometry = screen->geometry();
+    height = screenGeometry.height();
+    width = screenGeometry.width();
 
     view->setMaximumSize(width, height);
     view->setMinimumSize(width, height);
 
-    // Centering the scene to (0, 0), in this case, puts it in dead middle of the scene
-    view->centerOn(0, 0);
-
-    view->show();
-    //qDebug() << "Screen initialized.";
+    */
 }
 
 // chosenMap is hard-coded atm, changeable later with level selection code
@@ -106,25 +113,12 @@ void Game::initGraphics() {
 }
 
 
-//
 void Game::beginGame() {
-    // Simple tests for now
-    gameTimer = new GameTimer();
+    gameTimer = new QTimer();
+    gameTimer->start(16);
     view->enableMouseMovement();
 	
     qDebug() << "Game begins.";
-
-    /*   SpriteLoader example
-     *
-     *   Sprite* zombie = spriteLoader->getUnitSprite("Zombie");
-     *   auto tmpMap = zombie->getStatesMap();
-     *
-     *   qDebug() << zombie->getName();
-     *   qDebug() << "Duration of the first frame of the east state: "
-     *            << tmpMap["east"][0].duration;
-     *   qDebug() << "Second frame rectangle to draw: "
-     *            << tmpMap["east"][1].rect;
-     */
 }
 
 void Game::cleanup() {

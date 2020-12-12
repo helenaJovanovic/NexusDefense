@@ -12,13 +12,15 @@ public:
     CustomView(QGraphicsScene *scene, QWidget *parent = nullptr);
     void enableMouseMovement();
 protected:
+    void mouseMoveEvent(QMouseEvent *event);
     void leaveEvent(QEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 
 private:
     bool cameraEnabled = false;
     bool animatingCameraMovement = false;
-    qreal defaultOffset = 1;
+    qreal defaultOffset = 8;
     qreal xOffset;
     qreal yOffset;
     qint32 timeElapsed = 0;
