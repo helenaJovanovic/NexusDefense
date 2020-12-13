@@ -2,8 +2,8 @@
 #include <code/include/GameTimer.hpp>
 #include <code/include/Mapper.hpp>
 
-EnemyUnit::EnemyUnit(QPointF spawnPoint)
-    : isAlive(true)
+EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
+    : isAlive(true), movementDelay(movementDelay)
 {
 
     turnPoints = Game::game().currentMap->getTurnPoints();
@@ -12,15 +12,20 @@ EnemyUnit::EnemyUnit(QPointF spawnPoint)
     numOfTurns = turnPoints.length();
 
     nextTurnPointIndex = 0;
-
     currentDirectionIndex = 0;
     currentDirection = turnDirections[0];
+    frameNumber = 0;
+    timeElapsed = 0;
 
-    setPos(spawnPoint.rx(), spawnPoint.ry());
+    sprite = Game::game().spriteLoader->getUnitSprite(spriteName);
+    spriteMap = sprite->getStatesMap();
+
+    setPos(spawnPoint->pos());
 
     Game::game().scene->addItem(this);
 
-    connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
+    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::move);
+    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::animate);
 
     qDebug() << "Unit created" << "\n";
 }
@@ -69,14 +74,52 @@ void EnemyUnit::takeDamage(float damageAmount) {
 }
 
 void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-    painter->drawPixmap(0, 0, QPixmap(":/images/images/zombie.png"));
+    painter->drawPixmap(currentOriginPoint, sprite->getSpritesheet(), currentOriginRect);
 }
 
 QRectF EnemyUnit::boundingRect() const {
-    return QRectF(0, 0, 29, 46);
+    return QRectF(0, 0, 32, 32);
 }
 
-void EnemyUnit::update(){
+void EnemyUnit::animate(){
+    timeElapsed += 16;
+
+    if(currentDirection == 1){
+
+        if(frameNumber == spriteMap["south"].size()){
+            frameNumber = 0;
+        }
+
+        if(timeElapsed >= spriteMap["south"][frameNumber].duration){
+
+            currentOriginPoint = spriteMap["south"][frameNumber].origin;
+            currentOriginRect = spriteMap["south"][frameNumber].rect;
+
+            frameNumber++;
+
+            timeElapsed = 0;
+        }
+    }
+
+    else if(currentDirection == 3){
+
+        if(frameNumber == spriteMap["east"].size()){
+            frameNumber = 0;
+        }
+
+        if(timeElapsed >= spriteMap["east"][frameNumber].duration){
+
+            currentOriginPoint = spriteMap["east"][frameNumber].origin;
+            currentOriginRect = spriteMap["east"][frameNumber].rect;
+
+            frameNumber++;
+
+            timeElapsed = 0;
+        }
+    }
+}
+
+void EnemyUnit::move(){
     if(stopMovement){
         numOfTicks = 0;
         return;
@@ -109,6 +152,9 @@ void EnemyUnit::update(){
                 currentDirectionIndex++;
 
                 currentDirection = turnDirections[currentDirectionIndex];
+
+                timeElapsed = 0;
+                frameNumber = 0;
             }
         }
 
@@ -122,6 +168,8 @@ void EnemyUnit::update(){
                 stopMovement = true;
             // nexus health should decrease
             Game::game().health->decrease();
+
+            takeDamage(maxHealth);
 
         }
 

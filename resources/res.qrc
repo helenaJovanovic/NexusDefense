@@ -7,10 +7,12 @@
         <file>images/normal.png</file>
         <file>images/pressed.png</file>
         <file>images/nexus.png</file>
+        <file>images/bat.png</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
         <file>units/zombie.json</file>
         <file>mapSecond.txt</file>
+        <file>units/bat.json</file>
     </qresource>
 </RCC>

@@ -8,27 +8,29 @@
 
 //Container class for all relevant spritesheet information.
 class Sprite {
-private:
-    QString name;
-    QString spritesheet;
-    QString initialState;
 
+public:
     struct frame {
         int duration;
         QPoint origin;
         QRect rect;
     };
 
-    QMap<QString, QVector<frame>> animationStates;
-
-    friend class SpriteLoader;
-public:
     Sprite(const QString&, const QString&, const QString&);
 
     QString getName() const;
     QString getSpritesheet() const;
     QString getInitialState() const;
     QMap<QString, QVector<frame>>& getStatesMap();
+
+private:
+    QString name;
+    QString spritesheet;
+    QString initialState;
+
+    QMap<QString, QVector<frame>> animationStates;
+
+    friend class SpriteLoader;
 };
 
 

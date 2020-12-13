@@ -1,0 +1,26 @@
+{
+    "name" : "Bat",
+    "spritesheet" : ":/images/images/bat.png",
+    "spriteAnimation" : {
+        "initialState" : "south",
+        "states" : [
+            {
+                "stateName" : "south",
+                "stateFrames" : [
+                    { "duration": 200, "rect": [32, 0, 64, 32], "origin": [0, 0] },
+                    { "duration": 200, "rect": [64, 0, 96, 32], "origin": [0, 0] },
+                    { "duration": 200, "rect": [96, 0, 128, 32], "origin": [0, 0] }
+                ]
+            },
+            {
+                "stateName" : "east",
+                "stateFrames" : [
+                    { "duration": 200, "rect": [32, 32, 64, 64], "origin": [0, 0] },
+                    { "duration": 200, "rect": [64, 32, 96, 64], "origin": [0, 0] },
+                    { "duration": 200, "rect": [96, 32, 128, 64], "origin": [0, 0] }
+                ]
+            }
+
+        ]
+    }
+}
