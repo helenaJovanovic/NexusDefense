@@ -1,11 +1,14 @@
 #include <code/include/Game.hpp>
 #include <code/include/Mapper.hpp>
+#include <code/include/Tower.hpp>
+
 #include <QDebug>
 #include <QDir>
 #include <QGLWidget>
 #include <QPointer>
 #include <QObject>
 #include <QScreen>
+#include <QFileDialog>
 
 
 Game *Game::instance = 0;
@@ -115,8 +118,12 @@ void Game::startSecondScene(){
 }
 
 void Game::startThirdScene(){
-    startGameBtn->hide();
-    loadMapButton->hide();
+
+    QString temp = QFileDialog::getOpenFileName(loadMapButton, tr("Open .txt file"), "/", tr("Text files (*.txt)"));
+
+    if(temp != ""){
+        mapChoice = temp;
+    }
 
     //exitButton->hide();
 }
@@ -147,6 +154,9 @@ void Game::initScreen() {
     view->setRenderHint(QPainter::SmoothPixmapTransform);
     view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     view->setOptimizationFlags(QGraphicsView::DontSavePainterState);
+
+
+
     //view->setRenderHint(QPainter::Antialiasing);
 
     /* fullscreen test
@@ -164,8 +174,8 @@ void Game::initScreen() {
 
 // chosenMap is hard-coded atm, changeable later with level selection code
 void Game::initMap() {
-    QString chosenMap = ":/mapSecond.txt";
-    currentMap = new Map(new Mapper(chosenMap));
+
+    currentMap = new Map(new Mapper(mapChoice));
 }
 
 void Game::initGraphics() {

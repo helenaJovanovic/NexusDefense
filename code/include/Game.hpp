@@ -87,6 +87,7 @@ private:
 
     static Game *instance;
 
+    QString mapChoice = ":/mapPrototype.txt";
 };
 
 #endif // GAME_HPP
