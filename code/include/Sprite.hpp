@@ -26,6 +26,8 @@ public:
     Sprite(const QString&, const QString&, const QString&);
 
     QString getName() const;
+    QString getSpritesheet() const;
+    QString getInitialState() const;
     QMap<QString, QVector<frame>>& getStatesMap();
 };
 

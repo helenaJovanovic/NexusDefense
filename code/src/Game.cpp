@@ -159,6 +159,7 @@ void Game::initScreen() {
     view->setMaximumSize(width, height);
     view->setMinimumSize(width, height);
 
+    view->showFullScreen();
     */
 }
 
