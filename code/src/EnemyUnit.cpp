@@ -26,8 +26,6 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
 
     connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::move);
     connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::animate);
-
-    qDebug() << "Unit created" << "\n";
 }
 
 EnemyUnit::~EnemyUnit(){
@@ -68,8 +66,6 @@ void EnemyUnit::takeDamage(float damageAmount) {
         Game::game().gold->increaseGold();
 
         delete(this);
-
-        qDebug() << "Unit death" << "\n";
     }
 }
 

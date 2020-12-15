@@ -5,7 +5,7 @@
 
 #include <QGraphicsRectItem>
 
-class MapTile: public QGraphicsRectItem {
+class MapTile: public QGraphicsItem {
 public:
     MapTile(QString type, QPixmap& texture);
 
@@ -20,6 +20,16 @@ public:
     bool isUnitSpawn = false;
     bool isNexus = false;
     QPixmap& texture;
+
+    int getX();
+    int getY();
+
+    void setX(int);
+    void setY(int);
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+private:
+    int xCoord,yCoord;
 };
 
 #endif // MAPTILE_HPP

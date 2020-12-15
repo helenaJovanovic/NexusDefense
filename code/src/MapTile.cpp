@@ -2,7 +2,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <code/include/Game.hpp>
 #include <code/include/MapTile.hpp>
-
+#include <QGraphicsSceneMouseEvent>
 
 MapTile::MapTile(QString type, QPixmap& texture)
     : type(type), texture(texture)
@@ -26,5 +26,31 @@ void MapTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 QRectF MapTile::boundingRect() const {
     int len = Game::game().tileWidth;
     return QRectF(0, 0, len, len);
+}
+
+void MapTile::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    if(event->button() == Qt::LeftButton) {
+        qDebug() << "clicked at maptile pos: " << getX() << ", " << getY();
+
+    }
+
+    QGraphicsItem::mousePressEvent(event);
+}
+
+
+int MapTile::getX() {
+    return xCoord;
+}
+
+int MapTile::getY() {
+    return yCoord;
+}
+
+void MapTile::setX(int x) {
+    xCoord = x;
+}
+
+void MapTile::setY(int y) {
+    yCoord = y;
 }
 
