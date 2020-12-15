@@ -195,6 +195,11 @@ void Game::beginGame() {
      *   qDebug() << "Second frame rectangle to draw: "
      *            << tmpMap["east"][1].rect;
      */
+
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
 }
 
 void Game::cleanup() {
