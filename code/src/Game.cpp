@@ -233,6 +233,7 @@ void Game::initGold() {
 
 void Game::initHealth() {
     health = new Health();
+
     health->setPos(health->x(), health->y()+50);
     scene->addItem(health);
 }
@@ -242,9 +243,16 @@ void Game::initIngameInterface() {
     ingameInterface->showInterface();
 }
 
+bool Game::isTowerTile(QPointF posXY){
+    //Return if tower is buldable on tile
 
+    if(currentMap->getTilePointer(static_cast<int>(posXY.x()), static_cast<int>(posXY.y()))->type == "T"
+           || currentMap->getTilePointer(static_cast<int>(posXY.x()), static_cast<int>(posXY.y()))->type == "TE"){
+        return true;
+    }
 
-
+    return false;
+}
 
 
 

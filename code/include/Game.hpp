@@ -12,6 +12,7 @@
 #include "CustomView.hpp"
 #include "IngameInterface.hpp"
 
+
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPushButton>
@@ -73,6 +74,9 @@ public:
 
     int tileWidth = 32;
 
+    //Check if given X,Y is a Tower tile
+    bool isTowerTile(QPointF posXY);
+
 public slots:
     void startSecondScene();
     void startThirdScene();
@@ -93,6 +97,8 @@ private:
     static Game *instance;
 
     QString mapChoice = ":/mapPrototype.txt";
+
+
 };
 
 #endif // GAME_HPP
