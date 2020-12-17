@@ -36,6 +36,8 @@ Map::Map(Mapper* parser) {
 
             map[key] = new MapTile("E", roadTexture);
             map[key]->setPos(position.first, position.second);
+            map[key]->setX(p.first);
+            map[key]->setY(p.second);
             if(unitSpawnTile == p) {
                 map[key]->isUnitSpawn = true;
                 unitSpawnPointer = map[key];
@@ -56,7 +58,8 @@ Map::Map(Mapper* parser) {
 
             map[key] = new MapTile("Z", roadTexture);
             map[key]->setPos(position.first, position.second);
-
+            map[key]->setX(p.first);
+            map[key]->setY(p.second);
 
             Game::game().scene->addItem(map[key]);
         }
@@ -72,6 +75,8 @@ Map::Map(Mapper* parser) {
             } else {
                 map[key] = new MapTile("T", towerTexture);
                 map[key]->setPos(position.first, position.second);
+                map[key]->setX(p.first);
+                map[key]->setY(p.second);
 
                 if(nexusTile == p) {
                     qDebug() << "Error: You shouldn't be able to build on Nexus.";

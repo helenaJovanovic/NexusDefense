@@ -14,10 +14,13 @@ SOURCES += \
     code/src/GameScore.cpp \
     code/src/Gold.cpp \
     code/src/Health.cpp \
+    code/src/IngameInterface.cpp \
+    code/src/InterfaceTowerSlot.cpp \
     code/src/Projectile.cpp \
     code/src/Sprite.cpp \
     code/src/SpriteLoader.cpp \
     code/src/Tower.cpp \
+    code/src/Turret.cpp \
     code/src/GameTimer.cpp \
     code/src/Game.cpp \
     code/src/Map.cpp \
@@ -31,10 +34,13 @@ HEADERS += \
     code/include/GameScore.hpp \
     code/include/Gold.hpp \
     code/include/Health.hpp \
+    code/include/IngameInterface.hpp \
+    code/include/InterfaceTowerSlot.hpp \
     code/include/Projectile.hpp \
     code/include/Sprite.hpp \
     code/include/SpriteLoader.hpp \
     code/include/Tower.hpp \
+    code/include/Turret.hpp \
     code/include/GameTimer.hpp \
     code/include/Game.hpp \
     code/include/Map.hpp \

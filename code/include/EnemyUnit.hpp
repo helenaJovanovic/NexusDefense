@@ -54,18 +54,24 @@ private:
     int currentDirection;
     int nextTurnPointIndex;
     int numOfTurns;
-    int frameNumber;
+    int frameNumber = 0;
+    int deathFrameNumber = 0;
     int timeElapsed;
+    bool deathPhase = false;
 
-    Sprite* sprite;
-    QMap<QString, QVector<Sprite::frame>> spriteMap;
+    Sprite* unitSprite;
+    Sprite* explosionSprite;
+    QMap<QString, QVector<Sprite::frame>> unitSpriteMap;
+    QMap<QString, QVector<Sprite::frame>> explosionSpriteMap;
 
     QPoint currentOriginPoint;
     QRect currentOriginRect;
+    QString currentSpritesheet;
 
 private slots:
     void move();
     void animate();
+    void boom();
 
 };
 

@@ -1,0 +1,47 @@
+{
+    "name" : "Batexp",
+    "spritesheet" : ":/images/images/batexp.png",
+    "spriteAnimation" : {
+        "initialState" : "none",
+        "states" : [
+                {
+                "stateName" : "boom",
+                "stateFrames" : [
+                    { "duration": 70, "rect": [0, 0, 32, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [32, 0, 64, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [64, 0, 96, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [96, 0, 128, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [128, 0, 160, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [160, 0, 192, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [192, 0, 224, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [224, 0, 256, 32], "origin": [0, 0] },
+                    { "duration": 70, "rect": [0, 32, 32, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [32, 32, 64, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [64, 32, 96, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [96, 32, 128, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [128, 32, 160, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [160, 32, 192, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [192, 32, 224, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [224, 32, 256, 64], "origin": [0, 0] },
+                    { "duration": 70, "rect": [0, 64, 32, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [32, 64, 64, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [64, 64, 96, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [96, 64, 128, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [128, 64, 160, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [160, 64, 192, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [192, 64, 224, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [224, 64, 256, 96], "origin": [0, 0] },
+                    { "duration": 70, "rect": [0, 96, 32, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [32, 96, 64, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [64, 96, 96, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [96, 96, 128, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [128, 96, 160, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [160, 96, 192, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [192, 96, 224, 128], "origin": [0, 0] },
+                    { "duration": 70, "rect": [224, 96, 256, 128], "origin": [0, 0] }
+                ]
+                }
+
+        ]
+    }
+}

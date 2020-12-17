@@ -8,8 +8,18 @@ void Tower::setTarget(EnemyUnit *value)
     target = value;
 }
 
+Sprite *Tower::getSprite() const
+{
+    return sprite;
+}
+
+EnemyUnit *Tower::getTarget() const
+{
+    return target;
+}
+
 Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName)
-    : locationOnMap(tile),width(width),height(height),spriteName(spriteName)
+    : locationOnMap(tile),width(width),height(height)
 {
     this->setPos(this->locationOnMap->pos());
     this->setPos(this->locationOnMap->pos());
@@ -26,8 +36,10 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString sprite
 //    attackArea->setPos(towerCenter.x(),towerCenter.y());
 //    attackArea->setOpacity(0);
 //    Game::game().scene->addItem(attackArea);
+    turret=new Turret(this);
     Game::game().scene->addItem(this);
-    connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
+    Game::game().scene->addItem(turret);
+    connect(Game::game().gameTimer, SIGNAL(timeout()), this, SLOT(update()));
     qDebug()<<"Tower created"<<"\n";
     // When Tower constructor is called gold saldo should decrease
     Game::game().gold->decreaseGold();
@@ -36,10 +48,7 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString sprite
 Tower::Tower(int x, int y,float attackRange,int width,int height,QString spriteName)
     :Tower(Game::game().currentMap->getTilePointer(x,y),attackRange,width,height,spriteName)
 {}
-QString Tower::getSpriteName() const
-{
-    return spriteName;
-}
+
 
 Tower::~Tower()
 {
@@ -89,7 +98,8 @@ void Tower::attack()
     if(target==nullptr || !target->isAlive)
         return;
 //    target->takeDamage(getAttackDamage());
-    new Projectile(attackDamage,30,target,"projectile",this->pos()+QPointF(Game::game().tileWidth/2,Game::game().tileWidth/2));
+    turret->rotateToTarget();
+    turret->fire();
     if(!target || !target->isAlive)
         target=nullptr;
     qDebug()<<"Shots fired"<<"\n";
@@ -162,8 +172,9 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 //    QRectF towerRect(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth);
 //    painter->setBrush(Qt::);
 //    painter->drawPolygon(getAttackArea()->polygon());
-    painter->setBrush(Qt::green);
-    painter->drawRect(QRectF(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth));
+//    painter->setBrush(Qt::green);
+//    painter->drawRect(QRectF(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth));
+    painter->drawPixmap(0,0,QPixmap(":/images/images/Tower32.png"));
 
 
 }

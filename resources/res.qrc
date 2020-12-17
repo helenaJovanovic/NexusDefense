@@ -8,11 +8,13 @@
         <file>images/pressed.png</file>
         <file>images/nexus.png</file>
         <file>images/bat.png</file>
+        <file>images/batexp.png</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
         <file>units/zombie.json</file>
         <file>mapSecond.txt</file>
         <file>units/bat.json</file>
+        <file>units/batexp.json</file>
     </qresource>
 </RCC>

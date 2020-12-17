@@ -10,6 +10,7 @@
 #include "EnemyUnit.hpp"
 #include "SpriteLoader.hpp"
 #include "CustomView.hpp"
+#include "IngameInterface.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -47,14 +48,18 @@ public:
     void initScore();
     void initGold();
     void initHealth();
+    void initIngameInterface();
 
 	QApplication* getGameApp();
     // Pointers to scene and view
     QGraphicsScene *scene;
     CustomView *view;
+    IngameInterface *ingameInterface;
+
     QPushButton *startGameBtn;
     QPushButton *loadMapButton;
     QPushButton *exitButton;
+    QGraphicsPixmapItem* background_image;
     // Pointer to currently visible map
     Map *currentMap = nullptr;
 

@@ -3,17 +3,17 @@
 #define UnitLength 29
 #define UnitHeight 46
 #define ProjectileLength 10
-#define ProjectileHeight 20
+#define ProjectileHeight 25
 
 
 
-Projectile::Projectile(float damage, float speed, QPointer<EnemyUnit> target, QString spriteName, QPointF startPosition)
-    : damage(damage),speed(speed),target(target),spriteName(spriteName)
+Projectile::Projectile(float damage, float speed, QPointer<EnemyUnit> target, QPointF startPosition)
+    : damage(damage),speed(speed),target(target)
 {
     this->setPos(startPosition);
     Game::game().scene->addItem(this);
     //initial direction
-    this->setTransformOriginPoint(ProjectileLength/2,0);
+    this->setTransformOriginPoint(ProjectileLength/2.0,ProjectileHeight/2.0);
     qreal x2=target->pos().rx()+UnitLength/2;
     qreal y2=target->pos().ry()+UnitHeight/2;
     qreal x1=this->pos().rx()+ProjectileLength/2;
@@ -21,7 +21,7 @@ Projectile::Projectile(float damage, float speed, QPointer<EnemyUnit> target, QS
     direction=QLineF(x1,y1,x2,y2);
     //initial angle
     this->setRotation(direction.angle());
-    connect(Game::game().gameTimer, SIGNAL(timeTickSignal()), this, SLOT(update()));
+    connect(Game::game().gameTimer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
 
@@ -44,11 +44,6 @@ QPointer<EnemyUnit> Projectile::getTarget() const
     return target;
 }
 
-QString Projectile::getSpriteName() const
-{
-    return spriteName;
-}
-
 QRectF Projectile::boundingRect() const
 {
     return QRectF(0,0,ProjectileLength,ProjectileHeight);
@@ -56,8 +51,9 @@ QRectF Projectile::boundingRect() const
 
 void Projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->setBrush(Qt::red);
-    painter->drawRect(0,0,ProjectileLength,ProjectileHeight);
+//    painter->setBrush(Qt::red);
+//    painter->drawRect(0,0,ProjectileLength,ProjectileHeight);
+    painter->drawPixmap(0,0,QPixmap(":/images/images/Bullet_MG10x25.png"));
 }
 
 bool Projectile::impact()

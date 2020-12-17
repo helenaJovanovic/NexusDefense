@@ -1,6 +1,7 @@
 #ifndef TOWER_HPP
 #define TOWER_HPP
 
+class Turret;
 
 #include <code/include/Game.hpp>
 #include <QGraphicsRectItem>
@@ -9,9 +10,10 @@
 #include <code/include/Map.hpp>
 #include <QPointer>
 #include <code/include/EnemyUnit.hpp>
-#include <code/include/Projectile.hpp>
+//#include <code/include/Projectile.hpp>
+#include "Turret.hpp"
 
-class Tower : public QObject,public QGraphicsRectItem
+class Tower : public QObject,public QGraphicsItem
 {
     Q_OBJECT
 private:
@@ -27,7 +29,9 @@ private:
     int height;
     EnemyUnit* target=nullptr;
     int numberOfTicks=0;
-    QString spriteName;
+    Sprite* sprite;
+    Turret* turret;
+
 public:
     //Creates a tower on specified map tile
     Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName);
@@ -52,9 +56,13 @@ public:
     MapTile* getLocationOnMap() const;
     QGraphicsPolygonItem *getAttackArea() const;
     void acquireTargetAndAttack();
-    QString getSpriteName() const;
+
 
     void setTarget(EnemyUnit *value);
+
+    Sprite *getSprite() const;
+
+    EnemyUnit *getTarget() const;
 
 public slots:
     //on timer tick

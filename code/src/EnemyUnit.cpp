@@ -15,10 +15,16 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
     currentDirectionIndex = 0;
     currentDirection = turnDirections[0];
     frameNumber = 0;
+    deathFrameNumber = 0;
     timeElapsed = 0;
 
-    sprite = Game::game().spriteLoader->getUnitSprite(spriteName);
-    spriteMap = sprite->getStatesMap();
+    unitSprite = Game::game().spriteLoader->getUnitSprite(spriteName);
+    unitSpriteMap = unitSprite->getStatesMap();
+
+    explosionSprite = Game::game().spriteLoader->getUnitSprite("Batexp");
+    explosionSpriteMap = explosionSprite->getStatesMap();
+
+    currentSpritesheet = unitSprite->getSpritesheet();
 
     setPos(spawnPoint->pos());
 
@@ -26,8 +32,7 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
 
     connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::move);
     connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::animate);
-
-    qDebug() << "Unit created" << "\n";
+    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::boom);
 }
 
 EnemyUnit::~EnemyUnit(){
@@ -57,9 +62,6 @@ void EnemyUnit::takeDamage(float damageAmount) {
     currentHealth -= damageAmount;
 
     if(currentHealth <= 0){
-        isAlive = false;
-
-        //TODO: Death animation
 
         Game::game().scene->removeItem(this);
 
@@ -68,13 +70,11 @@ void EnemyUnit::takeDamage(float damageAmount) {
         Game::game().gold->increaseGold();
 
         delete(this);
-
-        qDebug() << "Unit death" << "\n";
     }
 }
 
 void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-    painter->drawPixmap(currentOriginPoint, sprite->getSpritesheet(), currentOriginRect);
+    painter->drawPixmap(currentOriginPoint, currentSpritesheet, currentOriginRect);
 }
 
 QRectF EnemyUnit::boundingRect() const {
@@ -84,50 +84,55 @@ QRectF EnemyUnit::boundingRect() const {
 void EnemyUnit::animate(){
     timeElapsed += 16;
 
-    if(currentDirection == 1){
+    if(deathPhase || !isAlive)
+        return;
 
-        if(frameNumber == spriteMap["south"].size()){
-            frameNumber = 0;
+        if(currentDirection == 1){
+
+            if(frameNumber == unitSpriteMap["south"].size()){
+                frameNumber = 0;
+            }
+
+            if(timeElapsed >= unitSpriteMap["south"][frameNumber].duration){
+
+                currentOriginPoint = unitSpriteMap["south"][frameNumber].origin;
+                currentOriginRect = unitSpriteMap["south"][frameNumber].rect;
+
+                frameNumber++;
+
+                timeElapsed = 0;
+            }
         }
 
-        if(timeElapsed >= spriteMap["south"][frameNumber].duration){
+        else if(currentDirection == 3){
 
-            currentOriginPoint = spriteMap["south"][frameNumber].origin;
-            currentOriginRect = spriteMap["south"][frameNumber].rect;
+            if(frameNumber == unitSpriteMap["east"].size()){
+                frameNumber = 0;
+            }
 
-            frameNumber++;
+            if(timeElapsed >= unitSpriteMap["east"][frameNumber].duration){
 
-            timeElapsed = 0;
+                currentOriginPoint = unitSpriteMap["east"][frameNumber].origin;
+                currentOriginRect = unitSpriteMap["east"][frameNumber].rect;
+
+                frameNumber++;
+
+                timeElapsed = 0;
+            }
         }
-    }
 
-    else if(currentDirection == 3){
 
-        if(frameNumber == spriteMap["east"].size()){
-            frameNumber = 0;
-        }
-
-        if(timeElapsed >= spriteMap["east"][frameNumber].duration){
-
-            currentOriginPoint = spriteMap["east"][frameNumber].origin;
-            currentOriginRect = spriteMap["east"][frameNumber].rect;
-
-            frameNumber++;
-
-            timeElapsed = 0;
-        }
-    }
 }
 
 void EnemyUnit::move(){
-    if(stopMovement){
+    if(deathPhase || !isAlive){
         numOfTicks = 0;
         return;
     }
 
-    this->numOfTicks++;
+    numOfTicks++;
 
-    if(numOfTicks == movementDelay){
+    if(numOfTicks >= movementDelay){
 
         /*
         1 for down
@@ -163,16 +168,49 @@ void EnemyUnit::move(){
             if((pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 48 == turnPoints[nextTurnPointIndex].ry())
                 || (pos().rx() - 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())
                 || (pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()))
+                || (pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())){
 
-                stopMovement = true;
-            // nexus health should decrease
-            Game::game().health->decrease();
+                deathPhase = true;
 
-            takeDamage(maxHealth);
+                currentSpritesheet = explosionSprite->getSpritesheet();
+                currentOriginPoint = explosionSpriteMap["boom"][deathFrameNumber].origin;
+                currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
+
+                timeElapsed = 0;
+                // nexus health should decrease
+                Game::game().health->decrease();
+
+                isAlive = false;
+            }
 
         }
 
         numOfTicks = 0;
     }
+}
+
+void EnemyUnit::boom(){
+    if(!deathPhase)
+        return;
+
+    timeElapsed += 16;
+
+    if(deathFrameNumber == explosionSpriteMap["boom"].size()){
+        deathPhase = false;
+        this->takeDamage(maxHealth);
+        return;
+    }
+
+    else if(timeElapsed >= explosionSpriteMap["boom"][deathFrameNumber].duration){
+        currentOriginPoint = explosionSpriteMap["boom"][deathFrameNumber].origin;
+        currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
+
+        this->update();
+
+        deathFrameNumber++;
+
+        timeElapsed = 0;
+    }
+
+
 }
