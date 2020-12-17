@@ -2,6 +2,7 @@
 #define ENEMYUNIT_HPP
 
 #include <code/include/Game.hpp>
+#include <code/include/Sprite.hpp>
 
 #include <QGraphicsRectItem>
 #include <QDebug>
@@ -10,7 +11,7 @@ class EnemyUnit : public QObject, public QGraphicsItem{
     Q_OBJECT
 public:
     //Creates an EnemyUnit object and places it on the scene @ spawnPoint
-    EnemyUnit(QPointF spawnPoint);
+    EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay);
 
     ~EnemyUnit();
 
@@ -53,9 +54,18 @@ private:
     int currentDirection;
     int nextTurnPointIndex;
     int numOfTurns;
+    int frameNumber;
+    int timeElapsed;
+
+    Sprite* sprite;
+    QMap<QString, QVector<Sprite::frame>> spriteMap;
+
+    QPoint currentOriginPoint;
+    QRect currentOriginRect;
 
 private slots:
-    void update();
+    void move();
+    void animate();
 
 };
 

@@ -33,7 +33,7 @@ void Game::menuScreen(){
     scene = new QGraphicsScene();
     scene->setSceneRect(-width/2, -height/2, width-50, height-50);
 
-	QGraphicsPixmapItem* background_image = new QGraphicsPixmapItem(QPixmap(":/images/images/battleback5.png").scaled(width, height));
+    background_image = new QGraphicsPixmapItem(QPixmap(":/images/images/battleback5.png").scaled(width, height));
     background_image->setPos(-width/2-25, -height/2-25);
     scene->addItem(background_image);
 
@@ -103,17 +103,17 @@ void Game::localQuitGame(){
 }
 
 void Game::startSecondScene(){
-   //view->hide();
    startGameBtn->hide();
    loadMapButton->hide();
    exitButton->hide();
-   //delete view;
+   //scene->removeItem(background_image);
    initScreen();
    initGraphics();
    initMap();
    initScore();
    initGold();
    initHealth();
+   initIngameInterface();
    beginGame();
 }
 
@@ -169,6 +169,7 @@ void Game::initScreen() {
     view->setMaximumSize(width, height);
     view->setMinimumSize(width, height);
 
+    view->showFullScreen();
     */
 }
 
@@ -204,6 +205,11 @@ void Game::beginGame() {
      *   qDebug() << "Second frame rectangle to draw: "
      *            << tmpMap["east"][1].rect;
      */
+
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
+    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
 }
 
 void Game::cleanup() {
@@ -229,6 +235,11 @@ void Game::initHealth() {
     health = new Health();
     health->setPos(health->x(), health->y()+50);
     scene->addItem(health);
+}
+
+void Game::initIngameInterface() {
+    ingameInterface = new IngameInterface(view);
+    ingameInterface->showInterface();
 }
 
 

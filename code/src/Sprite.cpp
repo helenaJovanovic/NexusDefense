@@ -10,6 +10,14 @@ QString Sprite::getName() const {
     return name;
 }
 
+QString Sprite::getSpritesheet() const {
+    return spritesheet;
+}
+
+QString Sprite::getInitialState() const {
+    return initialState;
+}
+
 QMap<QString, QVector<Sprite::frame> > &Sprite::getStatesMap() {
     return animationStates;
 }

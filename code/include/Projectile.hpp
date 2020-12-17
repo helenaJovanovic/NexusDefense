@@ -14,17 +14,15 @@ private:
     float damage;
     float speed;
     QPointer<EnemyUnit> target;
-    QString spriteName;
     QLineF direction;
 public:
-    Projectile(float damage,float speed,QPointer<EnemyUnit> target,QString spriteName,QPointF startPosition);
+    Projectile(float damage,float speed,QPointer<EnemyUnit> target,QPointF startPosition);
     ~Projectile();
 
 
     float getDamage() const;
     float getSpeed() const;
     QPointer<EnemyUnit> getTarget() const;
-    QString getSpriteName() const;
 
     // QGraphicsItem interface
     QRectF boundingRect() const override;
