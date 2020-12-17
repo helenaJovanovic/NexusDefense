@@ -206,10 +206,14 @@ void Game::beginGame() {
      *            << tmpMap["east"][1].rect;
      */
 
+
+
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
+
+
 }
 
 void Game::cleanup() {
@@ -222,19 +226,24 @@ void Game::cleanup() {
 
 void Game::initScore() {
     score = new Score();
+    QPointF pos = view->mapToScene(0, 0);
+    Game::game().score->setPos(pos.x(), pos.y()+40);
     scene->addItem(score);
 }
 
 void Game::initGold() {
+
     gold = new Gold();
-    gold->setPos(gold->x(), gold->y()+25);
+    QPointF pos = view->mapToScene(0, 0);
+    gold->setPos(pos.x(), pos.y());
     scene->addItem(gold);
 }
 
 void Game::initHealth() {
     health = new Health();
 
-    health->setPos(health->x(), health->y()+50);
+    QPointF pos = view->mapToScene(0, 0);
+    health->setPos(pos.x(), pos.y()+20);
     scene->addItem(health);
 }
 

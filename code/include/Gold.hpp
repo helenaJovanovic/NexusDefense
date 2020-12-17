@@ -2,6 +2,7 @@
 #define GOLD_HPP
 
 #include <QGraphicsTextItem>
+#include "CustomView.hpp"
 
 class Gold: public QGraphicsTextItem{
 public:

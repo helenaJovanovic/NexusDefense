@@ -1,7 +1,12 @@
 #include <code/include/IngameInterface.hpp>
+#include <code/include/Game.hpp>
 
 IngameInterface::IngameInterface(CustomView* view) {
     for(int i=0; i<4; i++) {
+
+
+
+
         towerSlots.append(new InterfaceTowerSlot("T", view));
         towerSlots[i]->setSlotNum(i);
         towerSlots[i]->setGeometry(QRect(QPoint(view->width()-5*64+64*(i+1)-4, 4), QSize(64, 64)));
