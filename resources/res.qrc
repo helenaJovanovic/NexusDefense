@@ -14,5 +14,26 @@
         <file>units/zombie.json</file>
         <file>mapSecond.txt</file>
         <file>units/bat.json</file>
+        <file>images/bat.png</file>
+        <file>images/battleback5.png</file>
+        <file>images/Bullet_MG10x25.png</file>
+        <file>images/MG16x33.png</file>
+        <file>images/nexus.png</file>
+        <file>images/normal.png</file>
+        <file>images/pressed.png</file>
+        <file>images/tileBackground.png</file>
+        <file>images/tileBackground_old.png</file>
+        <file>images/tileBackgroundchng.png</file>
+        <file>images/tileBackgroundd.png</file>
+        <file>images/Tower32.png</file>
+        <file>images/towerPlace.png</file>
+        <file>images/zombie.png</file>
+        <file>sounds/bgsound.mp3</file>
+        <file>sounds/construction.wav</file>
+        <file>sounds/projectile.mp3</file>
+        <file>sounds/scream.mp3</file>
+        <file>res.qrc</file>
+        <file>sounds/StoneButton.mp3</file>
     </qresource>
+    <qresource prefix="/sounds"/>
 </RCC>

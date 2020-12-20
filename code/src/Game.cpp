@@ -6,6 +6,7 @@
 #include <QPointer>
 #include <QObject>
 #include <QScreen>
+#include <QMediaPlayer>
 
 
 Game *Game::instance = 0;
@@ -40,6 +41,7 @@ void Game::menuScreen(){
     view->setMinimumSize(width, height);
     view->centerOn(0, 0);
 
+    initButtonSound();
 
     startGameBtn = new QPushButton("Start Game", view);
     startGameBtn->setGeometry(QRect(QPoint(450, 300), QSize(150, 50)));
@@ -82,11 +84,15 @@ void Game::menuScreen(){
 
 
 
-
-
+    QObject::connect(startGameBtn, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
+
+    QObject::connect(loadMapButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(loadMapButton, SIGNAL(released()), this, SLOT(startThirdScene()));
+
+    QObject::connect(exitButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
+
 
     startGameBtn->show();
     loadMapButton->show();
@@ -97,6 +103,19 @@ void Game::menuScreen(){
 
 void Game::localQuitGame(){
     gameApp->quit();
+}
+
+//Checking if the buttonSound is already playing
+//If not then it should start playing
+void Game::playButtonSound()
+{
+    if(buttonSound->state() == QMediaPlayer::PlayingState) {
+        buttonSound->setPosition(0);
+    }
+    else if(buttonSound->state() == QMediaPlayer::StoppedState) {
+        buttonSound->play();
+    }
+
 }
 
 void Game::startSecondScene(){
@@ -111,6 +130,7 @@ void Game::startSecondScene(){
    initGold();
    initHealth();
    initIngameInterface();
+   initPlaylist();
    beginGame();
 }
 
@@ -230,6 +250,24 @@ void Game::initHealth() {
 void Game::initIngameInterface() {
     ingameInterface = new IngameInterface(view);
     ingameInterface->showInterface();
+}
+
+void Game::initButtonSound()
+{
+    buttonSound = new QMediaPlayer();
+    buttonSound->setMedia(QUrl("qrc:/sounds/StoneButton.mp3"));
+}
+
+void Game::initPlaylist()
+{
+    playlist = new QMediaPlaylist();
+    playlist->addMedia(QUrl("qrc:/sounds/bgsound.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    QMediaPlayer *music = new QMediaPlayer();
+    music->setPlaylist(playlist);
+    music->play();
+
 }
 
 

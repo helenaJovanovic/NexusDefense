@@ -17,6 +17,8 @@
 #include <QPushButton>
 #include <QObject>
 #include <QApplication>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class Game : public QObject {
     Q_OBJECT
@@ -35,6 +37,12 @@ public:
 
     SpriteLoader *spriteLoader;
 
+    //Pointer to the sound that should be played when user click on some button
+    QMediaPlayer *buttonSound;
+
+    //Pointer to the background music playlist
+    QMediaPlaylist *playlist;
+
     // All cleanup code goes in this function (aka freeing up memory etc)
     static void cleanup();
 
@@ -49,6 +57,8 @@ public:
     void initGold();
     void initHealth();
     void initIngameInterface();
+    void initButtonSound();
+    void initPlaylist();
 
 	QApplication* getGameApp();
     // Pointers to scene and view
@@ -77,6 +87,7 @@ public slots:
     void startSecondScene();
     void startThirdScene();
     void localQuitGame();
+    void playButtonSound();
 
         // Don't need to worry about scene and view, they are QObjects
         // and as such are automatically deleted when game closes
