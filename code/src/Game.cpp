@@ -280,12 +280,6 @@ void Game::initButtonSound()
     buttonSound->setMedia(QUrl("qrc:/sounds/StoneButton.mp3"));
 }
 
-void Game::initButtonSound()
-{
-    buttonSound = new QMediaPlayer();
-    buttonSound->setMedia(QUrl("qrc:/sounds/StoneButton.mp3"));
-}
-
 void Game::initPlaylist()
 {
     playlist = new QMediaPlaylist();
