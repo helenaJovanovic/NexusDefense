@@ -123,6 +123,9 @@ void CustomView::animateCamera(const CustomView::CameraDir &dir) {
         xOffset = 0;
     }
 
+
+
+
     animatingCameraMovement = true;
 }
 
@@ -130,6 +133,16 @@ void CustomView::cameraMoveTick() {
     if(!animatingCameraMovement) return;
 
     translate(-xOffset, -yOffset);
+
+
+    //Jako ratchet resenje da fiksiram poene gde treba
+    //Bez da menjam klasu koju je neko vec uradio
+    //bozemiteprosti
+    QPointF pos = this->mapToScene(0, 0);
+    Game::game().gold->setPos(pos.x(), pos.y());
+    Game::game().health->setPos(pos.x(), pos.y()+20);
+    Game::game().score->setPos(pos.x(), pos.y()+40);
+
 
     /*horizontalScrollBar()->setValue( horizontalScrollBar()->value() + xOffset);
     verticalScrollBar()->setValue( verticalScrollBar()->value() + yOffset);*/

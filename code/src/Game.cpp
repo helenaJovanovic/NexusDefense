@@ -1,5 +1,7 @@
 #include <code/include/Game.hpp>
 #include <code/include/Mapper.hpp>
+#include <code/include/Tower.hpp>
+
 #include <QDebug>
 #include <QDir>
 #include <QGLWidget>
@@ -7,6 +9,7 @@
 #include <QObject>
 #include <QScreen>
 #include <QMediaPlayer>
+#include <QFileDialog>
 
 
 Game *Game::instance = 0;
@@ -93,7 +96,6 @@ void Game::menuScreen(){
     QObject::connect(exitButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
 
-
     startGameBtn->show();
     loadMapButton->show();
     exitButton->show();
@@ -135,8 +137,12 @@ void Game::startSecondScene(){
 }
 
 void Game::startThirdScene(){
-    startGameBtn->hide();
-    loadMapButton->hide();
+
+    QString temp = QFileDialog::getOpenFileName(loadMapButton, tr("Open .txt file"), "/", tr("Text files (*.txt)"));
+
+    if(temp != ""){
+        mapChoice = temp;
+    }
 
     //exitButton->hide();
 }
@@ -232,24 +238,46 @@ void Game::cleanup() {
 
 void Game::initScore() {
     score = new Score();
+    QPointF pos = view->mapToScene(0, 0);
+    Game::game().score->setPos(pos.x(), pos.y()+40);
     scene->addItem(score);
 }
 
 void Game::initGold() {
     gold = new Gold();
-    gold->setPos(gold->x(), gold->y()+25);
+    QPointF pos = view->mapToScene(0, 0);
+    gold->setPos(pos.x(), pos.y());
     scene->addItem(gold);
 }
 
 void Game::initHealth() {
     health = new Health();
-    health->setPos(health->x(), health->y()+50);
+
+    QPointF pos = view->mapToScene(0, 0);
+    health->setPos(pos.x(), pos.y()+20);
     scene->addItem(health);
 }
 
 void Game::initIngameInterface() {
     ingameInterface = new IngameInterface(view);
     ingameInterface->showInterface();
+}
+
+bool Game::isTowerTile(QPointF posXY){
+    //Return if tower is buldable on tile
+
+    if(currentMap->getTilePointer(static_cast<int>(posXY.x()), static_cast<int>(posXY.y()))->type == "T"
+           || currentMap->getTilePointer(static_cast<int>(posXY.x()), static_cast<int>(posXY.y()))->type == "TE"){
+        return true;
+    }
+
+	return false;
+}
+
+void Game::initButtonSound()
+{
+    buttonSound = new QMediaPlayer();
+    buttonSound->setMedia(QUrl("qrc:/sounds/StoneButton.mp3"));
 }
 
 void Game::initButtonSound()
@@ -269,10 +297,6 @@ void Game::initPlaylist()
     music->play();
 
 }
-
-
-
-
 
 
 

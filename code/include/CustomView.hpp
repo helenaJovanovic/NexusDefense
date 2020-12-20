@@ -12,10 +12,11 @@ public:
     CustomView(QGraphicsScene *scene, QWidget *parent = nullptr);
     void enableMouseMovement();
 protected:
-    void mouseMoveEvent(QMouseEvent *event);
-    void leaveEvent(QEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+
 
 private:
     bool cameraEnabled = false;

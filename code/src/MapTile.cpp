@@ -30,6 +30,9 @@ QRectF MapTile::boundingRect() const {
 
 void MapTile::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     if(event->button() == Qt::LeftButton) {
+        if(type == "T" || type == "TE"){
+            qDebug() << "Tile is tower tile";
+        }
         qDebug() << "clicked at maptile pos: " << getX() << ", " << getY();
 
     }
