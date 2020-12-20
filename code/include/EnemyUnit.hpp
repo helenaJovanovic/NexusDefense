@@ -64,9 +64,11 @@ private:
     QMap<QString, QVector<Sprite::frame>> unitSpriteMap;
     QMap<QString, QVector<Sprite::frame>> explosionSpriteMap;
 
+    QString currentSpritesheet;
     QPoint currentOriginPoint;
     QRect currentOriginRect;
-    QString currentSpritesheet;
+
+    QGraphicsRectItem healthBar;
 
 private slots:
     void move();
