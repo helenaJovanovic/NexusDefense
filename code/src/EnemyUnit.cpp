@@ -22,6 +22,10 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
 
     setPos(spawnPoint->pos());
 
+    dyingSound = new QMediaPlayer();
+    dyingSound->setMedia(QUrl("qrc:/sounds/scream.mp3"));
+    dyingSound->setVolume(100);
+
     Game::game().scene->addItem(this);
 
     connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::move);
@@ -58,6 +62,11 @@ void EnemyUnit::takeDamage(float damageAmount) {
         isAlive = false;
 
         //TODO: Death animation
+
+        if(dyingSound->state()==QMediaPlayer::PlayingState)
+            dyingSound->setPosition(0);
+        else if(dyingSound->state()== QMediaPlayer::StoppedState)
+            dyingSound->play();
 
         Game::game().scene->removeItem(this);
 

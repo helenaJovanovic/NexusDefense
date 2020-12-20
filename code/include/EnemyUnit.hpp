@@ -6,6 +6,7 @@
 
 #include <QGraphicsRectItem>
 #include <QDebug>
+#include <QMediaPlayer>
 
 class EnemyUnit : public QObject, public QGraphicsItem{
     Q_OBJECT
@@ -62,6 +63,7 @@ private:
 
     QPoint currentOriginPoint;
     QRect currentOriginRect;
+    QMediaPlayer *dyingSound;
 
 private slots:
     void move();

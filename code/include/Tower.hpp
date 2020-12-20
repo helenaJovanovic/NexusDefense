@@ -9,6 +9,7 @@ class Turret;
 #include <code/include/MapTile.hpp>
 #include <code/include/Map.hpp>
 #include <QPointer>
+#include <QMediaPlayer>
 #include <code/include/EnemyUnit.hpp>
 //#include <code/include/Projectile.hpp>
 #include "Turret.hpp"
@@ -31,6 +32,7 @@ private:
     int numberOfTicks=0;
     Sprite* sprite;
     Turret* turret;
+    QMediaPlayer* constructionSound;
 
 public:
     //Creates a tower on specified map tile

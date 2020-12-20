@@ -22,6 +22,9 @@ Turret::Turret(Tower *tower)
     this->setPos(tower->pos()+QPoint(Game::game().tileWidth/2-TurretLength/2,-TurretHeight/2));
     this->setTransformOriginPoint(TurretLength/2.0,TurretHeight/2.0);
     direction=QLineF(this->pos()+QPointF(TurretLength/2,TurretHeight/2),this->pos()+QPointF(TurretLength/2,TurretHeight/2));
+    fireSound = new QMediaPlayer();
+    fireSound->setMedia(QUrl("qrc:/sounds/projectile.mp3"));
+    fireSound->setVolume(80);
 
 }
 
@@ -55,4 +58,9 @@ void Turret::rotateToTarget()
 void Turret::fire()
 {
     new Projectile(tower->getAttackDamage(),30,QPointer<EnemyUnit>(tower->getTarget()),this->pos()+QPointF(Game::game().tileWidth/2,Game::game().tileWidth/2));
+    if(fireSound->state()==QMediaPlayer::PlayingState)
+        fireSound->setPosition(0);
+    else if(fireSound->state()== QMediaPlayer::StoppedState)
+        fireSound->play();
+
 }

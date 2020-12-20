@@ -288,6 +288,7 @@ void Game::initPlaylist()
 
     QMediaPlayer *music = new QMediaPlayer();
     music->setPlaylist(playlist);
+    music->setVolume(20);
     music->play();
 
 }

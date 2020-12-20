@@ -37,6 +37,15 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString sprite
 //    attackArea->setOpacity(0);
 //    Game::game().scene->addItem(attackArea);
     turret=new Turret(this);
+    constructionSound = new QMediaPlayer();
+    constructionSound->setMedia(QUrl("qrc:/sounds/construction.wav"));
+    constructionSound->setVolume(60);
+
+    if(constructionSound->state()==QMediaPlayer::PlayingState)
+        constructionSound->setPosition(0);
+    else if(constructionSound->state()== QMediaPlayer::StoppedState)
+        constructionSound->play();
+
     Game::game().scene->addItem(this);
     Game::game().scene->addItem(turret);
     connect(Game::game().gameTimer, SIGNAL(timeout()), this, SLOT(update()));
