@@ -1,0 +1,17 @@
+{
+    "id":"mg",
+    "name":"Machine Gun Tower",
+    "range":100,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":16,
+    "turretHeight":33,
+    "projectileLength":10,
+    "projectileHeight":25,
+    "projectileSpeedDelay":8,
+    "attackDamage":30,
+    "attackSpeed":20,
+    "turretImagePath":":/images/MG16x33.png",
+    "projectileImagePath":":/images/Bullet_MG10x25.png"
+
+}

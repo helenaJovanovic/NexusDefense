@@ -1,0 +1,17 @@
+{
+    "id":"missile",
+    "name":"Missile Tower",
+    "range":400,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":16,
+    "turretHeight":33,
+    "projectileLength":15,
+    "projectileHeight":27,
+    "projectileSpeedDelay":14,
+    "attackDamage":200,
+    "attackSpeed":70,
+    "turretImagePath":":/images/Missile_Launcher16x33.png",
+    "projectileImagePath":":/images/Missile15x27.png"
+
+}

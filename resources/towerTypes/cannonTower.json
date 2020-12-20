@@ -1,0 +1,17 @@
+{
+    "id":"cannon",
+    "name":"Cannon Tower",
+    "range":200,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":16,
+    "turretHeight":33,
+    "projectileLength":10,
+    "projectileHeight":20,
+    "projectileSpeedDelay":10,
+    "attackDamage":100,
+    "attackSpeed":50,
+    "turretImagePath":":/images/Cannon16x33.png",
+    "projectileImagePath":":/images/Bullet_Cannon10x20.png"
+
+}
