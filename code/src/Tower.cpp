@@ -21,6 +21,10 @@ EnemyUnit *Tower::getTarget() const
 Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName)
     : locationOnMap(tile),width(width),height(height)
 {
+    if(tile->getOcuppied() == true){
+        return ;
+    }
+
     this->setPos(this->locationOnMap->pos());
     this->setPos(this->locationOnMap->pos());
     QVector<QPointF> rangeOctagonPoints;
@@ -52,6 +56,9 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString sprite
     qDebug()<<"Tower created"<<"\n";
     // When Tower constructor is called gold saldo should decrease
     Game::game().gold->decreaseGold();
+
+    //Set MapTile to occupied
+    tile->setOccuppied();
 }
 
 Tower::Tower(int x, int y,float attackRange,int width,int height,QString spriteName)

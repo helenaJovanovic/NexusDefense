@@ -26,10 +26,15 @@ public:
 
     void setX(int);
     void setY(int);
+
+    void setOccuppied();
+    bool getOcuppied();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 private:
     int xCoord,yCoord;
+    bool occupied = false;
 };
 
 #endif // MAPTILE_HPP

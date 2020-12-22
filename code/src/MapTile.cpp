@@ -57,3 +57,11 @@ void MapTile::setY(int y) {
     yCoord = y;
 }
 
+void MapTile::setOccuppied(){
+    occupied = true;
+}
+
+bool MapTile::getOcuppied(){
+    return occupied;
+}
+
