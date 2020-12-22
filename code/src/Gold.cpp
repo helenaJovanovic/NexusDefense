@@ -7,6 +7,7 @@ Gold::Gold(QGraphicsItem *parent) : QGraphicsTextItem(parent)
     setPlainText(QString("Gold: ") + QString::number(gold));
     setDefaultTextColor(Qt::darkYellow);
     setFont(QFont("times",16));
+
 }
 
 void Gold::increaseGold() {

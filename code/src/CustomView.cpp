@@ -9,6 +9,8 @@ CustomView::CustomView(QGraphicsScene *scene, QWidget *parent)
     setTransformationAnchor(QGraphicsView::NoAnchor);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+
     //showFullScreen();
 }
 
@@ -75,9 +77,16 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
     // TODO: animate this, and add it to mouseWheel event aswell
     else if(event->key() == Qt::Key_Plus) {
         scale(2, 2);
+
+        scaleScores(0.5);
+         adjustScores();
+
     }
     else if(event->key() == Qt::Key_Minus) {
         scale(0.5, 0.5);
+
+        scaleScores(2);
+         adjustScores();
     }
 
     // Camera controls
@@ -138,12 +147,32 @@ void CustomView::cameraMoveTick() {
     //Jako ratchet resenje da fiksiram poene gde treba
     //Bez da menjam klasu koju je neko vec uradio
     //bozemiteprosti
-    QPointF pos = this->mapToScene(0, 0);
-    Game::game().gold->setPos(pos.x(), pos.y());
-    Game::game().health->setPos(pos.x(), pos.y()+20);
-    Game::game().score->setPos(pos.x(), pos.y()+40);
+    adjustScores();
 
 
     /*horizontalScrollBar()->setValue( horizontalScrollBar()->value() + xOffset);
     verticalScrollBar()->setValue( verticalScrollBar()->value() + yOffset);*/
+}
+
+//When camera moves move the scores so that they are always on top right
+void CustomView::adjustScores(){
+    QPointF pos = this->mapToScene(0, 0);
+    qreal currScale = Game::game().health->scale();
+    Game::game().gold->setPos(pos.x(), pos.y());
+    Game::game().health->setPos(pos.x(), pos.y()+(20*currScale));
+    Game::game().score->setPos(pos.x(), pos.y()+ (40*currScale));
+}
+
+//If theres is a zoom then set scaling of scores
+void CustomView::scaleScores(qreal x){
+    Game::game().health->setScale(
+                Game::game().health->scale()*x
+                );
+    Game::game().score->setScale(
+                Game::game().score->scale()*x
+                );
+    Game::game().gold->setScale(
+                Game::game().gold->scale()*x
+                );
+
 }

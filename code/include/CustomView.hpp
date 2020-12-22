@@ -16,7 +16,12 @@ protected:
     void leaveEvent(QEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
-
+    virtual void wheelEvent ( QWheelEvent * event ) override
+    {
+        //Ignore scrolling because we want mouse movement
+        //To control camera
+        event->ignore();
+    }
 
 private:
     bool cameraEnabled = false;
@@ -34,8 +39,14 @@ private:
 
     void animateCamera(const CameraDir& dir);
 
+    //Adjust scores to movement and scaling
+    void adjustScores();
+    void scaleScores(qreal x);
+
 private slots:
     void cameraMoveTick();
+
+
 };
 
 #endif // CUSTOMVIEW_HPP
