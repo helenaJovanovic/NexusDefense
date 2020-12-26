@@ -6,6 +6,9 @@
 #include <QPointer>
 #include <QObject>
 #include <QScreen>
+#include <code/include/Bat.hpp>
+#include <code/include/Skeleton.hpp>
+#include <code/include/Vampire.hpp>
 
 
 Game *Game::instance = 0;
@@ -196,10 +199,16 @@ void Game::beginGame() {
      *            << tmpMap["east"][1].rect;
      */
 
-    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
+    /*new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
     new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
+
+    new EnemyUnit(currentMap->unitSpawnPointer, "Skeleton", 2);*/
+
+    new Bat(currentMap->unitSpawnPointer->pos(), 2);
+    new Skeleton(currentMap->unitSpawnPointer->pos(), 1);
+    new Vampire(currentMap->unitSpawnPointer->pos(), 3);
 }
 
 void Game::cleanup() {

@@ -9,6 +9,8 @@
         <file>images/nexus.png</file>
         <file>images/bat.png</file>
         <file>images/batexp.png</file>
+        <file>images/skeleton.png</file>
+        <file>images/vampire.png</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
@@ -16,5 +18,7 @@
         <file>mapSecond.txt</file>
         <file>units/bat.json</file>
         <file>units/batexp.json</file>
+        <file>units/skeleton.json</file>
+        <file>units/vampire.json</file>
     </qresource>
 </RCC>

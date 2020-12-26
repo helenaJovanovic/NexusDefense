@@ -1,0 +1,28 @@
+{
+    "name" : "Vampire",
+    "spritesheet" : ":/images/images/vampire.png",
+    "spriteAnimation" : {
+        "initialState" : "south",
+        "offsetX" : -8,
+        "offsetY" : -40,
+        "states" : [
+            {
+                "stateName" : "south",
+                "stateFrames" : [
+                    { "duration": 200, "rect": [0, 128, 48, 192], "origin": [0, 0] },
+                    { "duration": 200, "rect": [48, 128, 96, 192], "origin": [0, 0] },
+                    { "duration": 200, "rect": [96, 128, 142, 192], "origin": [0, 0] }
+                ]
+            },
+            {
+                "stateName" : "east",
+                "stateFrames" : [
+                    { "duration": 200, "rect": [0, 64, 48, 128], "origin": [0, 0] },
+                    { "duration": 200, "rect": [48, 64, 96, 128], "origin": [0, 0] },
+                    { "duration": 200, "rect": [96, 64, 142, 128], "origin": [0, 0] }
+                ]
+            }
+
+        ]
+    }
+}

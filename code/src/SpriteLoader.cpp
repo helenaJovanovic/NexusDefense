@@ -66,9 +66,11 @@ Sprite *SpriteLoader::parseSprite(const QString &filePath) {
 
     QString name = QString::fromStdString(tree.get("name", ""));
     QString initialState = QString::fromStdString(tree.get("spriteAnimation.initialState", ""));
+    int offsetX = QString::fromStdString(tree.get("spriteAnimation.offsetX", "0")).toInt();
+    int offsetY = QString::fromStdString(tree.get("spriteAnimation.offsetY", "0")).toInt();
     QString spritesheet = QString::fromStdString(tree.get("spritesheet", ""));
 
-    Sprite* resultingSprite = new Sprite(name, spritesheet, initialState);
+    Sprite* resultingSprite = new Sprite(name, spritesheet, initialState, offsetX, offsetY);
 
     for(auto &state: tree.get_child("spriteAnimation.states")) {
         // name of the state

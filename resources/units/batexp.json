@@ -3,6 +3,8 @@
     "spritesheet" : ":/images/images/batexp.png",
     "spriteAnimation" : {
         "initialState" : "none",
+        "offsetX" : 0,
+        "offsetY" : 0,
         "states" : [
                 {
                 "stateName" : "boom",

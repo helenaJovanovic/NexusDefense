@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    code/src/Bat.cpp \
     code/src/CustomView.cpp \
     code/src/EnemyUnit.cpp \
     code/src/GameScore.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     code/src/IngameInterface.cpp \
     code/src/InterfaceTowerSlot.cpp \
     code/src/Projectile.cpp \
+    code/src/Skeleton.cpp \
     code/src/Sprite.cpp \
     code/src/SpriteLoader.cpp \
     code/src/Tower.cpp \
@@ -26,9 +28,11 @@ SOURCES += \
     code/src/Map.cpp \
     code/src/MapTile.cpp \
     code/src/Mapper.cpp \
+    code/src/Vampire.cpp \
     code/src/main.cpp
 
 HEADERS += \
+    code/include/Bat.hpp \
     code/include/CustomView.hpp \
     code/include/EnemyUnit.hpp \
     code/include/GameScore.hpp \
@@ -37,6 +41,7 @@ HEADERS += \
     code/include/IngameInterface.hpp \
     code/include/InterfaceTowerSlot.hpp \
     code/include/Projectile.hpp \
+    code/include/Skeleton.hpp \
     code/include/Sprite.hpp \
     code/include/SpriteLoader.hpp \
     code/include/Tower.hpp \
@@ -45,7 +50,8 @@ HEADERS += \
     code/include/Game.hpp \
     code/include/Map.hpp \
     code/include/MapTile.hpp \
-    code/include/Mapper.hpp
+    code/include/Mapper.hpp \
+    code/include/Vampire.hpp
 
 
 INCLUDEPATH = libraries/boost_1_74_0/

@@ -2,10 +2,9 @@
 #include <code/include/GameTimer.hpp>
 #include <code/include/Mapper.hpp>
 
-EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
-    : isAlive(true), movementDelay(movementDelay)
+EnemyUnit::EnemyUnit(const int movementDelay)
+    : movementDelay(movementDelay)
 {
-
     turnPoints = Game::game().currentMap->getTurnPoints();
     turnDirections = Game::game().currentMap->getTurnDirections();
 
@@ -17,26 +16,17 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
     frameNumber = 0;
     deathFrameNumber = 0;
     timeElapsed = 0;
+}
 
-    unitSprite = Game::game().spriteLoader->getUnitSprite(spriteName);
-    unitSpriteMap = unitSprite->getStatesMap();
+EnemyUnit::EnemyUnit(const int movementDelay,
+            const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection)
+    : EnemyUnit(movementDelay)
+{
 
-    explosionSprite = Game::game().spriteLoader->getUnitSprite("Batexp");
-    explosionSpriteMap = explosionSprite->getStatesMap();
+    currentDirectionIndex = newDirectionIndex;
+    nextTurnPointIndex = newTurnPointIndex;
+    currentDirection = newDirection;
 
-    currentSpritesheet = unitSprite->getSpritesheet();
-
-    healthBar.setRect(0, 0, 32, 5);
-    healthBar.setParentItem(this);
-    healthBar.setVisible(false);
-
-    setPos(spawnPoint->pos());
-
-    Game::game().scene->addItem(this);
-
-    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::move);
-    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::animate);
-    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::boom);
 }
 
 EnemyUnit::~EnemyUnit(){
@@ -80,20 +70,20 @@ void EnemyUnit::takeDamage(float damageAmount) {
     }
 
     else
-        healthBar.setRect(0, 0, static_cast<int>(32 * (currentHealth/maxHealth)), 5);
+        healthBar.setRect(0, 0, static_cast<int>(currentOriginRect.width() * (currentHealth/maxHealth)), 5);
 }
 
 void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     painter->drawPixmap(currentOriginPoint, currentSpritesheet, currentOriginRect);
 
-    if(!deathPhase && currentHealth < maxHealth){
+    if(!deathPhase /*&& currentHealth < maxHealth*/){
         painter->fillRect(healthBar.rect(), Qt::red);
-        painter->drawRect(0, 0, 32, 5);
+        painter->drawRect(0, 0, currentOriginRect.width(), 5);
     }
 }
 
 QRectF EnemyUnit::boundingRect() const {
-    return QRectF(0, 0, 32, 32);
+    return currentOriginRect;
 }
 
 void EnemyUnit::animate(){
@@ -147,6 +137,7 @@ void EnemyUnit::move(){
     }
 
     numOfTicks++;
+    ticksElapsed++;
 
     if(numOfTicks >= movementDelay){
 
@@ -168,7 +159,8 @@ void EnemyUnit::move(){
 
         // If the unit is not on the last direction we take the next turn
         if(nextTurnPointIndex < numOfTurns - 1){
-            if(pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()){
+            if(pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry()){
+
                 nextTurnPointIndex++;
                 currentDirectionIndex++;
 
@@ -176,15 +168,19 @@ void EnemyUnit::move(){
 
                 timeElapsed = 0;
                 frameNumber = 0;
+
+                this->takeDamage(30);
+
+                update();
             }
         }
 
         // If it is the last direction we stop the unit in front of the nexus
         else{
-            if((pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 48 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() - 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())){
+            if((pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 48 - offsetY == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() - 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 - offsetY == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() + 48 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry())){
 
                 isAlive = false;
 
@@ -213,7 +209,7 @@ void EnemyUnit::boom(){
         currentOriginPoint = explosionSpriteMap["boom"][deathFrameNumber].origin;
         currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
 
-        this->update();
+        update();
 
         deathFrameNumber++;
 

@@ -16,17 +16,21 @@ public:
         QRect rect;
     };
 
-    Sprite(const QString&, const QString&, const QString&);
+    Sprite(const QString&, const QString&, const QString&, const int, const int);
 
     QString getName() const;
     QString getSpritesheet() const;
     QString getInitialState() const;
+    int getOffsetX() const;
+    int getOffsetY() const;
     QMap<QString, QVector<frame>>& getStatesMap();
 
 private:
     QString name;
     QString spritesheet;
     QString initialState;
+    int offsetX;
+    int offsetY;
 
     QMap<QString, QVector<frame>> animationStates;
 

@@ -11,7 +11,10 @@ class EnemyUnit : public QObject, public QGraphicsItem{
     Q_OBJECT
 public:
     //Creates an EnemyUnit object and places it on the scene @ spawnPoint
-    EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay);
+    EnemyUnit(const int movementDelay);
+
+    EnemyUnit(const int movementDelay,
+              const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection);
 
     ~EnemyUnit();
 
@@ -33,7 +36,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
 
-private:
+protected:
     //Fields hard coded for now...
     float maxHealth = 500;
     float currentHealth = 500;
@@ -43,6 +46,8 @@ private:
 
     //Ticks
     int numOfTicks = 0;
+    int ticksElapsed = 0;
+    int timeElapsed = 0;
 
     bool stopMovement = false;
 
@@ -50,13 +55,12 @@ private:
     QVector<QPointF> turnPoints;
     QVector<unsigned> turnDirections;
 
-    int currentDirectionIndex;
+    unsigned currentDirectionIndex;
     int currentDirection;
-    int nextTurnPointIndex;
+    unsigned nextTurnPointIndex;
     int numOfTurns;
     int frameNumber = 0;
     int deathFrameNumber = 0;
-    int timeElapsed;
     bool deathPhase = false;
 
     Sprite* unitSprite;
@@ -67,10 +71,12 @@ private:
     QString currentSpritesheet;
     QPoint currentOriginPoint;
     QRect currentOriginRect;
+    int offsetX;
+    int offsetY;
 
     QGraphicsRectItem healthBar;
 
-private slots:
+public slots:
     void move();
     void animate();
     void boom();

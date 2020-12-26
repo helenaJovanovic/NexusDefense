@@ -8,6 +8,7 @@
 #include "Gold.hpp"
 #include "Health.hpp"
 #include "EnemyUnit.hpp"
+
 #include "SpriteLoader.hpp"
 #include "CustomView.hpp"
 #include "IngameInterface.hpp"

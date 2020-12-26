@@ -1,0 +1,34 @@
+{
+    "name" : "Skeleton",
+    "spritesheet" : ":/images/images/skeleton.png",
+    "spriteAnimation" : {
+        "initialState" : "south",
+        "offsetX" : 0,
+        "offsetY" : -20,
+        "states" : [
+            {
+                "stateName" : "south",
+                "stateFrames" : [
+                    { "duration": 150, "rect": [0, 0, 32, 50], "origin": [0, 0] },
+                    { "duration": 150, "rect": [32, 0, 64, 50], "origin": [0, 0] },
+                    { "duration": 150, "rect": [64, 0, 96, 50], "origin": [0, 0] },
+                    { "duration": 150, "rect": [96, 0, 128, 50], "origin": [0, 0] },
+                    { "duration": 150, "rect": [128, 0, 160, 50], "origin": [0, 0] },
+                    { "duration": 150, "rect": [160, 0, 192, 50], "origin": [0, 0] }
+                ]
+            },
+            {
+                "stateName" : "east",
+                "stateFrames" : [
+                    { "duration": 150, "rect": [0, 128, 32, 178], "origin": [0, 0] },
+                    { "duration": 150, "rect": [32, 128, 64, 178], "origin": [0, 0] },
+                    { "duration": 150, "rect": [64, 128, 96, 178], "origin": [0, 0] },
+                    { "duration": 150, "rect": [96, 128, 128, 178], "origin": [0, 0] },
+                    { "duration": 150, "rect": [128, 128, 160, 178], "origin": [0, 0] },
+                    { "duration": 150, "rect": [160, 128, 192, 178], "origin": [0, 0] }
+                ]
+            }
+
+        ]
+    }
+}
