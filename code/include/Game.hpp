@@ -92,6 +92,7 @@ public slots:
     void startThirdScene();
     void localQuitGame();
     void playButtonSound();
+    void spawnWave();
 
         // Don't need to worry about scene and view, they are QObjects
         // and as such are automatically deleted when game closes
@@ -109,7 +110,8 @@ private:
 
     QString mapChoice = ":/mapPrototype.txt";
 
-
+    int unitsSpawned = 1;
+    int elapsedSpawnTime = 0;
 };
 
 #endif // GAME_HPP

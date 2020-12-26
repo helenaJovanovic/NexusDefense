@@ -202,11 +202,11 @@ void Game::initGraphics() {
 
 //
 void Game::beginGame() {
-    gameTimer = new QTimer();
+    gameTimer = new QTimer(this);
     gameTimer->start(16);
     view->enableMouseMovement();
 
-
+    connect(gameTimer, &QTimer::timeout, this, &Game::spawnWave);
 
     qDebug() << "Game begins.";
 
@@ -222,10 +222,19 @@ void Game::beginGame() {
      *            << tmpMap["east"][1].rect;
      */
 
-    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
-    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
-    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
-    new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
+
+}
+
+//Spawn enemies on every 16 seconds
+void Game::spawnWave(){
+    elapsedSpawnTime += 16;
+
+    if(elapsedSpawnTime % 16000 == 0 || elapsedSpawnTime == 16){
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
+    }
 }
 
 void Game::cleanup() {
