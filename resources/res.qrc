@@ -8,13 +8,15 @@
         <file>images/pressed.png</file>
         <file>images/nexus.png</file>
         <file>images/bat.png</file>
+        <file>images/batexp.png</file>
+        <file>images/skeleton.png</file>
+        <file>images/vampire.png</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
         <file>units/zombie.json</file>
         <file>mapSecond.txt</file>
         <file>units/bat.json</file>
-        <file>images/bat.png</file>
         <file>images/battleback5.png</file>
         <file>images/Bullet_MG10x25.png</file>
         <file>images/MG16x33.png</file>
@@ -34,6 +36,9 @@
         <file>sounds/scream.mp3</file>
         <file>res.qrc</file>
         <file>sounds/StoneButton.mp3</file>
+		<file>units/batexp.json</file>
+        <file>units/skeleton.json</file>
+        <file>units/vampire.json</file>
     </qresource>
     <qresource prefix="/sounds"/>
 </RCC>

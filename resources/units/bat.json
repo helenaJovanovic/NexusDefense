@@ -3,6 +3,8 @@
     "spritesheet" : ":/images/images/bat.png",
     "spriteAnimation" : {
         "initialState" : "south",
+        "offsetX" : 0,
+        "offsetY" : 0,
         "states" : [
             {
                 "stateName" : "south",

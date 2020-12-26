@@ -1,8 +1,8 @@
 #include <code/include/Sprite.hpp>
 
 
-Sprite::Sprite(const QString& name, const QString& spritesheet, const QString& initialState)
-    : name(name), spritesheet(spritesheet), initialState(initialState) {
+Sprite::Sprite(const QString& name, const QString& spritesheet, const QString& initialState, const int offsetX, const int offsetY)
+    : name(name), spritesheet(spritesheet), initialState(initialState), offsetX(offsetX), offsetY(offsetY) {
 
 }
 
@@ -16,6 +16,14 @@ QString Sprite::getSpritesheet() const {
 
 QString Sprite::getInitialState() const {
     return initialState;
+}
+
+int Sprite::getOffsetX() const {
+    return offsetX;
+}
+
+int Sprite::getOffsetY() const {
+    return offsetY;
 }
 
 QMap<QString, QVector<Sprite::frame> > &Sprite::getStatesMap() {

@@ -61,7 +61,7 @@ public:
     void initButtonSound();
     void initPlaylist();
 
-	QApplication* getGameApp();
+    QApplication* getGameApp();
     // Pointers to scene and view
     QGraphicsScene *scene;
     CustomView *view;

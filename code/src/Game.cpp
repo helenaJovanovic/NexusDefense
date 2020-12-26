@@ -11,6 +11,10 @@
 #include <QMediaPlayer>
 #include <QFileDialog>
 
+#include <code/include/Bat.hpp>
+#include <code/include/Skeleton.hpp>
+#include <code/include/Vampire.hpp>
+
 
 Game *Game::instance = 0;
 
@@ -121,6 +125,7 @@ void Game::playButtonSound()
 }
 
 void Game::startSecondScene(){
+   
    startGameBtn->hide();
    loadMapButton->hide();
    exitButton->hide();
@@ -208,6 +213,10 @@ void Game::beginGame() {
 
     connect(gameTimer, &QTimer::timeout, this, &Game::spawnWave);
 
+    /*new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
+    new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
+    new Vampire(currentMap->unitSpawnPointer->pos(), unitsSpawned++);*/
+
     qDebug() << "Game begins.";
 
     /*   SpriteLoader example
@@ -230,11 +239,17 @@ void Game::spawnWave(){
     elapsedSpawnTime += 16;
 
     if(elapsedSpawnTime % 16000 == 0 || elapsedSpawnTime == 16){
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", unitsSpawned++);
-    }
+		/*new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
+        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
+
+        new EnemyUnit(currentMap->unitSpawnPointer, "Skeleton", 2);*/
+
+        new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
+        new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
+        new Vampire(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
+	}
 }
 
 void Game::cleanup() {

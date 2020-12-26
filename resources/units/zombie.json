@@ -3,6 +3,8 @@
     "spritesheet" : ":/images/units/zombie.jpg",
     "spriteAnimation" : {
         "initialState" : "east",
+        "offsetX" : 0,
+        "offsetY" : 0,
         "states" : [
             {
                 "stateName" : "east",

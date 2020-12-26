@@ -2,8 +2,8 @@
 #include <code/include/GameTimer.hpp>
 #include <code/include/Mapper.hpp>
 
-EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
-    : isAlive(true), movementDelay(movementDelay)
+EnemyUnit::EnemyUnit(const int movementDelay)
+    : movementDelay(movementDelay)
 {
 
     turnPoints = Game::game().currentMap->getTurnPoints();
@@ -15,12 +15,18 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
     currentDirectionIndex = 0;
     currentDirection = turnDirections[0];
     frameNumber = 0;
+    deathFrameNumber = 0;
     timeElapsed = 0;
+}
 
-    sprite = Game::game().spriteLoader->getUnitSprite(spriteName);
-    spriteMap = sprite->getStatesMap();
+EnemyUnit::EnemyUnit(const int movementDelay,
+            const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection)
+    : EnemyUnit(movementDelay)
+{
 
-    setPos(spawnPoint->pos());
+    currentDirectionIndex = newDirectionIndex;
+    nextTurnPointIndex = newTurnPointIndex;
+    currentDirection = newDirection;
 
     dyingSound = new QMediaPlayer();
     dyingSound->setMedia(QUrl("qrc:/sounds/scream.mp3"));
@@ -28,8 +34,6 @@ EnemyUnit::EnemyUnit(MapTile* spawnPoint, QString spriteName, int movementDelay)
 
     Game::game().scene->addItem(this);
 
-    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::move);
-    connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::animate);
 }
 
 EnemyUnit::~EnemyUnit(){
@@ -61,78 +65,100 @@ void EnemyUnit::takeDamage(float damageAmount) {
     if(currentHealth <= 0){
         isAlive = false;
 
-        //TODO: Death animation
-
-        if(dyingSound->state()==QMediaPlayer::PlayingState)
+        //OVO PRAVI BAG ZA SAD TODO
+        /*if(dyingSound->state()==QMediaPlayer::PlayingState)
             dyingSound->setPosition(0);
         else if(dyingSound->state()== QMediaPlayer::StoppedState)
-            dyingSound->play();
+            dyingSound->play();*/
 
-        Game::game().scene->removeItem(this);
+        healthBar.setVisible(false);
 
-        //When enemy unit is destroyed score and gold should increase
+        currentSpritesheet = explosionSprite->getSpritesheet();
+        currentOriginPoint = explosionSpriteMap["boom"][0].origin;
+        currentOriginRect = explosionSpriteMap["boom"][0].rect;
+		
+		//When enemy unit is destroyed score and gold should increase
         Game::game().score->increase();
-        Game::game().gold->increaseGold();
+        Game::game().gold->increaseGold();		
 
-        delete(this);
+        timeElapsed = 0;
+
+        deathPhase = true;
     }
+
+    else
+        healthBar.setRect(0, 0, static_cast<int>(currentOriginRect.width() * (currentHealth/maxHealth)), 5);
 }
 
 void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-    painter->drawPixmap(currentOriginPoint, sprite->getSpritesheet(), currentOriginRect);
+    painter->drawPixmap(currentOriginPoint, currentSpritesheet, currentOriginRect);
+
+    if(!deathPhase /*&& currentHealth < maxHealth*/){
+        painter->fillRect(healthBar.rect(), Qt::red);
+        painter->drawRect(0, 0, currentOriginRect.width(), 5);
+    }
 }
 
 QRectF EnemyUnit::boundingRect() const {
-    return QRectF(0, 0, 32, 32);
+    return currentOriginRect;
 }
 
 void EnemyUnit::animate(){
     timeElapsed += 16;
 
+    if(!isAlive)
+        return;
+
+
     if(currentDirection == 1){
 
-        if(frameNumber == spriteMap["south"].size()){
+        if(frameNumber == unitSpriteMap["south"].size())
             frameNumber = 0;
-        }
 
-        if(timeElapsed >= spriteMap["south"][frameNumber].duration){
 
-            currentOriginPoint = spriteMap["south"][frameNumber].origin;
-            currentOriginRect = spriteMap["south"][frameNumber].rect;
 
-            frameNumber++;
 
-            timeElapsed = 0;
+        if(timeElapsed >= unitSpriteMap["south"][frameNumber].duration){
+
+            currentOriginPoint = unitSpriteMap["south"][frameNumber].origin;
+            currentOriginRect = unitSpriteMap["south"][frameNumber].rect;
+
+             frameNumber++;
+
+             timeElapsed = 0;
         }
     }
 
     else if(currentDirection == 3){
 
-        if(frameNumber == spriteMap["east"].size()){
+        if(frameNumber == unitSpriteMap["east"].size())
             frameNumber = 0;
-        }
 
-        if(timeElapsed >= spriteMap["east"][frameNumber].duration){
 
-            currentOriginPoint = spriteMap["east"][frameNumber].origin;
-            currentOriginRect = spriteMap["east"][frameNumber].rect;
+        if(timeElapsed >= unitSpriteMap["east"][frameNumber].duration){
+
+            currentOriginPoint = unitSpriteMap["east"][frameNumber].origin;
+            currentOriginRect = unitSpriteMap["east"][frameNumber].rect;
 
             frameNumber++;
 
             timeElapsed = 0;
         }
     }
+
+
 }
 
 void EnemyUnit::move(){
-    if(stopMovement){
+    if(!isAlive){
         numOfTicks = 0;
         return;
     }
 
-    this->numOfTicks++;
+    numOfTicks++;
+    ticksElapsed++;
 
-    if(numOfTicks == movementDelay){
+    if(numOfTicks >= movementDelay){
 
         /*
         1 for down
@@ -152,7 +178,8 @@ void EnemyUnit::move(){
 
         // If the unit is not on the last direction we take the next turn
         if(nextTurnPointIndex < numOfTurns - 1){
-            if(pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()){
+            if(pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry()){
+
                 nextTurnPointIndex++;
                 currentDirectionIndex++;
 
@@ -160,24 +187,57 @@ void EnemyUnit::move(){
 
                 timeElapsed = 0;
                 frameNumber = 0;
+
+                this->takeDamage(30);
+
+                update();
             }
         }
 
         // If it is the last direction we stop the unit in front of the nexus
         else{
-            if((pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 48 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() - 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() + 16 == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 == turnPoints[nextTurnPointIndex].ry())
-                || (pos().rx() + 48 == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 == turnPoints[nextTurnPointIndex].ry()))
+            if((pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 48 - offsetY == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() - 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 - offsetY == turnPoints[nextTurnPointIndex].ry())
+                || (pos().rx() + 48 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry())){
 
-                stopMovement = true;
-            // nexus health should decrease
-            Game::game().health->decrease();
-
-            takeDamage(maxHealth);
+                isAlive = false;
+				// nexus health should decrease
+	            Game::game().health->decrease();
+                this->takeDamage(currentHealth);
+            }
 
         }
 
         numOfTicks = 0;
     }
+}
+
+void EnemyUnit::boom(){
+    if(!deathPhase)
+        return;
+
+    timeElapsed += 16;
+
+    if(deathFrameNumber == explosionSpriteMap["boom"].size()){
+
+        Game::game().scene->removeItem(this);
+        delete(this);
+    }
+
+    else if(timeElapsed >= explosionSpriteMap["boom"][deathFrameNumber].duration){
+        currentOriginPoint = explosionSpriteMap["boom"][deathFrameNumber].origin;
+        currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
+		
+		// nexus health should decrease
+        Game::game().health->decrease();
+
+        update();
+
+        deathFrameNumber++;
+
+        timeElapsed = 0;
+    }
+
+
 }
