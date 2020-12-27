@@ -1,0 +1,23 @@
+{
+    "id":"mg",
+    "level":1,
+    "name":"M2 Browning .50 cal",
+    "range":150,
+    "blastRadius":0,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":16,
+    "turretHeight":33,
+    "turretCenterPercentageX":66,
+    "turretCenterPercentageY":66,
+    "turretBarrelPercentageX":50,
+    "turretBarrelPercentageY":0,
+    "projectileLength":10,
+    "projectileHeight":25,
+    "projectileSpeedDelay":3,
+    "attackDamage":40,
+    "attackSpeed":12,
+    "turretImagePath":":/images/MG16x33.png",
+    "projectileImagePath":":/images/Bullet_MG10x25.png"
+
+}

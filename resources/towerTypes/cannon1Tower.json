@@ -1,0 +1,23 @@
+{
+    "id":"cannon",
+    "level":1,
+    "name":"Cannon Tower Lv2",
+    "range":300,
+    "blastRadius":50,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":16,
+    "turretHeight":33,
+    "turretCenterPercentageX":50,
+    "turretCenterPercentageY":75,
+    "turretBarrelPercentageX":50,
+    "turretBarrelPercentageY":0,
+    "projectileLength":10,
+    "projectileHeight":20,
+    "projectileSpeedDelay":10,
+    "attackDamage":150,
+    "attackSpeed":60,
+    "turretImagePath":":/images/Cannon16x33.png",
+    "projectileImagePath":":/images/Bullet_Cannon10x20.png"
+
+}

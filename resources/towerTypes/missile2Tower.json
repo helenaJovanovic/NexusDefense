@@ -1,0 +1,23 @@
+{
+    "id":"missile",
+    "level":2,
+    "name":"Missile Tower",
+    "range":800,
+    "blastRadius":80,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":24,
+    "turretHeight":20,
+    "turretCenterPercentageX":50,
+    "turretCenterPercentageY":50,
+    "turretBarrelPercentageX":50,
+    "turretBarrelPercentageY":0,
+    "projectileLength":15,
+    "projectileHeight":27,
+    "projectileSpeedDelay":14,
+    "attackDamage":200,
+    "attackSpeed":80,
+    "turretImagePath":":/images/Missile_Launcher3_24x20.png",
+    "projectileImagePath":":/images/Missile15x27.png"
+
+}

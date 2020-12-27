@@ -1,0 +1,23 @@
+{
+    "id":"mg2",
+    "level":2,
+    "name":"GAU-23 Avenger",
+    "range":200,
+    "blastRadius":0,
+    "tileWidth":1,
+    "tileHeight":1,
+    "turretLength":16,
+    "turretHeight":33,
+    "turretCenterPercentageX":66,
+    "turretCenterPercentageY":66,
+    "turretBarrelPercentageX":50,
+    "turretBarrelPercentageY":0,
+    "projectileLength":10,
+    "projectileHeight":25,
+    "projectileSpeedDelay":3,
+    "attackDamage":50,
+    "attackSpeed":5,
+    "turretImagePath":":/images/MG3_16x33.png",
+    "projectileImagePath":":/images/Bullet_MG10x25.png"
+
+}
