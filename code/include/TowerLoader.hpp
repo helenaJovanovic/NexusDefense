@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMap>
+#include <string>
 
 class TowerLoader
 {
@@ -11,7 +12,7 @@ private:
     QMap<QString,float> parameters;
     QMap<QString,QString> paths;
 public:
-    TowerLoader(QString towerID);
+    TowerLoader(QString towerID,int level=0);
     ~TowerLoader();
     QMap<QString, QString> getName() const;
     QMap<QString, float> getParameters() const;

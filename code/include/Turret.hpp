@@ -6,7 +6,6 @@ class Tower;
 #include <QGraphicsItem>
 #include <QDebug>
 #include <QPointer>
-#include <QMediaPlayer>
 #include <code/include/Tower.hpp>
 #include <code/include/Projectile.hpp>
 //class Tower
@@ -17,11 +16,12 @@ class Turret : public QObject,public QGraphicsItem
 {
     Q_OBJECT
 private:
-    friend class Tower;
+//    friend class Tower;
     Sprite* sprite;
     QLineF direction;
-    QMediaPlayer* fireSound;
     Tower* tower;
+    QPointF barrel;
+
 public:
     Turret(Tower* tower);
     ~Turret();

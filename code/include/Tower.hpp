@@ -9,7 +9,7 @@ class Turret;
 #include <code/include/MapTile.hpp>
 #include <code/include/Map.hpp>
 #include <QPointer>
-#include <QMediaPlayer>
+#include <code/include/TowerLoader.hpp>
 #include <code/include/EnemyUnit.hpp>
 //#include <code/include/Projectile.hpp>
 #include "Turret.hpp"
@@ -21,23 +21,42 @@ private:
 
     QGraphicsPolygonItem* attackArea;
     //damage dealt per attack
-    float attackDamage=50;
-    //number of attacks in 1 second
-    float attackSpeed=1;
+//    float attackDamage;
+    //number of timer ticks needed for an attack
+//    float attackSpeed;
     MapTile* locationOnMap;//anchor tile if tower spans more than one
     //number of tiles
-    int width;
-    int height;
+//    int width;
+//    int height;
     EnemyUnit* target=nullptr;
     int numberOfTicks=0;
     Sprite* sprite;
     Turret* turret;
-    QMediaPlayer* constructionSound;
+
+    TowerLoader* attributes;
+
+    //fields are parsed by TowerLoader from json
+//    QString name;
+//    //range is saved as attackArea
+//    //width(length) in tiles
+//    int width;
+//    //height in tiles
+//    int height;
+//    //damage per hit
+//    float attackDamage;
+//    //number of timer ticks for each attack
+//    float attackSpeed;
+
+
+
+
+
+
 
 public:
     //Creates a tower on specified map tile
-    Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName);
-    Tower(int x,int y,float attackRange,int width,int height,QString spriteName);
+    Tower(MapTile* tile,QString towerType);
+    Tower(int x, int y, QString towerType);
     ~Tower();
     //check if current target is still in range
     bool currentTargetInRange();
@@ -51,10 +70,6 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
     //getters
-    float getAttackDamage() const;
-    float getAttackSpeed() const;
-    int getWidth() const;
-    int getHeight() const;
     MapTile* getLocationOnMap() const;
     QGraphicsPolygonItem *getAttackArea() const;
     void acquireTargetAndAttack();
@@ -65,6 +80,10 @@ public:
     Sprite *getSprite() const;
 
     EnemyUnit *getTarget() const;
+
+    TowerLoader* getAttributes() const;
+
+    void upgrade();
 
 public slots:
     //on timer tick

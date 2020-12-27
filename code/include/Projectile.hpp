@@ -12,11 +12,15 @@ class Projectile : public QObject,public QGraphicsItem
     Q_OBJECT
 private:
     float damage;
-    float speed;
+    float speed;//delay factor
+    float blastRadius;
     QPointer<EnemyUnit> target;
     QLineF direction;
+    float length;
+    float height;
+    QString imagePath;
 public:
-    Projectile(float damage,float speed,QPointer<EnemyUnit> target,QPointF startPosition);
+    Projectile(float blastRadius,float length,float height,QString imagePath,float damage,float speed,QPointer<EnemyUnit> target,QPointF startPosition);
     ~Projectile();
 
 

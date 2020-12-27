@@ -27,10 +27,10 @@ QMap<QString, QString> TowerLoader::getPaths() const
     return paths;
 }
 
-TowerLoader::TowerLoader(QString towerID)
+TowerLoader::TowerLoader(QString towerID,int level)
     : name(QMap<QString,QString>()),parameters(QMap<QString,float>()),paths(QMap<QString,QString>())
 {
-    QString fileName=towerID.append("Tower.json");
+    QString fileName=towerID.append(QString::number(level)).append("Tower.json");
     QString path=QString(":/towerTypes/").append(fileName);
 
     QFile file(path);

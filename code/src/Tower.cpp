@@ -3,6 +3,7 @@
 
 
 
+
 void Tower::setTarget(EnemyUnit *value)
 {
     target = value;
@@ -18,14 +19,42 @@ EnemyUnit *Tower::getTarget() const
     return target;
 }
 
-Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString spriteName)
-    : locationOnMap(tile),width(width),height(height)
+TowerLoader *Tower::getAttributes() const
 {
-    if(tile->getOcuppied() == true){
-        return ;
-    }
+    return attributes;
+}
 
-    this->setPos(this->locationOnMap->pos());
+void Tower::upgrade()
+{
+    float level=attributes->getParameters()["level"];
+    QString towerID=attributes->getName()["id"];
+    if(level>=2)
+        return;
+    level++;
+    delete attributes;
+    attributes=new TowerLoader(towerID,level);
+    float turretCenterX=
+            this->getAttributes()->getParameters()["turretCenterPercentageX"]/100
+            *
+            this->getAttributes()->getParameters()["turretLength"];
+    float turretCenterY=
+            this->getAttributes()->getParameters()["turretCenterPercentageY"]/100
+            *
+            this->getAttributes()->getParameters()["turretHeight"];
+    turret->setPos(this->pos()+QPoint(Game::game().tileWidth/2-turretCenterX,Game::game().tileWidth/2-turretCenterY));
+    turret->setTransformOriginPoint(turretCenterX,turretCenterY);
+//    qDebug()<<turretCenterX<<" - "<<turretCenterY<<"\n";
+}
+
+Tower::Tower(MapTile* tile,QString towerType)
+    : locationOnMap(tile)
+{
+    attributes=new TowerLoader(towerType);
+    float width=attributes->getParameters()["tileWidth"];
+    float height=attributes->getParameters()["tileHeight"];
+    float attackRange=attributes->getParameters()["range"];
+
+//    this->setPos(this->locationOnMap->pos());
     this->setPos(this->locationOnMap->pos());
     QVector<QPointF> rangeOctagonPoints;
     QPointF towerCenter((width*Game::game().tileWidth)/2,(height*Game::game().tileWidth)/2);
@@ -38,31 +67,19 @@ Tower::Tower(MapTile* tile,float attackRange,int width,int height,QString sprite
     }
     attackArea=new QGraphicsPolygonItem(QPolygonF(rangeOctagonPoints),this);
 //    attackArea->setPos(towerCenter.x(),towerCenter.y());
-//    attackArea->setOpacity(0);
+    attackArea->setOpacity(0);
 //    Game::game().scene->addItem(attackArea);
     turret=new Turret(this);
-    constructionSound = new QMediaPlayer();
-    constructionSound->setMedia(QUrl("qrc:/sounds/construction.wav"));
-    constructionSound->setVolume(60);
-
-    if(constructionSound->state()==QMediaPlayer::PlayingState)
-        constructionSound->setPosition(0);
-    else if(constructionSound->state()== QMediaPlayer::StoppedState)
-        constructionSound->play();
-
     Game::game().scene->addItem(this);
     Game::game().scene->addItem(turret);
     connect(Game::game().gameTimer, SIGNAL(timeout()), this, SLOT(update()));
-    qDebug()<<"Tower created"<<"\n";
+//    qDebug()<<"Tower created"<<"\n";
     // When Tower constructor is called gold saldo should decrease
     Game::game().gold->decreaseGold();
-
-    //Set MapTile to occupied
-    tile->setOccuppied();
 }
 
-Tower::Tower(int x, int y,float attackRange,int width,int height,QString spriteName)
-    :Tower(Game::game().currentMap->getTilePointer(x,y),attackRange,width,height,spriteName)
+Tower::Tower(int x, int y, QString towerType)
+    :Tower(Game::game().currentMap->getTilePointer(x,y),towerType)
 {}
 
 
@@ -114,11 +131,11 @@ void Tower::attack()
     if(target==nullptr || !target->isAlive)
         return;
 //    target->takeDamage(getAttackDamage());
-    turret->rotateToTarget();
     turret->fire();
+//    new Projectile(getAttackDamage(),30,QPointer<EnemyUnit>(getTarget()),this->pos()+QPointF(Game::game().tileWidth/2,Game::game().tileWidth/2));
     if(!target || !target->isAlive)
         target=nullptr;
-    qDebug()<<"Shots fired"<<"\n";
+//    qDebug()<<"Shots fired"<<"\n";
 }
 
 double Tower::distanceTo(QGraphicsItem *item)
@@ -127,15 +144,7 @@ double Tower::distanceTo(QGraphicsItem *item)
         return ln.length();
 }
 //getters
-float Tower::getAttackDamage() const
-{
-    return attackDamage;
-}
 
-float Tower::getAttackSpeed() const
-{
-    return attackSpeed;
-}
 
 MapTile* Tower::getLocationOnMap() const
 {
@@ -161,26 +170,19 @@ void Tower::update()
    numberOfTicks++;
    if(target==nullptr || !target->isAlive || !currentTargetInRange())
        target=nullptr;
-   if(numberOfTicks==50)
+   if(target!=nullptr)
+       turret->rotateToTarget();
+   if(numberOfTicks==attributes->getParameters()["attackSpeed"])
    {
        acquireTargetAndAttack();
        numberOfTicks=0;
    }
 }
 
-int Tower::getWidth() const
-{
-    return width;
-}
-
-int Tower::getHeight() const
-{
-    return height;
-}
 QRectF Tower::boundingRect() const
 {
     int len=Game::game().tileWidth;
-    return QRectF(0,0,width*len,height*len);
+    return QRectF(0,0,attributes->getParameters()["tileWidth"]*len,attributes->getParameters()["tileHeight"]*len);
 }
 
 void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -190,7 +192,7 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 //    painter->drawPolygon(getAttackArea()->polygon());
 //    painter->setBrush(Qt::green);
 //    painter->drawRect(QRectF(0,0,width*Game::game().tileWidth,height*Game::game().tileWidth));
-    painter->drawPixmap(0,0,QPixmap(":/images/images/Tower32.png"));
+    painter->drawPixmap(0,0,QPixmap(":/images/Tower32.png"));
 
 
 }
