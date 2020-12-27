@@ -65,8 +65,8 @@ void EnemyUnit::takeDamage(float damageAmount) {
     if(currentHealth <= 0){
         isAlive = false;
 
-        //OVO PRAVI BAG ZA SAD TODO
-        /*if(dyingSound->state()==QMediaPlayer::PlayingState)
+        /*
+        if(dyingSound->state()==QMediaPlayer::PlayingState)
             dyingSound->setPosition(0);
         else if(dyingSound->state()== QMediaPlayer::StoppedState)
             dyingSound->play();*/

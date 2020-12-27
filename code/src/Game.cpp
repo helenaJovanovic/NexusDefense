@@ -90,7 +90,6 @@ void Game::menuScreen(){
                 );
 
 
-
     QObject::connect(startGameBtn, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
 
@@ -99,6 +98,8 @@ void Game::menuScreen(){
 
     QObject::connect(exitButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
+
+
 
     startGameBtn->show();
     loadMapButton->show();
@@ -180,6 +181,56 @@ void Game::initScreen() {
     view->setOptimizationFlags(QGraphicsView::DontSavePainterState);
     //view->setRenderHint(QPainter::Antialiasing);
 
+    pauseButton = new QPushButton("Pause", view);
+    pauseButton->setGeometry(QRect(QPoint(850,100), QSize(150, 50)));
+    pauseButton->setStyleSheet(
+                "QPushButton {"
+                        "border-image:url(:/images/images/normal.png); min-width: 150; min-height: 50;"
+                        "font: 20px Arial, sans-serif;"
+                "}"
+                "QPushButton:pressed {"
+                        "border-image:url(:/images/images/pressed.png); min-width: 150; min-height: 50;"
+                "}"
+                );
+
+
+    restartButton = new QPushButton("Restart",view);
+    restartButton->setGeometry(QRect(QPoint(850,150), QSize(150, 50)));
+    restartButton->setStyleSheet(
+                        "QPushButton {"
+                                "border-image:url(:/images/images/normal.png); min-width: 150; min-height: 50;"
+                                "font: 20px Arial, sans-serif;"
+                        "}"
+                        "QPushButton:pressed {"
+                                "border-image:url(:/images/images/pressed.png); min-width: 150; min-height: 50;"
+                        "}"
+                        );
+    resumeButton = new QPushButton("Resume", view);
+    resumeButton->setGeometry(QRect(QPoint(850,100), QSize(150, 50)));
+    resumeButton->setStyleSheet(
+                "QPushButton {"
+                        "border-image:url(:/images/images/normal.png); min-width: 150; min-height: 50;"
+                        "font: 20px Arial, sans-serif;"
+                "}"
+                "QPushButton:pressed {"
+                        "border-image:url(:/images/images/pressed.png); min-width: 150; min-height: 50;"
+                "}"
+                );
+
+    QObject::connect(resumeButton,SIGNAL(clicked()), this, SLOT(playButtonSound()));
+    QObject::connect(resumeButton, SIGNAL(released()), this, SLOT(resume()));
+
+
+    QObject::connect(pauseButton,SIGNAL(clicked()), this, SLOT(playButtonSound()));
+    QObject::connect(pauseButton, SIGNAL(released()), this, SLOT(pause()));
+
+    QObject::connect(restartButton,SIGNAL(clicked()), this, SLOT(playButtonSound()));
+    QObject::connect(restartButton, SIGNAL(released()), this, SLOT(restart()));
+
+    pauseButton->show();
+    restartButton->show();
+
+
     /* fullscreen test
 
     QScreen *screen = QGuiApplication::primaryScreen();
@@ -249,7 +300,32 @@ void Game::spawnWave(){
         new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
         new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
         new Vampire(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-	}
+    }
+}
+
+void Game::pause()
+{
+    qDebug() << "Game paused";
+    pauseButton->hide();
+    restartButton->hide();
+    resumeButton->show();
+    isPaused = !isPaused;
+    gameTimer->stop();
+}
+
+void Game::restart()
+{
+    qDebug() << "Game restarted";
+    startSecondScene();
+}
+
+void Game::resume()
+{
+    qDebug() << "Game resumed";
+    resumeButton->hide();
+    pauseButton->show();
+    isPaused = !isPaused;
+    gameTimer->start(16);
 }
 
 void Game::cleanup() {

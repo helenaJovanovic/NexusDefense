@@ -36,6 +36,8 @@ public:
     //Pointer to the health
     Health *health;
 
+    bool isPaused=false;
+
     SpriteLoader *spriteLoader;
 
     //Pointer to the sound that should be played when user click on some button
@@ -70,6 +72,9 @@ public:
     QPushButton *startGameBtn;
     QPushButton *loadMapButton;
     QPushButton *exitButton;
+    QPushButton *pauseButton;
+    QPushButton *restartButton;
+    QPushButton *resumeButton;
     QGraphicsPixmapItem* background_image;
     // Pointer to currently visible map
     Map *currentMap = nullptr;
@@ -93,6 +98,9 @@ public slots:
     void localQuitGame();
     void playButtonSound();
     void spawnWave();
+    void pause();
+    void restart();
+    void resume();
 
         // Don't need to worry about scene and view, they are QObjects
         // and as such are automatically deleted when game closes
