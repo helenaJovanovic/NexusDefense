@@ -10,8 +10,8 @@ Health::Health(QGraphicsItem *parent): QGraphicsTextItem(parent){
     setFont(QFont("times",16));
 }
 
-void Health::decrease(){
-    health-=10;
+void Health::decrease(int damageAmount){
+    health-=damageAmount;
     setPlainText(QString("Health: ") + QString::number(health));
 }
 

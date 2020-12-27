@@ -202,8 +202,6 @@ void EnemyUnit::move(){
                 || (pos().rx() + 48 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry())){
 
                 isAlive = false;
-				// nexus health should decrease
-	            Game::game().health->decrease();
                 this->takeDamage(currentHealth);
             }
 
@@ -230,7 +228,7 @@ void EnemyUnit::boom(){
         currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
 		
 		// nexus health should decrease
-        Game::game().health->decrease();
+        Game::game().health->decrease(50);
 
         update();
 

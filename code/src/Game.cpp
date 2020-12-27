@@ -324,6 +324,7 @@ void Game::resume()
     qDebug() << "Game resumed";
     resumeButton->hide();
     pauseButton->show();
+    restartButton->show();
     isPaused = !isPaused;
     gameTimer->start(16);
 }
