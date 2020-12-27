@@ -330,6 +330,7 @@ void Game::resume()
     gameTimer->start(16);
 }
 
+
 void Game::cleanup() {
 
     delete Game::game().spriteLoader;
@@ -358,6 +359,8 @@ void Game::initHealth() {
     QPointF pos = view->mapToScene(0, 0);
     health->setPos(pos.x(), pos.y()+20);
     scene->addItem(health);
+
+    QObject::connect(health, SIGNAL(dead()),this,SLOT(localQuitGame()));
 }
 
 void Game::initIngameInterface() {
