@@ -315,6 +315,7 @@ void Game::pause()
 
 void Game::restart()
 {
+    gameTimer->stop();
     qDebug() << "Game restarted";
     startSecondScene();
 }
