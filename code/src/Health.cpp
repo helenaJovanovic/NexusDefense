@@ -13,6 +13,8 @@ Health::Health(QGraphicsItem *parent): QGraphicsTextItem(parent){
 void Health::decrease(int damageAmount){
     health-=damageAmount;
     setPlainText(QString("Health: ") + QString::number(health));
+    if(health == 0)
+        emit dead();
 }
 
 int Health::getHealth(){
