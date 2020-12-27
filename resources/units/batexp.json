@@ -5,6 +5,9 @@
         "initialState" : "none",
         "offsetX" : 0,
         "offsetY" : 0,
+        "movementDelay" : 0,
+        "attackDamage" : 0,
+        "maxHealth" : 0,
         "states" : [
                 {
                 "stateName" : "boom",

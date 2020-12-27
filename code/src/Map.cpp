@@ -107,6 +107,6 @@ MapTile *Map::getTilePointer(int x, int y) {
 QVector<QPointF>& Map::getTurnPoints(){
     return turnPoints;
 }
-QVector<unsigned>& Map::getTurnDirections(){
+QVector<DirectionsEnum>& Map::getTurnDirections(){
     return turnDirections;
 }

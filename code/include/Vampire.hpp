@@ -5,7 +5,7 @@
 
 class Vampire : public EnemyUnit{
 public:
-    Vampire(QPointF spawnPoint, int movementDelay);
+    Vampire(QPointF spawnPoint);
 
 private slots:
    void spawnAdd();

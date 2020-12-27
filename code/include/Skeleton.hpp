@@ -6,7 +6,7 @@
 class Skeleton : public EnemyUnit{
 
 public:
-    Skeleton(QPointF spawnPoint, int movementDelay);
+    Skeleton(QPointF spawnPoint);
 };
 
 #endif // SKELETON_HPP

@@ -38,6 +38,14 @@ Sprite *SpriteLoader::getUnitSprite(const QString & name) {
     return unitSprites[name];
 }
 
+void SpriteLoader::buffEnemyUnits(const int damagePercent, const int healthPercent)
+{
+    for(Sprite* unit : unitSprites){
+        unit->increaseAttackDamage(damagePercent);
+        unit->increaseMaxHealth(healthPercent);
+    }
+}
+
 QMap<QString, Sprite*> SpriteLoader::parseAndLoadSprites(const QString& path) {
     QMap<QString, Sprite*> result;
 
@@ -68,9 +76,12 @@ Sprite *SpriteLoader::parseSprite(const QString &filePath) {
     QString initialState = QString::fromStdString(tree.get("spriteAnimation.initialState", ""));
     int offsetX = QString::fromStdString(tree.get("spriteAnimation.offsetX", "0")).toInt();
     int offsetY = QString::fromStdString(tree.get("spriteAnimation.offsetY", "0")).toInt();
+    int movementDelay = QString::fromStdString(tree.get("spriteAnimation.movementDelay", "2")).toInt();
+    int attackDamage = QString::fromStdString(tree.get("spriteAnimation.attackDamage", "0")).toInt();
+    int maxHealth = QString::fromStdString(tree.get("spriteAnimation.maxHealth", "100")).toInt();
     QString spritesheet = QString::fromStdString(tree.get("spritesheet", ""));
 
-    Sprite* resultingSprite = new Sprite(name, spritesheet, initialState, offsetX, offsetY);
+    Sprite* resultingSprite = new Sprite(name, spritesheet, initialState, offsetX, offsetY, movementDelay, attackDamage, maxHealth);
 
     for(auto &state: tree.get_child("spriteAnimation.states")) {
         // name of the state

@@ -1,7 +1,7 @@
 #include "code/include/Skeleton.hpp"
 
-Skeleton::Skeleton(QPointF spawnPoint, int movementDelay)
-    : EnemyUnit(movementDelay)
+Skeleton::Skeleton(QPointF spawnPoint)
+    : EnemyUnit()
 {
     unitSprite = Game::game().spriteLoader->getUnitSprite("Skeleton");
     unitSpriteMap = unitSprite->getStatesMap();
@@ -12,6 +12,10 @@ Skeleton::Skeleton(QPointF spawnPoint, int movementDelay)
 
     offsetX = unitSprite->getOffsetX();
     offsetY = unitSprite->getOffsetY();
+    movementDelay = unitSprite->getMovementDelay();
+    attackDamage = unitSprite->getAttackDamage();
+    maxHealth = unitSprite->getMaxHealth();
+    currentHealth = maxHealth;
 
     healthBar.setRect(0, 0, currentOriginRect.width(), 5);
     healthBar.setParentItem(this);

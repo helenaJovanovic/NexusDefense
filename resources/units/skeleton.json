@@ -5,6 +5,9 @@
         "initialState" : "south",
         "offsetX" : 0,
         "offsetY" : -20,
+        "movementDelay" : 2,
+        "attackDamage" : 50,
+        "maxHealth" : 400,
         "states" : [
             {
                 "stateName" : "south",

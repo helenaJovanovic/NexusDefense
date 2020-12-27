@@ -246,9 +246,11 @@ void Game::spawnWave(){
 
         new EnemyUnit(currentMap->unitSpawnPointer, "Skeleton", 2);*/
 
-        new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-        new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-        new Vampire(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
+        new Bat(currentMap->unitSpawnPointer->pos());
+        new Skeleton(currentMap->unitSpawnPointer->pos());
+        new Vampire(currentMap->unitSpawnPointer->pos());
+
+        spriteLoader->buffEnemyUnits(2, 2);
 	}
 }
 

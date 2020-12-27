@@ -1,8 +1,8 @@
 #include "code/include/Vampire.hpp"
 #include "code/include/Bat.hpp"
 
-Vampire::Vampire(QPointF spawnPoint, int movementDelay)
-    : EnemyUnit(movementDelay)
+Vampire::Vampire(QPointF spawnPoint)
+    : EnemyUnit()
 {
     unitSprite = Game::game().spriteLoader->getUnitSprite("Vampire");
     unitSpriteMap = unitSprite->getStatesMap();
@@ -13,6 +13,10 @@ Vampire::Vampire(QPointF spawnPoint, int movementDelay)
 
     offsetX = unitSprite->getOffsetX();
     offsetY = unitSprite->getOffsetY();
+    movementDelay = unitSprite->getMovementDelay();
+    attackDamage = unitSprite->getAttackDamage();
+    maxHealth = unitSprite->getMaxHealth();
+    currentHealth = maxHealth;
 
     healthBar.setRect(0, 0, currentOriginRect.width(), 5);
     healthBar.setParentItem(this);
@@ -38,5 +42,5 @@ void Vampire::spawnAdd(){
         return;
 
     if(ticksElapsed % 400 == 0)
-        new Bat(pos() - QPointF(offsetX, offsetY), 2, currentDirectionIndex, nextTurnPointIndex, currentDirection);
+        new Bat(pos() - QPointF(offsetX, offsetY), currentDirectionIndex, nextTurnPointIndex, currentDirection);
 }

@@ -5,9 +5,8 @@
 
 class Bat : public EnemyUnit{
 public:
-    Bat(QPointF spawnPoint, const int movementDelay);
+    Bat(QPointF spawnPoint);
 
-    Bat(QPointF spawnPoint, const int movementDelay,
-        const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection);
+    Bat(QPointF spawnPoint, const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const DirectionsEnum newDirection);
 };
 #endif // BAT_HPP
