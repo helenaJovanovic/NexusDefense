@@ -51,6 +51,18 @@
         <file>towerTypes/missile1Tower.json</file>
         <file>towerTypes/missile2Tower.json</file>
         <file>towerTypes/missileTower.json</file>
+        <file>images/bat.png</file>
+        <file>images/batexp.png</file>
+        <file>images/Bullet_Cannon10x20.png</file>
+        <file>images/Cannon2_16x33.png</file>
+        <file>images/Cannon16x33.png</file>
+        <file>images/MG3_16x33.png</file>
+        <file>images/Missile_Launcher2_20x20.png</file>
+        <file>images/Missile_Launcher3_24x20.png</file>
+        <file>images/Missile_Launcher16x33.png</file>
+        <file>images/Missile15x27.png</file>
+        <file>images/skeleton.png</file>
+        <file>images/vampire.png</file>
     </qresource>
     <qresource prefix="/sounds"/>
 </RCC>
