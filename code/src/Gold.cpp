@@ -3,7 +3,7 @@
 
 Gold::Gold(QGraphicsItem *parent) : QGraphicsTextItem(parent)
 {
-    gold = 100;
+    gold = 500;
     setPlainText(QString("Gold: ") + QString::number(gold));
     setDefaultTextColor(Qt::darkYellow);
     setFont(QFont("times",16));
@@ -15,8 +15,8 @@ void Gold::increaseGold() {
     setPlainText(QString("Gold: ") + QString::number(gold));
 }
 
-void Gold::decreaseGold() {
-    gold-=100;
+void Gold::decreaseGold(int x) {
+    gold-=x;
     setPlainText(QString("Gold: ") + QString::number(gold));
 }
 

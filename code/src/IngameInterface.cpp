@@ -3,20 +3,28 @@
 #include <QObject>
 
 IngameInterface::IngameInterface(CustomView* view) {
-    for(int i=0; i<4; i++) {
+    for(int i=0; i<3; i++) {
+        //There are three tower types
 
 
+        if(i == 0){
+            towerSlots.append(new InterfaceTowerSlot("Mg", view));
+        }
+        else if(i == 1){
+            towerSlots.append(new InterfaceTowerSlot("Cannon", view));
+        }
+        else{
+            towerSlots.append(new InterfaceTowerSlot("Missile", view));
+        }
 
-
-        towerSlots.append(new InterfaceTowerSlot("T", view));
         towerSlots[i]->setSlotNum(i);
-        towerSlots[i]->setGeometry(QRect(QPoint(view->width()-5*64+64*(i+1)-4, 4), QSize(64, 64)));
+        towerSlots[i]->setGeometry(QRect(QPoint(view->width()-4*64+64*(i+1)-4, 4), QSize(64, 64)));
         towerSlots[i]->setStyleSheet(
             "QPushButton {"
                 "border-image:url(:/images/images/normal.png);"
                 "min-width: 64;"
                 "min-height: 64;"
-                "font: 20px Arial, sans-serif;"
+                "font: 15px Arial, sans-serif;"
             "}"
             "QPushButton:pressed {"
                 "border-image:url(:/images/images/pressed.png);"

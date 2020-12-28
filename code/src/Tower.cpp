@@ -75,7 +75,16 @@ Tower::Tower(MapTile* tile,QString towerType)
     connect(Game::game().gameTimer, SIGNAL(timeout()), this, SLOT(update()));
 //    qDebug()<<"Tower created"<<"\n";
     // When Tower constructor is called gold saldo should decrease
-    Game::game().gold->decreaseGold();
+
+    if(towerType == "mg"){
+        Game::game().gold->decreaseGold(100);
+    }
+    else if(towerType == "cannon"){
+        Game::game().gold->decreaseGold(150);
+    }
+    else if(towerType == "missile"){
+        Game::game().gold->decreaseGold(200);
+    }
 }
 
 Tower::Tower(int x, int y, QString towerType)

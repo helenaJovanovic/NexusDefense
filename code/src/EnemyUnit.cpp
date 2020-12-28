@@ -77,7 +77,7 @@ void EnemyUnit::takeDamage(float damageAmount) {
 		
 		//When enemy unit is destroyed score and gold should increase
         Game::game().score->increase();
-        Game::game().gold->increaseGold();		
+        Game::game().gold->increaseGold();
 
         timeElapsed = 0;
 
@@ -98,6 +98,8 @@ void EnemyUnit::selfDestruct(){
     currentOriginRect = explosionSpriteMap["boom"][0].rect;
 
     timeElapsed = 0;
+
+
 
     deathPhase = true;
 }
@@ -208,6 +210,8 @@ void EnemyUnit::move(){
 
                 isAlive = false;
                 this->takeDamage(currentHealth);
+                // nexus health should decrease
+                Game::game().health->decrease(50);
             }
 
         }
@@ -226,15 +230,15 @@ void EnemyUnit::boom(){
 
         Game::game().scene->removeItem(this);
         delete(this);
+
+
+
     }
 
     else if(timeElapsed >= explosionSpriteMap["boom"][deathFrameNumber].duration){
         currentOriginPoint = explosionSpriteMap["boom"][deathFrameNumber].origin;
         currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
 		
-		// nexus health should decrease
-        Game::game().health->decrease(50);
-
         update();
 
         deathFrameNumber++;

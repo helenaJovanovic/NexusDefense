@@ -16,12 +16,33 @@ int InterfaceTowerSlot::getSlotNum() {
 
 //TODO: display a label with tower information underneath the buttons
 void InterfaceTowerSlot::enterEvent(QEvent* event) {
-    setText("T" + QString::number(slotNumber));
+
+    if(slotNumber == 0){
+        setText("100g");
+    }
+    else if(slotNumber == 1){
+        setText("150g");
+    }
+    else if(slotNumber == 2){
+        setText("250g");
+    }
+
     QPushButton::enterEvent(event);
 }
 
 void InterfaceTowerSlot::leaveEvent(QEvent* event) {
-    setText("T");
+
+
+
+    if(slotNumber == 0){
+        setText("Mg");
+    }
+    else if(slotNumber == 1){
+        setText("Cannon");
+    }
+    else if(slotNumber == 2){
+        setText("Missile");
+    }
     QPushButton::leaveEvent(event);
 }
 

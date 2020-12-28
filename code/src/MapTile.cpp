@@ -34,17 +34,29 @@ void MapTile::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     if(event->button() == Qt::LeftButton) {
         if((type == "T" || type == "TE") && occupied == false){
 
-            //TODO
+            //TODO ??
             //You should get better guns based on the level, time elapsed
             //And more units appearing
 
             //for now
-            int level = 0;
+            //int level = 0;
 
             switch (Game::game().towerSelected) {
-            case 0: new Tower(this, "mg"); break;
-            case 1: new Tower(this, "cannon"); break;
-            case 2: new Tower(this, "missile"); break;
+            case 0:
+                if(Game::game().gold->getGold() >= 100){
+                    new Tower(this, "mg");
+                };
+                break;
+            case 1:
+                if(Game::game().gold->getGold() >= 150){
+                    new Tower(this, "cannon");
+                };
+                break;
+            case 2:
+                if(Game::game().gold->getGold() >= 200){
+                    new Tower(this, "missile");
+                };
+                break;
             case 3: new Tower(this, "mg"); break;
             default: break;
 

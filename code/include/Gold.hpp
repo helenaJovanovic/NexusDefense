@@ -8,7 +8,7 @@ class Gold: public QGraphicsTextItem{
 public:
     Gold(QGraphicsItem * parent=0);
     void increaseGold();
-    void decreaseGold();
+    void decreaseGold(int x);
     int getGold();
 private:
     int gold;
