@@ -35,6 +35,7 @@ SOURCES += \
 HEADERS += \
     code/include/Bat.hpp \
     code/include/CustomView.hpp \
+    code/include/DirectionsEnum.hpp \
     code/include/EnemyUnit.hpp \
     code/include/GameScore.hpp \
     code/include/Gold.hpp \

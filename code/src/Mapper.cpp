@@ -154,21 +154,22 @@ QVector<QPointF>& Mapper::getUnitTurnPointsXY(int resX, int resY){
 }
 
 //Calculate direction using two points
-unsigned Mapper::calcDirection(QPointF p1, QPointF p2){
-    //go down
+DirectionsEnum Mapper::calcDirection(QPointF p1, QPointF p2){
+    //go SOUTH
     if(p1.x() == p2.x() && p1.y() < p2.y()){
-        return 1u;
+        return DirectionsEnum::SOUTH;
     }
-    //go left
+    //go WEST
     else if(p1.x() > p2.x() && p1.y() == p2.y()){
-        return 2u;
+        return DirectionsEnum::WEST;
     }
-    //go right
+    //go EAST
     else if(p1.x() < p2.x() && p1.y() == p2.y()){
-        return 3u;
+        return DirectionsEnum::EAST;
     }
 
-    return 4u;
+    // go NORTH
+    return DirectionsEnum::NORTH;
 }
 
 //Next we want the direction where to which
@@ -176,7 +177,7 @@ unsigned Mapper::calcDirection(QPointF p1, QPointF p2){
 
 //For each index in the unitTurnPoint vector
 //there is a corresponding direction in this vector
-QVector<unsigned>& Mapper::getDirections(){
+QVector<DirectionsEnum>& Mapper::getDirections(){
     return directions;
 }
 

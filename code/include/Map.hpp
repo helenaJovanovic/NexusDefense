@@ -34,11 +34,11 @@ public:
 
     //Getters for turn points and directions of units
     QVector<QPointF>& getTurnPoints();
-    QVector<unsigned>& getTurnDirections();
+    QVector<DirectionsEnum>& getTurnDirections();
 
 private:
     QVector<QPointF> turnPoints;
-    QVector<unsigned> turnDirections;
+    QVector<DirectionsEnum> turnDirections;
     QPixmap roadTexture;
     QPixmap towerTexture;
     QPixmap nexusTexture;

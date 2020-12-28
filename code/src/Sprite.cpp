@@ -1,8 +1,10 @@
 #include <code/include/Sprite.hpp>
 
 
-Sprite::Sprite(const QString& name, const QString& spritesheet, const QString& initialState, const int offsetX, const int offsetY)
-    : name(name), spritesheet(spritesheet), initialState(initialState), offsetX(offsetX), offsetY(offsetY) {
+Sprite::Sprite(const QString& name, const QString& spritesheet, const QString& initialState,
+               const int offsetX, const int offsetY, const int movementDelay, const int attackDamage, const int maxHealth)
+    : name(name), spritesheet(spritesheet), initialState(initialState),
+      offsetX(offsetX), offsetY(offsetY), movementDelay(movementDelay), attackDamage(attackDamage), maxHealth(maxHealth) {
 
 }
 
@@ -24,6 +26,31 @@ int Sprite::getOffsetX() const {
 
 int Sprite::getOffsetY() const {
     return offsetY;
+}
+
+int Sprite::getMovementDelay() const
+{
+    return movementDelay;
+}
+
+int Sprite::getAttackDamage() const
+{
+    return attackDamage;
+}
+
+void Sprite::increaseAttackDamage(const int damagePercent)
+{
+    attackDamage += static_cast<int>(attackDamage * (damagePercent/100.0));
+}
+
+int Sprite::getMaxHealth() const
+{
+    return maxHealth;
+}
+
+void Sprite::increaseMaxHealth(const int healthPercent)
+{
+    maxHealth += static_cast<int>(maxHealth * (healthPercent/100.0));
 }
 
 QMap<QString, QVector<Sprite::frame> > &Sprite::getStatesMap() {

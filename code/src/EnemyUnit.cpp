@@ -2,8 +2,7 @@
 #include <code/include/GameTimer.hpp>
 #include <code/include/Mapper.hpp>
 
-EnemyUnit::EnemyUnit(const int movementDelay)
-    : movementDelay(movementDelay)
+EnemyUnit::EnemyUnit()
 {
 
     turnPoints = Game::game().currentMap->getTurnPoints();
@@ -19,9 +18,8 @@ EnemyUnit::EnemyUnit(const int movementDelay)
     timeElapsed = 0;
 }
 
-EnemyUnit::EnemyUnit(const int movementDelay,
-            const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection)
-    : EnemyUnit(movementDelay)
+EnemyUnit::EnemyUnit(const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const DirectionsEnum newDirection)
+    : EnemyUnit()
 {
 
     currentDirectionIndex = newDirectionIndex;
@@ -90,6 +88,20 @@ void EnemyUnit::takeDamage(float damageAmount) {
         healthBar.setRect(0, 0, static_cast<int>(currentOriginRect.width() * (currentHealth/maxHealth)), 5);
 }
 
+void EnemyUnit::selfDestruct(){
+    isAlive = false;
+
+    healthBar.setVisible(false);
+
+    currentSpritesheet = explosionSprite->getSpritesheet();
+    currentOriginPoint = explosionSpriteMap["boom"][0].origin;
+    currentOriginRect = explosionSpriteMap["boom"][0].rect;
+
+    timeElapsed = 0;
+
+    deathPhase = true;
+}
+
 void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     painter->drawPixmap(currentOriginPoint, currentSpritesheet, currentOriginRect);
 
@@ -110,7 +122,7 @@ void EnemyUnit::animate(){
         return;
 
 
-    if(currentDirection == 1){
+    if(currentDirection == DirectionsEnum::SOUTH){
 
         if(frameNumber == unitSpriteMap["south"].size())
             frameNumber = 0;
@@ -129,7 +141,7 @@ void EnemyUnit::animate(){
         }
     }
 
-    else if(currentDirection == 3){
+    else if(currentDirection == DirectionsEnum::EAST){
 
         if(frameNumber == unitSpriteMap["east"].size())
             frameNumber = 0;
@@ -160,20 +172,13 @@ void EnemyUnit::move(){
 
     if(numOfTicks >= movementDelay){
 
-        /*
-        1 for down
-        2 for left
-        3 for right
-        4 for up
-        */
-
-        if(currentDirection == 1)
+        if(currentDirection == DirectionsEnum::SOUTH)
             moveBy(0, 4);
-        else if(currentDirection == 2)
+        else if(currentDirection == DirectionsEnum::WEST)
             moveBy(-4, 0);
-        else if(currentDirection == 3)
+        else if(currentDirection == DirectionsEnum::EAST)
             moveBy(4, 0);
-        else if(currentDirection == 4)
+        else if(currentDirection == DirectionsEnum::NORTH)
             moveBy(0, -4);
 
         // If the unit is not on the last direction we take the next turn

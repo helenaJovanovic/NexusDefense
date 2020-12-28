@@ -7,6 +7,8 @@
 #include <QPair>
 #include <QPointF>
 
+#include "DirectionsEnum.hpp"
+
 class Mapper
 {
 public:
@@ -49,10 +51,10 @@ public:
 
     //For each index in the unitTurnPoint vector
     //there is a corresponding direction in this vector
-    QVector<unsigned>& getDirections();
+    QVector<DirectionsEnum>& getDirections();
 
     //Calculate direction using two points
-    unsigned calcDirection(QPointF p1, QPointF p2);
+    DirectionsEnum calcDirection(QPointF p1, QPointF p2);
 
 
 
@@ -74,7 +76,7 @@ private:
     3 for right
     4 for up
     */
-    QVector<unsigned> directions;
+    QVector<DirectionsEnum> directions;
 
 
     QVector<QPair<int, int>> roadToNexus;

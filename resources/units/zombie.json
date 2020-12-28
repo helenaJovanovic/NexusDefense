@@ -5,6 +5,7 @@
         "initialState" : "east",
         "offsetX" : 0,
         "offsetY" : 0,
+        "movementDelay" : 2,
         "states" : [
             {
                 "stateName" : "east",

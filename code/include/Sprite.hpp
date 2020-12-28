@@ -16,13 +16,18 @@ public:
         QRect rect;
     };
 
-    Sprite(const QString&, const QString&, const QString&, const int, const int);
+    Sprite(const QString&, const QString&, const QString&, const int, const int, const int, const int, const int);
 
     QString getName() const;
     QString getSpritesheet() const;
     QString getInitialState() const;
     int getOffsetX() const;
     int getOffsetY() const;
+    int getMovementDelay() const;
+    int getAttackDamage() const;
+    void increaseAttackDamage(const int);
+    int getMaxHealth() const;
+    void increaseMaxHealth(const int);
     QMap<QString, QVector<frame>>& getStatesMap();
 
 private:
@@ -31,6 +36,9 @@ private:
     QString initialState;
     int offsetX;
     int offsetY;
+    int movementDelay;
+    int attackDamage;
+    int maxHealth;
 
     QMap<QString, QVector<frame>> animationStates;
 

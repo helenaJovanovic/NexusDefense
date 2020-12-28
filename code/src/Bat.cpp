@@ -1,7 +1,7 @@
 #include "code/include/Bat.hpp"
 
-Bat::Bat(QPointF spawnPoint, const int movementDelay)
-    : EnemyUnit(movementDelay)
+Bat::Bat(QPointF spawnPoint)
+    : EnemyUnit()
 {
     unitSprite = Game::game().spriteLoader->getUnitSprite("Bat");
     unitSpriteMap = unitSprite->getStatesMap();
@@ -12,6 +12,10 @@ Bat::Bat(QPointF spawnPoint, const int movementDelay)
 
     offsetX = unitSprite->getOffsetX();
     offsetY = unitSprite->getOffsetY();
+    movementDelay = unitSprite->getMovementDelay();
+    attackDamage = unitSprite->getAttackDamage();
+    maxHealth = unitSprite->getMaxHealth();
+    currentHealth = maxHealth;
 
     setPos(spawnPoint.rx() + offsetX, spawnPoint.ry() + offsetY);
 
@@ -31,9 +35,8 @@ Bat::Bat(QPointF spawnPoint, const int movementDelay)
     connect(Game::game().gameTimer, &QTimer::timeout, this, &EnemyUnit::boom);
 }
 
-Bat::Bat(QPointF spawnPoint, const int movementDelay,
-         const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection)
-    : Bat(spawnPoint, movementDelay)
+Bat::Bat(QPointF spawnPoint, const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const DirectionsEnum newDirection)
+    : Bat(spawnPoint)
 
 {
     currentDirectionIndex = newDirectionIndex;

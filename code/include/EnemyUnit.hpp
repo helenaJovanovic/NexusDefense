@@ -3,6 +3,7 @@
 
 #include <code/include/Game.hpp>
 #include <code/include/Sprite.hpp>
+#include <code/include/DirectionsEnum.hpp>
 
 #include <QGraphicsRectItem>
 #include <QDebug>
@@ -12,10 +13,9 @@ class EnemyUnit : public QObject, public QGraphicsItem{
     Q_OBJECT
 public:
     //Creates an EnemyUnit object and places it on the scene @ spawnPoint
-    EnemyUnit(const int movementDelay);
+    EnemyUnit();
 
-    EnemyUnit(const int movementDelay,
-              const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const int newDirection);
+    EnemyUnit(const unsigned newDirectionIndex, const unsigned newTurnPointIndex, const DirectionsEnum newDirection);
 
     ~EnemyUnit();
 
@@ -32,6 +32,7 @@ public:
 
     //Reduces the unit's healh by damageAmount and destroys it if currentHealth <= 0
     void takeDamage(float damageAmount);
+    void selfDestruct();
 
     //Methods for drawing the unit on the scene (from parent class QGraphicsRectItem)
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -39,11 +40,11 @@ public:
 
 protected:
     //Fields hard coded for now...
-    float maxHealth = 500;
-    float currentHealth = 500;
+    float maxHealth;
+    float currentHealth;
 
-    float movementDelay = 2;
-    float attackDamage = 40;
+    float movementDelay;
+    float attackDamage;
 
     //Ticks
     int numOfTicks = 0;
@@ -54,12 +55,12 @@ protected:
 
     //Moving directions
     QVector<QPointF> turnPoints;
-    QVector<unsigned> turnDirections;
+    QVector<DirectionsEnum> turnDirections;
 
     unsigned currentDirectionIndex;
-    int currentDirection;
+    DirectionsEnum currentDirection;
     unsigned nextTurnPointIndex;
-    int numOfTurns;
+    unsigned numOfTurns;
     int frameNumber = 0;
     int deathFrameNumber = 0;
     bool deathPhase = false;

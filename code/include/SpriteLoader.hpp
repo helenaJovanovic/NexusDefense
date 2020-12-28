@@ -20,6 +20,8 @@ public:
     Sprite* getUnitSprite(const QString&);
     Sprite* getMiscSprite(const QString&);
 
+    void buffEnemyUnits(const int, const int);
+
 private:
     QMap<QString, Sprite*> parseAndLoadSprites(const QString& folderPath);
     Sprite* parseSprite(const QString& filePath);

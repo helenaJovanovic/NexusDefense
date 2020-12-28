@@ -90,6 +90,7 @@ void Game::menuScreen(){
                 );
 
 
+
     QObject::connect(startGameBtn, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(startGameBtn, SIGNAL(released()), this, SLOT(startSecondScene()));
 
@@ -98,8 +99,6 @@ void Game::menuScreen(){
 
     QObject::connect(exitButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
-
-
 
     startGameBtn->show();
     loadMapButton->show();
@@ -298,10 +297,12 @@ void Game::spawnWave(){
 
         new EnemyUnit(currentMap->unitSpawnPointer, "Skeleton", 2);*/
 
-        new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-        new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-        new Vampire(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-    }
+        new Bat(currentMap->unitSpawnPointer->pos());
+        new Skeleton(currentMap->unitSpawnPointer->pos());
+        new Vampire(currentMap->unitSpawnPointer->pos());
+
+        spriteLoader->buffEnemyUnits(2, 2);
+	}
 }
 
 void Game::pause()
