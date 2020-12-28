@@ -25,6 +25,9 @@ void InterfaceTowerSlot::leaveEvent(QEvent* event) {
     QPushButton::leaveEvent(event);
 }
 
+
+
+
 //TODO: attach the "&InterfaceTowerSlot::clicked" signal
 //      to a slot function for building towers
 //TODO: get the map tiles click event from mouseMoveEvent

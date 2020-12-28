@@ -1,5 +1,6 @@
 #include <code/include/IngameInterface.hpp>
 #include <code/include/Game.hpp>
+#include <QObject>
 
 IngameInterface::IngameInterface(CustomView* view) {
     for(int i=0; i<4; i++) {
@@ -23,7 +24,24 @@ IngameInterface::IngameInterface(CustomView* view) {
                 "min-height: 64;"
             "}"
         );
+
+        switch (i) {
+        case 0:
+            QObject::connect(towerSlots[i], SIGNAL(released()), &Game::game(), SLOT(setTower1())); break;
+        case 1:
+            QObject::connect(towerSlots[i], SIGNAL(released()), &Game::game(), SLOT(setTower2())); break;
+        case 2:
+            QObject::connect(towerSlots[i], SIGNAL(released()), &Game::game(), SLOT(setTower3())); break;
+        case 3:
+            QObject::connect(towerSlots[i], SIGNAL(released()), &Game::game(), SLOT(setTower4())); break;
+        default:
+            break;
+        }
+
+
     }
+
+
 }
 
 void IngameInterface::showInterface() {

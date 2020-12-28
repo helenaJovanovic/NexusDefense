@@ -22,6 +22,7 @@ SOURCES += \
     code/src/Sprite.cpp \
     code/src/SpriteLoader.cpp \
     code/src/Tower.cpp \
+    code/src/TowerLoader.cpp \
     code/src/Turret.cpp \
     code/src/GameTimer.cpp \
     code/src/Game.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     code/include/Sprite.hpp \
     code/include/SpriteLoader.hpp \
     code/include/Tower.hpp \
+    code/include/TowerLoader.hpp \
     code/include/Turret.hpp \
     code/include/GameTimer.hpp \
     code/include/Game.hpp \

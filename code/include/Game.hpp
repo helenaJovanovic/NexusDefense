@@ -88,6 +88,8 @@ public:
     int sceneHeight = 3200;
 
     int tileWidth = 32;
+    int towerSelected = -1;
+    int elapsedSpawnTime = 0;
 
     //Check if given X,Y is a Tower tile
     bool isTowerTile(QPointF posXY);
@@ -101,6 +103,12 @@ public slots:
     void pause();
     void restart();
     void resume();
+
+    //TOWER SLOTS
+    void setTower1();
+    void setTower2();
+    void setTower3();
+    void setTower4();
 
         // Don't need to worry about scene and view, they are QObjects
         // and as such are automatically deleted when game closes
@@ -119,7 +127,9 @@ private:
     QString mapChoice = ":/mapPrototype.txt";
 
     int unitsSpawned = 1;
-    int elapsedSpawnTime = 0;
+
+
+
 };
 
 #endif // GAME_HPP

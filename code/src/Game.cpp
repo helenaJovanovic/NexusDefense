@@ -263,6 +263,7 @@ void Game::beginGame() {
     view->enableMouseMovement();
 
     connect(gameTimer, &QTimer::timeout, this, &Game::spawnWave);
+    new Tower(9, 13,"missile");
 
     /*new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
     new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
@@ -399,6 +400,21 @@ void Game::initPlaylist()
 }
 
 
+//TOWER SLOTS
+
+void Game::setTower1(){
+    towerSelected = 0;
+}
+
+void Game::setTower2(){
+    towerSelected = 1;
+}
+void Game::setTower3(){
+    towerSelected = 2;
+}
+void Game::setTower4(){
+    towerSelected = 3;
+}
 
 
 

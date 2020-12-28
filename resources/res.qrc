@@ -36,9 +36,21 @@
         <file>sounds/scream.mp3</file>
         <file>res.qrc</file>
         <file>sounds/StoneButton.mp3</file>
-		<file>units/batexp.json</file>
+        <file>units/batexp.json</file>
         <file>units/skeleton.json</file>
         <file>units/vampire.json</file>
+        <file>towerTypes/cannon0Tower.json</file>
+        <file>towerTypes/cannon1Tower.json</file>
+        <file>towerTypes/cannon2Tower.json</file>
+        <file>towerTypes/cannonTower.json</file>
+        <file>towerTypes/mg0Tower.json</file>
+        <file>towerTypes/mg1Tower.json</file>
+        <file>towerTypes/mg2Tower.json</file>
+        <file>towerTypes/mgTower.json</file>
+        <file>towerTypes/missile0Tower.json</file>
+        <file>towerTypes/missile1Tower.json</file>
+        <file>towerTypes/missile2Tower.json</file>
+        <file>towerTypes/missileTower.json</file>
     </qresource>
     <qresource prefix="/sounds"/>
 </RCC>

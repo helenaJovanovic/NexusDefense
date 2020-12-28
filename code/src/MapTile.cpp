@@ -3,6 +3,8 @@
 #include <code/include/Game.hpp>
 #include <code/include/MapTile.hpp>
 #include <QGraphicsSceneMouseEvent>
+#include <code/include/Tower.hpp>
+//check this later
 
 MapTile::MapTile(QString type, QPixmap& texture)
     : type(type), texture(texture)
@@ -30,8 +32,27 @@ QRectF MapTile::boundingRect() const {
 
 void MapTile::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     if(event->button() == Qt::LeftButton) {
-        if(type == "T" || type == "TE"){
-            qDebug() << "Tile is tower tile";
+        if((type == "T" || type == "TE") && occupied == false){
+
+            //TODO
+            //You should get better guns based on the level, time elapsed
+            //And more units appearing
+
+            //for now
+            int level = 0;
+
+            switch (Game::game().towerSelected) {
+            case 0: new Tower(this, "mg"); break;
+            case 1: new Tower(this, "cannon"); break;
+            case 2: new Tower(this, "missile"); break;
+            case 3: new Tower(this, "mg"); break;
+            default: break;
+
+            }
+
+            occupied = true;
+            Game::game().towerSelected = -1;
+
         }
         qDebug() << "clicked at maptile pos: " << getX() << ", " << getY();
 
