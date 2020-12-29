@@ -33,6 +33,8 @@ IngameInterface::IngameInterface(CustomView* view) {
             "}"
         );
 
+
+
         switch (i) {
         case 0:
             QObject::connect(towerSlots[i], SIGNAL(released()), &Game::game(), SLOT(setTower1())); break;

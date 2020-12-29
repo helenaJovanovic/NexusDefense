@@ -40,6 +40,10 @@ Turret::Turret(Tower *tower)
     this->setTransformOriginPoint(turretCenterX,turretCenterY);
     direction=QLineF(this->pos()+QPointF(turretCenterX,turretCenterY),this->pos()+QPointF(turretCenterX,turretCenterY));
 
+   fireSound = new QMediaPlayer();
+   fireSound->setMedia(QUrl("qrc:/sounds/projectile.mp3"));
+   fireSound->setVolume(80);
+
 }
 
 Turret::~Turret()
@@ -81,7 +85,11 @@ void Turret::rotateToTarget()
 
 void Turret::fire()
 {
-
-
+    if(fireSound->state() == QMediaPlayer::PlayingState) {
+        fireSound->setPosition(0);
+    }
+    else if(fireSound->state() == QMediaPlayer::StoppedState) {
+        fireSound->play();
+    }
     new Projectile(tower->getAttributes()->getParameters()["blastRadius"],tower->getAttributes()->getParameters()["projectileLength"],tower->getAttributes()->getParameters()["projectileHeight"],tower->getAttributes()->getPaths()["projectileImagePath"],tower->getAttributes()->getParameters()["attackDamage"],tower->getAttributes()->getParameters()["projectileSpeedDelay"],tower->getTarget(),QPointF(barrel.x(),barrel.y()));
 }

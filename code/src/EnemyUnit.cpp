@@ -10,6 +10,10 @@ EnemyUnit::EnemyUnit()
 
     numOfTurns = turnPoints.length();
 
+    dyingSound = new QMediaPlayer();
+    dyingSound->setMedia(QUrl("qrc:/sounds/scream.mp3"));
+    dyingSound->setVolume(100);
+
     nextTurnPointIndex = 0;
     currentDirectionIndex = 0;
     currentDirection = turnDirections[0];
@@ -74,8 +78,8 @@ void EnemyUnit::takeDamage(float damageAmount) {
         currentSpritesheet = explosionSprite->getSpritesheet();
         currentOriginPoint = explosionSpriteMap["boom"][0].origin;
         currentOriginRect = explosionSpriteMap["boom"][0].rect;
-		
-		//When enemy unit is destroyed score and gold should increase
+
+        //When enemy unit is destroyed score and gold should increase
         Game::game().score->increase();
         Game::game().gold->increaseGold();
 
@@ -93,12 +97,12 @@ void EnemyUnit::selfDestruct(){
 
     healthBar.setVisible(false);
 
+
     currentSpritesheet = explosionSprite->getSpritesheet();
     currentOriginPoint = explosionSpriteMap["boom"][0].origin;
     currentOriginRect = explosionSpriteMap["boom"][0].rect;
 
     timeElapsed = 0;
-
 
 
     deathPhase = true;
@@ -228,17 +232,15 @@ void EnemyUnit::boom(){
 
     if(deathFrameNumber == explosionSpriteMap["boom"].size()){
 
+
         Game::game().scene->removeItem(this);
         delete(this);
-
-
-
     }
 
     else if(timeElapsed >= explosionSpriteMap["boom"][deathFrameNumber].duration){
         currentOriginPoint = explosionSpriteMap["boom"][deathFrameNumber].origin;
         currentOriginRect = explosionSpriteMap["boom"][deathFrameNumber].rect;
-		
+
         update();
 
         deathFrameNumber++;

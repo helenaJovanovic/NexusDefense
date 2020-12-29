@@ -1,5 +1,6 @@
 #include <code/include/Tower.hpp>
 #include <cmath>
+#include <QTimer>
 
 
 
@@ -49,6 +50,10 @@ void Tower::upgrade()
 Tower::Tower(MapTile* tile,QString towerType)
     : locationOnMap(tile)
 {
+    constructionSound = new QMediaPlayer();
+    constructionSound->setMedia(QUrl("qrc:/sounds/construction.wav"));
+    constructionSound->setVolume(60);
+
     attributes=new TowerLoader(towerType);
     float width=attributes->getParameters()["tileWidth"];
     float height=attributes->getParameters()["tileHeight"];
@@ -70,8 +75,17 @@ Tower::Tower(MapTile* tile,QString towerType)
     attackArea->setOpacity(0);
 //    Game::game().scene->addItem(attackArea);
     turret=new Turret(this);
-    Game::game().scene->addItem(this);
-    Game::game().scene->addItem(turret);
+
+    QTimer::singleShot(3000,this,SLOT(onConstructionFinished()));
+
+
+    if(constructionSound->state() == QMediaPlayer::PlayingState) {
+        constructionSound->setPosition(0);
+    }
+    else if(constructionSound->state() == QMediaPlayer::StoppedState) {
+        constructionSound->play();
+    }
+
     connect(Game::game().gameTimer, SIGNAL(timeout()), this, SLOT(update()));
 //    qDebug()<<"Tower created"<<"\n";
     // When Tower constructor is called gold saldo should decrease
@@ -186,6 +200,12 @@ void Tower::update()
        acquireTargetAndAttack();
        numberOfTicks=0;
    }
+}
+
+void Tower::onConstructionFinished()
+{
+    Game::game().scene->addItem(this);
+    Game::game().scene->addItem(turret);
 }
 
 QRectF Tower::boundingRect() const

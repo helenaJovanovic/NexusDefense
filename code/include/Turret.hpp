@@ -4,6 +4,7 @@
 class Tower;
 //class Projectile;
 #include <QGraphicsItem>
+#include <QMediaPlayer>
 #include <QDebug>
 #include <QPointer>
 #include <code/include/Tower.hpp>
@@ -21,6 +22,7 @@ private:
     QLineF direction;
     Tower* tower;
     QPointF barrel;
+    QMediaPlayer* fireSound;
 
 public:
     Turret(Tower* tower);

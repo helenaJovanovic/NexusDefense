@@ -9,6 +9,7 @@ class Turret;
 #include <code/include/MapTile.hpp>
 #include <code/include/Map.hpp>
 #include <QPointer>
+#include <QMediaPlayer>
 #include <code/include/TowerLoader.hpp>
 #include <code/include/EnemyUnit.hpp>
 //#include <code/include/Projectile.hpp>
@@ -32,8 +33,11 @@ private:
     int numberOfTicks=0;
     Sprite* sprite;
     Turret* turret;
+    QMediaPlayer* constructionSound;
+
 
     TowerLoader* attributes;
+
 
     //fields are parsed by TowerLoader from json
 //    QString name;
@@ -46,10 +50,6 @@ private:
 //    float attackDamage;
 //    //number of timer ticks for each attack
 //    float attackSpeed;
-
-
-
-
 
 
 
@@ -88,6 +88,7 @@ public:
 public slots:
     //on timer tick
     void update();
+    void onConstructionFinished();
 };
 
 #endif // TOWER_HPP

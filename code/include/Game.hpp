@@ -44,7 +44,7 @@ public:
     QMediaPlayer *buttonSound;
 
     //Pointer to the background music playlist
-    QMediaPlaylist *playlist;
+    QMediaPlayer *backgroundMusic;
 
     // All cleanup code goes in this function (aka freeing up memory etc)
     static void cleanup();
@@ -61,7 +61,7 @@ public:
     void initHealth();
     void initIngameInterface();
     void initButtonSound();
-    void initPlaylist();
+    void initBackgroundMusic();
 
     QApplication* getGameApp();
     // Pointers to scene and view

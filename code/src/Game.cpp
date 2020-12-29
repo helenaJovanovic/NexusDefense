@@ -14,6 +14,7 @@
 #include <code/include/Bat.hpp>
 #include <code/include/Skeleton.hpp>
 #include <code/include/Vampire.hpp>
+#include <code/include/IngameInterface.hpp>
 
 
 Game *Game::instance = 0;
@@ -137,7 +138,7 @@ void Game::startSecondScene(){
    initGold();
    initHealth();
    initIngameInterface();
-   initPlaylist();
+   initBackgroundMusic();
    beginGame();
 }
 
@@ -308,6 +309,7 @@ void Game::spawnWave(){
 void Game::pause()
 {
     qDebug() << "Game paused";
+    ingameInterface->hideInterface();
     pauseButton->hide();
     restartButton->hide();
     resumeButton->show();
@@ -317,8 +319,9 @@ void Game::pause()
 
 void Game::restart()
 {
-    gameTimer->stop();
     qDebug() << "Game restarted";
+    gameTimer->stop();
+    backgroundMusic->stop();
     startSecondScene();
 }
 
@@ -327,6 +330,7 @@ void Game::resume()
     qDebug() << "Game resumed";
     resumeButton->hide();
     pauseButton->show();
+    ingameInterface->showInterface();
     restartButton->show();
     isPaused = !isPaused;
     gameTimer->start(16);
@@ -387,16 +391,16 @@ void Game::initButtonSound()
     buttonSound->setMedia(QUrl("qrc:/sounds/StoneButton.mp3"));
 }
 
-void Game::initPlaylist()
+void Game::initBackgroundMusic()
 {
-    playlist = new QMediaPlaylist();
-    playlist->addMedia(QUrl("qrc:/sounds/bgsound.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+   QMediaPlaylist *playlist = new QMediaPlaylist();
+   playlist->addMedia(QUrl("qrc:/sounds/bgsound.mp3"));
+   playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
-    QMediaPlayer *music = new QMediaPlayer();
-    music->setPlaylist(playlist);
-    music->setVolume(20);
-    music->play();
+    backgroundMusic = new QMediaPlayer();
+    backgroundMusic->setPlaylist(playlist);
+    backgroundMusic->setVolume(20);
+    backgroundMusic->play();
 
 }
 
