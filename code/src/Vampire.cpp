@@ -22,7 +22,7 @@ Vampire::Vampire(QPointF spawnPoint)
     healthBar.setParentItem(this);
     //healthBar.setVisible(false);
 
-    explosionSprite = Game::game().spriteLoader->getUnitSprite("Batexp");
+    explosionSprite = Game::game().spriteLoader->getUnitSprite("Vampireexp");
     explosionSpriteMap = explosionSprite->getStatesMap();
 
     setPos(spawnPoint.rx() + offsetX, spawnPoint.ry() + offsetY);

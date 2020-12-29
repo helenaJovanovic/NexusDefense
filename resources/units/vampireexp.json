@@ -1,0 +1,51 @@
+{
+    "name" : "Vampireexp",
+    "spritesheet" : ":/images/images/vampireexp.png",
+    "spriteAnimation" : {
+        "initialState" : "none",
+        "offsetX" : -40,
+        "offsetY" : -40,
+        "movementDelay" : 0,
+        "attackDamage" : 0,
+        "maxHealth" : 0,
+        "states" : [
+                {
+                "stateName" : "boom",
+                "stateFrames" : [
+                    { "duration": 100, "rect": [0, 0, 128, 126], "origin": [0, 0] },
+                    { "duration": 100, "rect": [128, 0, 256, 126], "origin":[ 0, 0] },
+                    { "duration": 100, "rect": [256, 0, 384, 126], "origin": [0, 0] },
+                    { "duration": 100, "rect": [384, 0, 512, 126], "origin": [0, 0] },
+                    { "duration": 100, "rect": [512, 0, 640, 126], "origin": [0, 0] },
+                    { "duration": 100, "rect": [640, 0, 768, 126], "origin": [0, 0] },
+
+                    { "duration": 100, "rect": [0, 126, 128, 252], "origin": [0, 0] },
+                    { "duration": 100, "rect": [128, 126, 256, 252], "origin": [0, 0] },
+                    { "duration": 100, "rect": [256, 126, 384, 252], "origin": [0, 0] },
+                    { "duration": 100, "rect": [384, 126, 512, 252], "origin": [0, 0] },
+                    { "duration": 100, "rect": [512, 126, 640, 252], "origin": [0, 0]},
+                    { "duration": 100, "rect": [640, 126, 768, 252], "origin": [0, 0] },
+
+                    { "duration": 100, "rect": [0, 252, 128, 378], "origin": [0, 0] },
+                    { "duration": 100, "rect": [128, 252, 256, 378], "origin": [0, 0] },
+                    { "duration": 100, "rect": [256, 252, 384, 378], "origin": [0, 0] },
+                    { "duration": 100, "rect": [384, 252, 512, 378], "origin": [0, 0] },
+                    { "duration": 100, "rect": [512, 252, 640, 378], "origin": [0, 0] },
+                    { "duration": 100, "rect": [640, 252, 768, 378], "origin": [0, 0] },
+
+                    { "duration": 100, "rect": [0, 378, 128, 504], "origin": [0, 0] },
+                    { "duration": 100, "rect": [128, 378, 256, 504], "origin": [0, 0] },
+                    { "duration": 100, "rect": [256, 378, 384, 504], "origin": [0, 0] },
+                    { "duration": 100, "rect": [384, 378, 512, 504], "origin": [0, 0] },
+                    { "duration": 100, "rect": [512, 378, 640, 504], "origin": [0, 0] },
+                    { "duration": 100, "rect": [640, 378, 768, 504], "origin": [0, 0] },
+
+                    { "duration": 100, "rect": [0, 504, 128, 630], "origin": [0, 0] },
+                    { "duration": 100, "rect": [128, 504, 256, 630], "origin": [0, 0] },
+                    { "duration": 100, "rect": [256, 504, 384, 630], "origin": [0, 0] }
+                ]
+                }
+
+        ]
+    }
+}

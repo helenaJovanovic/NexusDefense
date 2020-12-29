@@ -89,6 +89,18 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
          adjustScores();
     }
 
+    else if(event->key() == Qt::Key_1) {
+        Game::game().setTower1();
+    }
+
+    else if(event->key() == Qt::Key_2) {
+        Game::game().setTower2();
+    }
+
+    else if(event->key() == Qt::Key_3) {
+        Game::game().setTower3();
+    }
+
     // Camera controls
     else
         if(!animatingCameraMovement && cameraEnabled) {

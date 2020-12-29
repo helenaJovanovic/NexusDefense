@@ -61,27 +61,17 @@ void EnemyUnit::takeDamage(float damageAmount) {
     currentHealth -= damageAmount;
 
     if(currentHealth <= 0){
-        isAlive = false;
-
         /*
         if(dyingSound->state()==QMediaPlayer::PlayingState)
             dyingSound->setPosition(0);
         else if(dyingSound->state()== QMediaPlayer::StoppedState)
             dyingSound->play();*/
-
-        healthBar.setVisible(false);
-
-        currentSpritesheet = explosionSprite->getSpritesheet();
-        currentOriginPoint = explosionSpriteMap["boom"][0].origin;
-        currentOriginRect = explosionSpriteMap["boom"][0].rect;
 		
 		//When enemy unit is destroyed score and gold should increase
         Game::game().score->increase();
         Game::game().gold->increaseGold();
 
-        timeElapsed = 0;
-
-        deathPhase = true;
+        selfDestruct();
     }
 
     else
@@ -97,9 +87,9 @@ void EnemyUnit::selfDestruct(){
     currentOriginPoint = explosionSpriteMap["boom"][0].origin;
     currentOriginRect = explosionSpriteMap["boom"][0].rect;
 
+    moveBy(explosionSprite->getOffsetX(), explosionSprite->getOffsetY());
+
     timeElapsed = 0;
-
-
 
     deathPhase = true;
 }
@@ -195,8 +185,6 @@ void EnemyUnit::move(){
                 timeElapsed = 0;
                 frameNumber = 0;
 
-                this->takeDamage(30);
-
                 update();
             }
         }
@@ -208,10 +196,9 @@ void EnemyUnit::move(){
                 || (pos().rx() + 16 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() - 16 - offsetY == turnPoints[nextTurnPointIndex].ry())
                 || (pos().rx() + 48 - offsetX == turnPoints[nextTurnPointIndex].rx() && pos().ry() + 16 - offsetY == turnPoints[nextTurnPointIndex].ry())){
 
-                isAlive = false;
-                this->takeDamage(currentHealth);
+                selfDestruct();
                 // nexus health should decrease
-                Game::game().health->decrease(50);
+                Game::game().health->decrease(attackDamage);
             }
 
         }
@@ -230,8 +217,6 @@ void EnemyUnit::boom(){
 
         Game::game().scene->removeItem(this);
         delete(this);
-
-
 
     }
 
