@@ -11,6 +11,7 @@
         <file>images/batexp.png</file>
         <file>images/skeleton.png</file>
         <file>images/vampire.png</file>
+        <file>images/graveyard.jpeg</file>
     </qresource>
     <qresource prefix="/">
         <file>mapPrototype.txt</file>
@@ -33,7 +34,6 @@
         <file>sounds/bgsound.mp3</file>
         <file>sounds/construction.wav</file>
         <file>sounds/projectile.mp3</file>
-        <file>sounds/scream.mp3</file>
         <file>res.qrc</file>
         <file>sounds/StoneButton.mp3</file>
         <file>units/batexp.json</file>
@@ -63,6 +63,7 @@
         <file>images/Missile15x27.png</file>
         <file>images/skeleton.png</file>
         <file>images/vampire.png</file>
+        <file>sounds/scream.wav</file>
     </qresource>
     <qresource prefix="/sounds"/>
 </RCC>

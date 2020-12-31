@@ -103,6 +103,7 @@ public slots:
     void pause();
     void restart();
     void resume();
+    void onNexusDead();
 
     //TOWER SLOTS
     void setTower1();

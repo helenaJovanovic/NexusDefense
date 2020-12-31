@@ -11,7 +11,7 @@ EnemyUnit::EnemyUnit()
     numOfTurns = turnPoints.length();
 
     dyingSound = new QMediaPlayer();
-    dyingSound->setMedia(QUrl("qrc:/sounds/scream.mp3"));
+    dyingSound->setMedia(QUrl("qrc:/sounds/scream.wav"));
     dyingSound->setVolume(100);
 
     nextTurnPointIndex = 0;
@@ -31,7 +31,7 @@ EnemyUnit::EnemyUnit(const unsigned newDirectionIndex, const unsigned newTurnPoi
     currentDirection = newDirection;
 
     dyingSound = new QMediaPlayer();
-    dyingSound->setMedia(QUrl("qrc:/sounds/scream.mp3"));
+    dyingSound->setMedia(QUrl("qrc:/sounds/scream.wav"));
     dyingSound->setVolume(100);
 
     Game::game().scene->addItem(this);
@@ -67,11 +67,10 @@ void EnemyUnit::takeDamage(float damageAmount) {
     if(currentHealth <= 0){
         isAlive = false;
 
-        /*
         if(dyingSound->state()==QMediaPlayer::PlayingState)
             dyingSound->setPosition(0);
         else if(dyingSound->state()== QMediaPlayer::StoppedState)
-            dyingSound->play();*/
+            dyingSound->play();
 
         healthBar.setVisible(false);
 
@@ -103,7 +102,6 @@ void EnemyUnit::selfDestruct(){
     currentOriginRect = explosionSpriteMap["boom"][0].rect;
 
     timeElapsed = 0;
-
 
     deathPhase = true;
 }
@@ -231,7 +229,6 @@ void EnemyUnit::boom(){
     timeElapsed += 16;
 
     if(deathFrameNumber == explosionSpriteMap["boom"].size()){
-
 
         Game::game().scene->removeItem(this);
         delete(this);

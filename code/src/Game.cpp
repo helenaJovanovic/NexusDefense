@@ -10,6 +10,8 @@
 #include <QScreen>
 #include <QMediaPlayer>
 #include <QFileDialog>
+#include <QGraphicsTextItem>
+#include <QFont>
 
 #include <code/include/Bat.hpp>
 #include <code/include/Skeleton.hpp>
@@ -336,6 +338,47 @@ void Game::resume()
     gameTimer->start(16);
 }
 
+void Game::onNexusDead()
+{
+    gameTimer->stop();
+    backgroundMusic->stop();
+    ingameInterface->hideInterface();
+    restartButton->hide();
+    pauseButton->hide();
+    int currentScore = score->getScore();
+    scene = new QGraphicsScene();
+    scene->setSceneRect(-width/2, -height/2, width-50, height-50);
+
+    background_image = new QGraphicsPixmapItem(QPixmap(":/images/images/battleback5.png").scaled(width, height));
+    background_image->setPos(-width/2-25, -height/2-25);
+    scene->addItem(background_image);
+
+    QGraphicsTextItem * io = new QGraphicsTextItem;
+    io->setPos(-150,-150);
+    io->setPlainText("Your score:\n" + QString::number(currentScore));
+
+    QFont f;
+    f.setPointSize(28);
+    f.setItalic(true);
+    f.setWeight(QFont::Bold);
+    f.setStyleHint(QFont::Helvetica);
+
+    io->setFont(f);
+
+    io->setDefaultTextColor(QColorConstants::DarkGreen);
+
+    scene->addItem(io);
+
+    view->setScene(scene);
+
+    view->setMaximumSize(width, height);
+    view->setMinimumSize(width, height);
+    view->centerOn(0, 0);
+
+    view->show();
+    
+}
+
 
 void Game::cleanup() {
 
@@ -366,7 +409,7 @@ void Game::initHealth() {
     health->setPos(pos.x(), pos.y()+20);
     scene->addItem(health);
 
-    QObject::connect(health, SIGNAL(dead()),this,SLOT(localQuitGame()));
+    QObject::connect(health, SIGNAL(dead()),this,SLOT(onNexusDead()));
 }
 
 void Game::initIngameInterface() {
@@ -397,10 +440,10 @@ void Game::initBackgroundMusic()
    playlist->addMedia(QUrl("qrc:/sounds/bgsound.mp3"));
    playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
-    backgroundMusic = new QMediaPlayer();
-    backgroundMusic->setPlaylist(playlist);
-    backgroundMusic->setVolume(20);
-    backgroundMusic->play();
+   backgroundMusic = new QMediaPlayer();
+   backgroundMusic->setPlaylist(playlist);
+   backgroundMusic->setVolume(20);
+   backgroundMusic->play();
 
 }
 
