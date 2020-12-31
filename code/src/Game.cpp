@@ -12,6 +12,7 @@
 #include <QFileDialog>
 #include <QGraphicsTextItem>
 #include <QFont>
+#include <QLineEdit>
 
 #include <code/include/Bat.hpp>
 #include <code/include/Skeleton.hpp>
@@ -349,13 +350,13 @@ void Game::onNexusDead()
     scene = new QGraphicsScene();
     scene->setSceneRect(-width/2, -height/2, width-50, height-50);
 
-    background_image = new QGraphicsPixmapItem(QPixmap(":/images/images/battleback5.png").scaled(width, height));
+    background_image = new QGraphicsPixmapItem(QPixmap(":/images/images/graveyard.jpeg").scaled(width, height));
     background_image->setPos(-width/2-25, -height/2-25);
     scene->addItem(background_image);
 
-    QGraphicsTextItem * io = new QGraphicsTextItem;
-    io->setPos(-150,-150);
-    io->setPlainText("Your score:\n" + QString::number(currentScore));
+    QGraphicsTextItem *io = new QGraphicsTextItem;
+    io->setPos(-150,-250);
+    io->setPlainText("Your score: " + QString::number(currentScore));
 
     QFont f;
     f.setPointSize(28);
@@ -365,9 +366,16 @@ void Game::onNexusDead()
 
     io->setFont(f);
 
-    io->setDefaultTextColor(QColorConstants::DarkGreen);
+    io->setDefaultTextColor(QColorConstants::Green);
+
 
     scene->addItem(io);
+
+    QWidget *widget = new QWidget();
+    userName = new QLineEdit(widget);
+    userName->setPlaceholderText("Enter your name");
+    userName->setEchoMode(QLineEdit::Normal);
+    scene->addWidget(widget);
 
     view->setScene(scene);
 
@@ -375,8 +383,43 @@ void Game::onNexusDead()
     view->setMinimumSize(width, height);
     view->centerOn(0, 0);
 
+
+    backToMainMenuButton = new QPushButton("Back to main menu", view);
+    backToMainMenuButton->setGeometry(QRect(QPoint(400, 250), QSize(200, 50)));
+    backToMainMenuButton->setStyleSheet(
+                "QPushButton {"
+                        "border-image:url(:/images/images/normal.png); min-width: 200; min-height: 50;"
+                         "font: 20px Arial, sans-serif;"
+                "}"
+                "QPushButton:pressed {"
+                        "border-image:url(:/images/images/pressed.png); min-width: 200; min-height: 50;"
+                "}"
+                );
+
+    tryAgainButton = new QPushButton("Try again", view);
+    tryAgainButton->setGeometry(QRect(QPoint(400, 325), QSize(200, 50)));
+    tryAgainButton->setStyleSheet(
+                "QPushButton {"
+                        "border-image:url(:/images/images/normal.png); min-width: 200; min-height: 50;"
+                         "font: 20px Arial, sans-serif;"
+                "}"
+                "QPushButton:pressed {"
+                        "border-image:url(:/images/images/pressed.png); min-width: 200; min-height: 50;"
+                "}"
+                );
+
+
+
+    QObject::connect(backToMainMenuButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
+    QObject::connect(backToMainMenuButton, SIGNAL(released()), this, SLOT(menuScreen()));
+
+    QObject::connect(tryAgainButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
+    QObject::connect(tryAgainButton, SIGNAL(released()), this, SLOT(startSecondScene()));
+
+    backToMainMenuButton->show();
+    tryAgainButton->show();
+
     view->show();
-    
 }
 
 

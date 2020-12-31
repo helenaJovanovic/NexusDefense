@@ -16,6 +16,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPushButton>
+#include <QLineEdit>
 #include <QObject>
 #include <QApplication>
 #include <QMediaPlayer>
@@ -75,6 +76,10 @@ public:
     QPushButton *pauseButton;
     QPushButton *restartButton;
     QPushButton *resumeButton;
+    QPushButton *backToMainMenuButton;
+    QPushButton *tryAgainButton;
+    QLineEdit *userName;
+
     QGraphicsPixmapItem* background_image;
     // Pointer to currently visible map
     Map *currentMap = nullptr;
