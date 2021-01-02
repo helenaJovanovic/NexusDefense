@@ -72,6 +72,9 @@ void CustomView::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_Escape) {
         Game::game().getGameApp()->quit();
     }
+    if(event->key() == Qt::Key_Enter) {
+        emit EnterIsPressed();
+    }
 
     // Zoom controls
     // TODO: animate this, and add it to mouseWheel event aswell

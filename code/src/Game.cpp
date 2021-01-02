@@ -19,6 +19,7 @@
 #include <code/include/Skeleton.hpp>
 #include <code/include/Vampire.hpp>
 #include <code/include/IngameInterface.hpp>
+#include <code/include/TextItem.hpp>
 
 
 Game *Game::instance = 0;
@@ -67,9 +68,6 @@ void Game::menuScreen(){
                 "}"
                 );
 
-
-
-
     loadMapButton = new QPushButton("Change map", view);
     loadMapButton->setGeometry(QRect(QPoint(450, 375), QSize(150, 50)));
     loadMapButton->setStyleSheet(
@@ -103,7 +101,7 @@ void Game::menuScreen(){
     QObject::connect(loadMapButton, SIGNAL(released()), this, SLOT(startThirdScene()));
 
     QObject::connect(exitButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
-    QObject::connect(exitButton, SIGNAL(released()), this, SLOT(localQuitGame()));
+    QObject::connect(exitButton, SIGNAL(released()), this, SLOT(yesOrNoQuit()));
 
     startGameBtn->show();
     loadMapButton->show();
@@ -112,12 +110,12 @@ void Game::menuScreen(){
     view->show();
 }
 
-void Game::localQuitGame() {
+void Game::yesOrNoQuit() {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(exitButton, "Exit test","Are you sure you want to exit the game?", QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
      qDebug() << "Yes was clicked";
-     gameApp->quit();
+     QTimer::singleShot(200,this,SLOT(quitGame()));
     }
     else
      qDebug() << "No was clicked";
@@ -325,6 +323,7 @@ void Game::pause()
     ingameInterface->hideInterface();
     pauseButton->hide();
     restartButton->hide();
+    backgroundMusic->pause();
     resumeButton->show();
     isPaused = !isPaused;
     gameTimer->stop();
@@ -345,6 +344,7 @@ void Game::resume()
     pauseButton->show();
     ingameInterface->showInterface();
     restartButton->show();
+    backgroundMusic->play();
     isPaused = !isPaused;
     gameTimer->start(16);
 }
@@ -381,13 +381,10 @@ void Game::onNexusDead()
 
     scene->addItem(io);
 
-    QWidget *widget = new QWidget();
-    userName = new QLineEdit(widget);
-    userName->setPlaceholderText("Enter your name");
-    userName->setEchoMode(QLineEdit::Normal);
+    TextItem* playerName = new TextItem();
+    playerName->setPos(-200,-300);
 
-    scene->addWidget(widget);
-
+    scene->addItem(playerName);
 
     view->setScene(scene);
 
@@ -423,15 +420,33 @@ void Game::onNexusDead()
 
 
     QObject::connect(backToMainMenuButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
-    QObject::connect(backToMainMenuButton, SIGNAL(released()), this, SLOT(menuScreen()));
+    QObject::connect(backToMainMenuButton, SIGNAL(released()), this, SLOT(backToMainMenu()));
 
     QObject::connect(tryAgainButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
     QObject::connect(tryAgainButton, SIGNAL(released()), this, SLOT(startSecondScene()));
+
+    QObject::connect(view, SIGNAL(EnterIsPressed()), this, SLOT(saveScore()));
 
     backToMainMenuButton->show();
     tryAgainButton->show();
 
     view->show();
+}
+
+void Game::backToMainMenu() {
+    view->hide();
+    menuScreen();
+}
+
+void Game::quitGame()
+{
+    gameApp->quit();
+}
+
+void Game::saveScore()
+{
+    qDebug() << "Saving score";
+
 }
 
 

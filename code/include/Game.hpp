@@ -102,13 +102,16 @@ public:
 public slots:
     void startSecondScene();
     void startThirdScene();
-    void localQuitGame();
+    void yesOrNoQuit();
     void playButtonSound();
     void spawnWave();
     void pause();
     void restart();
     void resume();
     void onNexusDead();
+    void quitGame();
+    void saveScore();
+    void backToMainMenu();
 
     //TOWER SLOTS
     void setTower1();

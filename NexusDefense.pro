@@ -21,6 +21,7 @@ SOURCES += \
     code/src/Skeleton.cpp \
     code/src/Sprite.cpp \
     code/src/SpriteLoader.cpp \
+    code/src/TextItem.cpp \
     code/src/Tower.cpp \
     code/src/TowerLoader.cpp \
     code/src/Turret.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     code/include/Skeleton.hpp \
     code/include/Sprite.hpp \
     code/include/SpriteLoader.hpp \
+    code/include/TextItem.hpp \
     code/include/Tower.hpp \
     code/include/TowerLoader.hpp \
     code/include/Turret.hpp \

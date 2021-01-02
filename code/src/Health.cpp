@@ -2,7 +2,7 @@
 #include <QFont>
 
 Health::Health(QGraphicsItem *parent): QGraphicsTextItem(parent){
-    health = 1000;
+    health = 100;
 
     // Draw the text
     setPlainText(QString("Health: ") + QString::number(health));
