@@ -13,6 +13,7 @@
 #include <QGraphicsTextItem>
 #include <QFont>
 #include <QLineEdit>
+#include <QMessageBox>
 
 #include <code/include/Bat.hpp>
 #include <code/include/Skeleton.hpp>
@@ -111,8 +112,15 @@ void Game::menuScreen(){
     view->show();
 }
 
-void Game::localQuitGame(){
-    gameApp->quit();
+void Game::localQuitGame() {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(exitButton, "Exit test","Are you sure you want to exit the game?", QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+     qDebug() << "Yes was clicked";
+     gameApp->quit();
+    }
+    else
+     qDebug() << "No was clicked";
 }
 
 //Checking if the buttonSound is already playing
@@ -151,8 +159,10 @@ void Game::startThirdScene(){
 
     if(temp != ""){
         mapChoice = temp;
+        QMessageBox::information(loadMapButton,"Success","The map was successfully loaded", QMessageBox::Ok,0);
     }
 
+    QMessageBox::information(loadMapButton,"Failure", "The map was not successfully loaded", QMessageBox::Ok,0);
     //exitButton->hide();
 }
 
@@ -375,7 +385,9 @@ void Game::onNexusDead()
     userName = new QLineEdit(widget);
     userName->setPlaceholderText("Enter your name");
     userName->setEchoMode(QLineEdit::Normal);
+
     scene->addWidget(widget);
+
 
     view->setScene(scene);
 
