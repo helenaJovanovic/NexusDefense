@@ -96,6 +96,8 @@ public:
     int towerSelected = -1;
     int elapsedSpawnTime = 0;
 
+    int enemyBuff = 1;
+
     //Check if given X,Y is a Tower tile
     bool isTowerTile(QPointF posXY);
 

@@ -302,19 +302,28 @@ void Game::spawnWave(){
     elapsedSpawnTime += 16;
 
     if(elapsedSpawnTime % 16000 == 0 || elapsedSpawnTime == 16){
-		/*new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 1);
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 2);
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 3);
-        new EnemyUnit(currentMap->unitSpawnPointer, "Bat", 4);
 
-        new EnemyUnit(currentMap->unitSpawnPointer, "Skeleton", 2);*/
+        int units = 1;
 
-        new Bat(currentMap->unitSpawnPointer->pos());
-        new Skeleton(currentMap->unitSpawnPointer->pos());
-        new Vampire(currentMap->unitSpawnPointer->pos());
+        //Every two waves buff the units
+        if(elapsedSpawnTime%16000 == 0 && elapsedSpawnTime % 2 == 0){
 
-        spriteLoader->buffEnemyUnits(2, 2);
-	}
+            enemyBuff++;
+
+ //And every 4 add more units
+            if(elapsedSpawnTime % 4 == 0){
+                units++;
+            }
+        }
+
+        spriteLoader->buffEnemyUnits(enemyBuff, enemyBuff);
+
+        for(int i=0; i<units; i++){
+            new Bat(currentMap->unitSpawnPointer->pos());
+            new Skeleton(currentMap->unitSpawnPointer->pos());
+            new Vampire(currentMap->unitSpawnPointer->pos());
+        }
+    }
 }
 
 void Game::pause()
