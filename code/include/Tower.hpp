@@ -85,6 +85,8 @@ public:
 
     void upgrade();
 
+    void sell();
+
 public slots:
     //on timer tick
     void update();
