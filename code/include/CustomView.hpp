@@ -45,8 +45,6 @@ private:
 
 private slots:
     void cameraMoveTick();
-signals:
-    void EnterIsPressed();
 
 
 };
