@@ -1,10 +1,6 @@
 #include <code/include/Projectile.hpp>
 #include <cmath>
-#define DelayFactor 16
-#define UnitLength 32
-#define UnitHeight 32
-#define ProjectileLength 10
-#define ProjectileHeight 25
+
 
 
 
@@ -15,8 +11,8 @@ Projectile::Projectile(float blastRadius,float length, float height, QString ima
     Game::game().scene->addItem(this);
     //initial direction
     this->setTransformOriginPoint(length/2.0,height/2.0);
-    qreal x2=target->pos().rx()+UnitLength/2;
-    qreal y2=target->pos().ry()+UnitHeight/2;
+    qreal x2=target->pos().rx()+target->boundingRect().center().x();
+    qreal y2=target->pos().ry()+target->boundingRect().center().y();
     qreal x1=this->pos().rx()+length/2;
     qreal y1=this->pos().ry()+height/2;
     direction=QLineF(x1,y1,x2,y2);
@@ -61,6 +57,7 @@ bool Projectile::impact()
 {
     if(this->collidesWithItem(target))
     {
+//        qDebug()<<"collision"<<"\n";
         if(!blastRadius)
             target->takeDamage(damage);
         else
@@ -76,7 +73,6 @@ bool Projectile::impact()
 //             QGraphicsPolygonItem* blastArea=new QGraphicsPolygonItem(QPolygonF(rangeOctagonPoints),this);
             QGraphicsEllipseItem* blastArea=new QGraphicsEllipseItem(target->pos().x(),target->pos().y(),blastRadius,blastRadius);
 //            blastArea->setPos(this->pos());
-//            blastArea->setBrush(QBrush(Qt::red));
             qDebug()<< blastArea->pos() << "\n";
             Game::game().scene->addItem(blastArea);
             QList<QGraphicsItem*> enemiesInRadius=blastArea->collidingItems();
@@ -119,8 +115,8 @@ void Projectile::moveToTarget()
 
 void Projectile::rotateToTarget()
 {
-    qreal x2=target->pos().rx()+UnitLength/2;
-    qreal y2=target->pos().ry()+UnitHeight/2;
+    qreal x2=target->pos().rx()+target->boundingRect().center().x();
+    qreal y2=target->pos().ry()+target->boundingRect().center().y();
     qreal x1=this->pos().rx()+length/2;
     qreal y1=this->pos().ry()+length/2;
     qreal x3=this->pos().rx()+length/2;
