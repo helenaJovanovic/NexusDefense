@@ -34,16 +34,6 @@ void Tower::upgrade()
     level++;
     delete attributes;
     attributes=new TowerLoader(towerID,level);
-    int price=static_cast<int>(attributes->getParameters()["gold"]);
-
-    if(Game::game().gold->getGold() < price)
-    {
-        delete attributes;
-        attributes=new TowerLoader(towerID,level-1);
-        qDebug()<<"Not enough gold"<<"\n";
-        return;
-    }
-
     float turretCenterX=
             this->getAttributes()->getParameters()["turretCenterPercentageX"]/100
             *
@@ -55,41 +45,19 @@ void Tower::upgrade()
     turret->setPos(this->pos()+QPoint(Game::game().tileWidth/2-turretCenterX,Game::game().tileWidth/2-turretCenterY));
     turret->setTransformOriginPoint(turretCenterX,turretCenterY);
 //    qDebug()<<turretCenterX<<" - "<<turretCenterY<<"\n";
-    Game::game().gold->decreaseGold(price);
-}
-
-void Tower::sell()
-{
-    Game::game().gold->increaseGold();
-    Game::game().scene->removeItem(this);
-    delete this;
 }
 
 Tower::Tower(MapTile* tile,QString towerType)
     : locationOnMap(tile)
 {
-    if(tile->getOcuppied())
-        return;
-
-
+    constructionSound = new QMediaPlayer();
+    constructionSound->setMedia(QUrl("qrc:/sounds/construction.wav"));
+    constructionSound->setVolume(60);
 
     attributes=new TowerLoader(towerType);
     float width=attributes->getParameters()["tileWidth"];
     float height=attributes->getParameters()["tileHeight"];
     float attackRange=attributes->getParameters()["range"];
-
-    int price=static_cast<int>(attributes->getParameters()["gold"]);
-
-    if(Game::game().gold->getGold() < price)
-    {
-        delete attributes;
-        qDebug()<<"Not enough gold"<<"\n";
-        return;
-    }
-
-    constructionSound = new QMediaPlayer();
-    constructionSound->setMedia(QUrl("qrc:/sounds/construction.wav"));
-    constructionSound->setVolume(60);
 
 //    this->setPos(this->locationOnMap->pos());
     this->setPos(this->locationOnMap->pos());
@@ -122,19 +90,15 @@ Tower::Tower(MapTile* tile,QString towerType)
 //    qDebug()<<"Tower created"<<"\n";
     // When Tower constructor is called gold saldo should decrease
 
-//    if(towerType == "mg"){
-//        Game::game().gold->decreaseGold(100);
-//    }
-//    else if(towerType == "cannon"){
-//        Game::game().gold->decreaseGold(150);
-//    }
-//    else if(towerType == "missile"){
-//        Game::game().gold->decreaseGold(200);
-//    }
-
-    Game::game().gold->decreaseGold(price);
-
-    tile->setOccuppied();
+    if(towerType == "mg"){
+        Game::game().gold->decreaseGold(100);
+    }
+    else if(towerType == "cannon"){
+        Game::game().gold->decreaseGold(150);
+    }
+    else if(towerType == "missile"){
+        Game::game().gold->decreaseGold(200);
+    }
 }
 
 Tower::Tower(int x, int y, QString towerType)
@@ -144,8 +108,7 @@ Tower::Tower(int x, int y, QString towerType)
 
 Tower::~Tower()
 {
-    delete attributes;
-    delete turret;
+
 }
 //check if current target is still in range
 bool Tower::currentTargetInRange()

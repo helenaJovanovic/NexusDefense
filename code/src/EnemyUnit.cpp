@@ -116,7 +116,7 @@ void EnemyUnit::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 }
 
 QRectF EnemyUnit::boundingRect() const {
-    return QRectF(0,0,currentOriginRect.width(),currentOriginRect.height());
+    return currentOriginRect;
 }
 
 void EnemyUnit::animate(){

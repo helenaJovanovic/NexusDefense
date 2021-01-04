@@ -38,7 +38,6 @@ public:
     Health *health;
 
     bool isPaused=false;
-    bool isFinished=false;
 
     SpriteLoader *spriteLoader;
 
@@ -64,7 +63,6 @@ public:
     void initIngameInterface();
     void initButtonSound();
     void initBackgroundMusic();
-    void saveScore();
 
     QApplication* getGameApp();
     // Pointers to scene and view
@@ -114,9 +112,8 @@ public slots:
     void resume();
     void onNexusDead();
     void quitGame();
+    void saveScore();
     void backToMainMenu();
-    void backToSecondScene();
-
 
     //TOWER SLOTS
     void setTower1();

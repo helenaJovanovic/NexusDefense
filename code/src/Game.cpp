@@ -14,8 +14,6 @@
 #include <QFont>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <QFile>
-#include <QTextStream>
 
 #include <code/include/Bat.hpp>
 #include <code/include/Skeleton.hpp>
@@ -362,7 +360,6 @@ void Game::resume()
 
 void Game::onNexusDead()
 {
-    isFinished = true;
     gameTimer->stop();
     backgroundMusic->stop();
     ingameInterface->hideInterface();
@@ -394,7 +391,6 @@ void Game::onNexusDead()
     scene->addItem(io);
 
     TextItem* playerName = new TextItem();
-    playerName->setPlainText("Player name");
     playerName->setPos(-200,-300);
 
     scene->addItem(playerName);
@@ -436,7 +432,9 @@ void Game::onNexusDead()
     QObject::connect(backToMainMenuButton, SIGNAL(released()), this, SLOT(backToMainMenu()));
 
     QObject::connect(tryAgainButton, SIGNAL(clicked()), this, SLOT(playButtonSound()));
-    QObject::connect(tryAgainButton, SIGNAL(released()), this, SLOT(backToSecondScene()));
+    QObject::connect(tryAgainButton, SIGNAL(released()), this, SLOT(startSecondScene()));
+
+    QObject::connect(view, SIGNAL(EnterIsPressed()), this, SLOT(saveScore()));
 
     backToMainMenuButton->show();
     tryAgainButton->show();
@@ -445,14 +443,8 @@ void Game::onNexusDead()
 }
 
 void Game::backToMainMenu() {
-    isFinished=false;
     view->hide();
     menuScreen();
-}
-
-void Game::backToSecondScene() {
-    isFinished=false;
-    startSecondScene();
 }
 
 void Game::quitGame()
@@ -462,33 +454,8 @@ void Game::quitGame()
 
 void Game::saveScore()
 {
-   if(game().isFinished == true) {
     qDebug() << "Saving score";
-    QVector<int> scores;
-    QFile file("../highscores.txt");
-    if(!file.open(QIODevice::ReadWrite | QIODevice::Append)) {
-        QMessageBox::information(view,"Failure","The score was not successfully saved", QMessageBox::Ok,0);
-        return;
-    }
-    //QTextStream in(&file);
-    QTextStream out(&file);
 
-   // while(!in.atEnd()) {
-   //     QString line = in.readLine();
-   //     bool convertOK;
-   //     int num = line.toInt(&convertOK);
-   //     if(!convertOK)
-   //         return;
-   //     scores.push_back(num);
-   // }
-
-   // scores.push_back(score->getScore());
-   // qsort(scores.begin(),scores.end());
-
-   out << score->getScore() << endl;
-   QMessageBox::information(view,"Success","The score was successfully saved", QMessageBox::Ok,0);
-
-   }
 }
 
 

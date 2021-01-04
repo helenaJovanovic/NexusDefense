@@ -1,6 +1,8 @@
 
 #include <code/include/Turret.hpp>
 #define DelayFactor 16
+#define UnitLength 32
+#define UnitHeight 32
 
 
 QLineF Turret::getDirection() const
@@ -39,7 +41,7 @@ Turret::Turret(Tower *tower)
     direction=QLineF(this->pos()+QPointF(turretCenterX,turretCenterY),this->pos()+QPointF(turretCenterX,turretCenterY));
 
    fireSound = new QMediaPlayer();
-   fireSound->setMedia(QUrl(tower->getAttributes()->getPaths()["fireSoundPath"]));
+   fireSound->setMedia(QUrl("qrc:/sounds/projectile.mp3"));
    fireSound->setVolume(80);
 
 }
@@ -65,8 +67,8 @@ void Turret::rotateToTarget()
 //    qDebug()<<tower->getTarget()->getCurrentHealth();
 //    qDebug()<<"It breaks here\n";
     //unit coordinates
-    qreal x2=tower->getTarget()->pos().rx()+tower->getTarget()->boundingRect().center().x();
-    qreal y2=tower->getTarget()->pos().ry()+tower->getTarget()->boundingRect().center().y();
+    qreal x2=tower->getTarget()->pos().rx()+UnitLength/2;
+    qreal y2=tower->getTarget()->pos().ry()+UnitHeight/2;
     //turret tip coordinates
     qreal x3=this->pos().rx()+2*tower->getAttributes()->getParameters()["turretLength"]/3;
     qreal y3=this->pos().ry();
