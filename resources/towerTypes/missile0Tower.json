@@ -18,6 +18,8 @@
     "attackDamage":200,
     "attackSpeed":120,
     "turretImagePath":":/images/Missile_Launcher16x33.png",
-    "projectileImagePath":":/images/Missile15x27.png"
+    "projectileImagePath":":/images/Missile15x27.png",
+    "gold":250,
+    "fireSoundPath": "qrc:/sounds/rlauncher.ogg"
 
 }

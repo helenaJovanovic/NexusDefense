@@ -12,6 +12,8 @@
     "attackDamage":30,
     "attackSpeed":20,
     "turretImagePath":":/images/MG16x33.png",
-    "projectileImagePath":":/images/Bullet_MG10x25.png"
+    "projectileImagePath":":/images/Bullet_MG10x25.png",
+    "gold":150,
+    "fireSoundPath": "qrc:/sounds/ren.ogg"
 
 }

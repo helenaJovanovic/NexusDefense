@@ -18,6 +18,8 @@
     "attackDamage":100,
     "attackSpeed":50,
     "turretImagePath":":/images/Cannon16x33.png",
-    "projectileImagePath":":/images/Bullet_Cannon10x20.png"
+    "projectileImagePath":":/images/Bullet_Cannon10x20.png",
+    "gold":150,
+    "fireSoundPath": "qrc:/sounds/minigun.ogg"
 
 }

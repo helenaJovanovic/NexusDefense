@@ -35,7 +35,6 @@ void Tower::upgrade()
     delete attributes;
     attributes=new TowerLoader(towerID,level);
     int price=static_cast<int>(attributes->getParameters()["gold"]);
-
     if(Game::game().gold->getGold() < price)
     {
         delete attributes;
@@ -79,6 +78,8 @@ Tower::Tower(MapTile* tile,QString towerType)
     float attackRange=attributes->getParameters()["range"];
 
     int price=static_cast<int>(attributes->getParameters()["gold"]);
+
+    qDebug() << price;
 
     if(Game::game().gold->getGold() < price)
     {
