@@ -16,7 +16,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPushButton>
-#include <QLineEdit>
 #include <QObject>
 #include <QApplication>
 #include <QMediaPlayer>
@@ -39,6 +38,8 @@ public:
 
     bool isPaused=false;
     bool isFinished=false;
+
+    QString playerName;
 
     SpriteLoader *spriteLoader;
 
@@ -80,7 +81,6 @@ public:
     QPushButton *resumeButton;
     QPushButton *backToMainMenuButton;
     QPushButton *tryAgainButton;
-    QLineEdit *userName;
 
     QGraphicsPixmapItem* background_image;
     // Pointer to currently visible map

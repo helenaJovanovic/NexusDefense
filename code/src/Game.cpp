@@ -16,6 +16,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
+#include <QInputDialog>
 
 #include <code/include/Bat.hpp>
 #include <code/include/Skeleton.hpp>
@@ -361,7 +362,7 @@ void Game::onNexusDead()
     background_image->setPos(-width/2-25, -height/2-25);
     scene->addItem(background_image);
 
-    QGraphicsTextItem *io = new QGraphicsTextItem;
+    TextItem *io = new TextItem;
     io->setPos(-150,-250);
     io->setPlainText("Your score: " + QString::number(currentScore));
 
@@ -375,21 +376,13 @@ void Game::onNexusDead()
 
     io->setDefaultTextColor(QColorConstants::Green);
 
-
     scene->addItem(io);
-
-    TextItem* playerName = new TextItem();
-    playerName->setPlainText("Player name");
-    playerName->setPos(-200,-300);
-
-    scene->addItem(playerName);
 
     view->setScene(scene);
 
     view->setMaximumSize(width, height);
     view->setMinimumSize(width, height);
     view->centerOn(0, 0);
-
 
     backToMainMenuButton = new QPushButton("Back to main menu", view);
     backToMainMenuButton->setGeometry(QRect(QPoint(400, 250), QSize(200, 50)));
@@ -448,33 +441,73 @@ void Game::quitGame()
 void Game::saveScore()
 {
    if(game().isFinished == true) {
-    qDebug() << "Saving score";
-    QVector<int> scores;
-    QFile file("../highscores.txt");
-    if(!file.open(QIODevice::ReadWrite | QIODevice::Append)) {
+    bool ok;
+    QString text = QInputDialog::getText(view, tr("Enter your name"),
+                                            tr("Player name:"), QLineEdit::Normal,
+                                          QDir::home().dirName(), &ok);
+    if(!ok || text.isEmpty()) {
         QMessageBox::information(view,"Failure","The score was not successfully saved", QMessageBox::Ok,0);
         return;
     }
-    //QTextStream in(&file);
-    QTextStream out(&file);
 
-   // while(!in.atEnd()) {
-   //     QString line = in.readLine();
-   //     bool convertOK;
-   //     int num = line.toInt(&convertOK);
-   //     if(!convertOK)
-   //         return;
-   //     scores.push_back(num);
-   // }
+    playerName = text;
 
-   // scores.push_back(score->getScore());
-   // qsort(scores.begin(),scores.end());
+    qDebug() << "Saving score";
+    QFile file("../12-nexus-defense/highscores.txt");
+    if(!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(view,"Failure","The score was not successfully saved", QMessageBox::Ok,0);
+        return;
+    }
+    QTextStream in(&file);
+    QMultiMap<int,QString> scores;
 
-   out << score->getScore() << endl;
+    while(!in.atEnd()) {
+        int score;
+        QString line = in.readLine();
+        QStringList list = line.split(" ", Qt::SkipEmptyParts);
+        //qDebug() << list[0] << list[1];
+
+        bool ok;
+        score = list[1].toInt(&ok);
+        if (!ok) {
+          QMessageBox::information(view,"Failure","The score was not successfully saved", QMessageBox::Ok,0);
+          return;
+        }
+        scores.insert(score,list[0]);
+    }
+
+   file.close();
+   scores.insert(score->getScore(), playerName);
+
+ //  for(auto iter = scores.begin(); iter!= scores.end(); iter++) {
+ //      qDebug() << iter.value() << " " << iter.key();
+ //  }
+
+  QVector<QPair<int,QString>>pairs;
+  QPair<int,QString>pair;
+  for(auto iter = scores.begin(); iter != scores.end(); iter++) {
+   pair.first = iter.key();
+   pair.second = iter.value();
+   pairs.push_back(pair);
+   }
+
+   if(!file.open(QIODevice::WriteOnly)) {
+       QMessageBox::information(view,"Failure","The score was not successfully saved", QMessageBox::Ok,0);
+       return;
+   }
+
+   QTextStream out(&file);
+
+   for(auto iter = pairs.rbegin(); iter!= pairs.rend(); iter++) {
+       out << iter->second << " " << iter->first << endl;
+   }
+
+   file.close();
    QMessageBox::information(view,"Success","The score was successfully saved", QMessageBox::Ok,0);
 
-   }
+  }
 }
+
 
 
 void Game::cleanup() {
