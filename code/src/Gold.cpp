@@ -11,7 +11,7 @@ Gold::Gold(QGraphicsItem *parent) : QGraphicsTextItem(parent)
 }
 
 void Gold::increaseGold() {
-    gold+=100;
+    gold+=20;
     setPlainText(QString("Gold: ") + QString::number(gold));
 }
 

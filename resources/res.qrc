@@ -64,6 +64,9 @@
         <file>images/skeleton.png</file>
         <file>images/vampire.png</file>
         <file>sounds/scream.wav</file>
+        <file>sounds/ren.ogg</file>
+        <file>sounds/minigun.ogg</file>
+        <file>sounds/rlauncher.ogg</file>
     </qresource>
     <qresource prefix="/sounds"/>
 </RCC>

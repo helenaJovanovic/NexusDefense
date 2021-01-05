@@ -40,7 +40,7 @@ Turret::Turret(Tower *tower)
 
    fireSound = new QMediaPlayer();
    fireSound->setMedia(QUrl(tower->getAttributes()->getPaths()["fireSoundPath"]));
-   fireSound->setVolume(80);
+   fireSound->setVolume(30);
 
 }
 
@@ -83,6 +83,7 @@ void Turret::rotateToTarget()
 
 void Turret::fire()
 {
+
    if(fireSound->state() == QMediaPlayer::PlayingState) {
         fireSound->setPosition(0);
     }

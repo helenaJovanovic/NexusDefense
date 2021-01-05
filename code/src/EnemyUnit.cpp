@@ -197,7 +197,7 @@ void EnemyUnit::move(){
                 timeElapsed = 0;
                 frameNumber = 0;
 
-                this->takeDamage(30);
+                //this->takeDamage(30);
 
                 update();
             }
@@ -213,7 +213,8 @@ void EnemyUnit::move(){
                 isAlive = false;
                 this->takeDamage(currentHealth);
                 // nexus health should decrease
-                Game::game().health->decrease(50);
+                //Preeevise je 50
+                Game::game().health->decrease(5);
             }
 
         }

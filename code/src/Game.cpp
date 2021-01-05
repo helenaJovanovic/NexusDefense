@@ -278,50 +278,35 @@ void Game::beginGame() {
     connect(gameTimer, &QTimer::timeout, this, &Game::spawnWave);
 
 
-    /*new Bat(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-    new Skeleton(currentMap->unitSpawnPointer->pos(), unitsSpawned++);
-    new Vampire(currentMap->unitSpawnPointer->pos(), unitsSpawned++);*/
 
     qDebug() << "Game begins.";
-
-    /*   SpriteLoader example
-     *
-     *   Sprite* zombie = spriteLoader->getUnitSprite("Zombie");
-     *   auto tmpMap = zombie->getStatesMap();
-     *
-     *   qDebug() << zombie->getName();
-     *   qDebug() << "Duration of the first frame of the east state: "
-     *            << tmpMap["east"][0].duration;
-     *   qDebug() << "Second frame rectangle to draw: "
-     *            << tmpMap["east"][1].rect;
-     */
-
-
 }
 
 //Spawn enemies on every 16 seconds
 void Game::spawnWave(){
     elapsedSpawnTime += 16;
 
+
+
+
     if(elapsedSpawnTime % 16000 == 0 || elapsedSpawnTime == 16){
 
-        int units = 1;
 
-        //Every two waves buff the units
-        if(elapsedSpawnTime%16000 == 0 && elapsedSpawnTime % 2 == 0){
+        //Every wave buff the units
 
-            enemyBuff++;
+        if(elapsedSpawnTime%(16000*4) == 0 && elapsedSpawnTime <= 16000*20){
+            units++;
+        }
 
- //And every 4 add more units
-            if(elapsedSpawnTime % 4 == 0){
-                units++;
-            }
+        if(elapsedSpawnTime%(16000*3) == 0){
+            enemyBuff += 15;
         }
 
         spriteLoader->buffEnemyUnits(enemyBuff, enemyBuff);
 
+        new Bat(currentMap->unitSpawnPointer->pos());
+
         for(int i=0; i<units; i++){
-            new Bat(currentMap->unitSpawnPointer->pos());
             new Skeleton(currentMap->unitSpawnPointer->pos());
             new Vampire(currentMap->unitSpawnPointer->pos());
         }
