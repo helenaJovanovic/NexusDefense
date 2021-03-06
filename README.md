@@ -7,7 +7,7 @@ Nexus Defense is a singleplayer tower defense game where the goal is to defend t
 ## Requirements and how to compile:
 
 * Clone this project from git or download the .zip directly from repository and extract it.
-<br> git example: <code> git clone https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/12-nexus-defense
+<br> git example: ```git clone``` https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/12-nexus-defense
 
 * Download Boost library:
 <br> [boost 1.74.0](https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz) - Make a folder named libraires inside the 12-nexus-defense folder and extract the boost .tar.gz in it. It should look like this: /libraries/boost_1_74_0/... 
