@@ -1,21 +1,23 @@
 # Project 12-Nexus-Defense
 
-Singleplayer igra bazirana na zanru "tower defense" u kojoj igrac pokusava da odbrani svoju bazu od najezda neprijatelja. 
+Nexus Defense is a singleplayer tower defense game where the goal is to defend the base from an incoming invasion of undead enemies. 
 
-## Potrebne biblioteke i kako kompajlirati:
+[Check it out on Youtube](https://www.youtube.com/watch?v=ugOOND2rxB8)
 
-* Klonirati ovaj projekat sa gita ili skinuti i ekstraktovati .zip repozitorijuma
-<br> git primer: <code> git clone https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/12-nexus-defense
+## Requirements and how to compile:
 
-* Namestiti potrebne biblioteke na sledeći način:
-<br> [boost 1.74.0](https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz) - ekstraktovati skinutu verziju bez kompajliranja u folder libraries unutuar foldera projekta. Treba da izgleda ovako /libraries/boost_1_74_0/... 
+* Clone this project from git or download the .zip directly from repository and extract it.
+<br> git example: <code> git clone https://gitlab.com/matf-bg-ac-rs/course-rs/projects-2020-2021/12-nexus-defense
 
-* Uz pomoć Qt Creator naći i otvoriti NexusDefense.pro fajl i zatim kliknuti zeleno run dugme dole levo. Projekat će biti izgrađen a zatim pokrenut.
+* Download Boost library:
+<br> [boost 1.74.0](https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz) - Make a folder named libraires inside the 12-nexus-defense folder and extract the boost .tar.gz in it. It should look like this: /libraries/boost_1_74_0/... 
 
-## Licence za korišćenje tekstura
-CC0 - Public domain sa [opengameart](https://www.opengameart.org)
+* Using Qt Creator open the project file named NexusDefense.pro and compile it from QtCreator. 
 
-Linkovi do nekih tekstura koje smo koristili:
+## Licenses for textures used:
+CC0 - Public domain from [opengameart](https://www.opengameart.org)
+
+Links to some textures we used:
 
 [Big pack of tile textures](https://opengameart.org/content/big-pack-of-hand-painted-tiling-textures)
 
