@@ -158,12 +158,12 @@ void Game::startThirdScene(){
 
     QString temp = QFileDialog::getOpenFileName(loadMapButton, tr("Open .txt file"), "/", tr("Text files (*.txt)"));
 
-    if(temp != ""){
+    if(temp != nullptr){
         mapChoice = temp;
         QMessageBox::information(loadMapButton,"Success","The map was successfully loaded", QMessageBox::Ok,0);
+    }else{
+        QMessageBox::information(loadMapButton,"Failure", "The map was not successfully loaded", QMessageBox::Ok,0);
     }
-
-    QMessageBox::information(loadMapButton,"Failure", "The map was not successfully loaded", QMessageBox::Ok,0);
     //exitButton->hide();
 }
 
@@ -259,10 +259,9 @@ void Game::initScreen() {
     */
 }
 
-// chosenMap is hard-coded atm, changeable later with level selection code
+
 void Game::initMap() {
-    QString chosenMap = ":/mapSecond.txt";
-    currentMap = new Map(new Mapper(chosenMap));
+    currentMap = new Map(new Mapper(mapChoice));
 }
 
 void Game::initGraphics() {
